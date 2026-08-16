@@ -1,0 +1,20 @@
+{
+  "name": "Pogoda lokalna dla Ciebie",
+  "short_name": "Pogoda",
+  "description": "Lokalna pogoda, prognoza, radar opadow, temperatura, wiatr, UV i jakosc powietrza.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#43b6e8",
+  "theme_color": "#1f67d4",
+  "lang": "pl-PL",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "64x64",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
