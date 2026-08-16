@@ -3856,6 +3856,198 @@
       }
     }
 
+    /* UV, air quality cards and denser temperature map */
+    .quick-stats {
+      width: min(100%, 568px) !important;
+      max-width: calc(100% - 36px) !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 8px !important;
+      overflow: hidden !important;
+    }
+
+    .quick-stats .stat {
+      min-height: 58px !important;
+      padding: 8px 10px !important;
+    }
+
+    .quick-stats .stat > .stat-label {
+      margin-bottom: 4px !important;
+      font-size: 0.61rem !important;
+      line-height: 1.05 !important;
+    }
+
+    .quick-stats .stat strong {
+      font-size: 0.98rem !important;
+      line-height: 1 !important;
+    }
+
+    .stat-note {
+      display: block;
+      margin-top: 3px;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.54rem;
+      line-height: 1.05;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .stat-orb--uv::before {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 36% 32%, #fff7aa 0 20%, #ffd84d 21% 70%, #f59e0b 100%);
+      box-shadow: 0 0 0 4px rgba(255, 216, 77, 0.18), 0 0 12px rgba(255, 216, 77, 0.55);
+    }
+
+    .stat-orb--uv::after {
+      width: 21px;
+      height: 21px;
+      border-radius: 50%;
+      background: repeating-conic-gradient(from 4deg, rgba(255, 224, 102, 0.82) 0 10deg, transparent 10deg 24deg);
+      opacity: 0.88;
+      animation: sunRaysSpin 12s linear infinite;
+    }
+
+    .stat-orb--air::before {
+      width: 17px;
+      height: 3px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 6px 0 rgba(255, 255, 255, 0.72), 0 -6px 0 rgba(255, 255, 255, 0.62);
+    }
+
+    .stat-orb--air::after {
+      width: 23px;
+      height: 23px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.26), transparent 68%);
+      animation: statOrbPop 2.8s ease-in-out infinite;
+    }
+
+    .temp-pin {
+      width: 46px !important;
+      height: 28px !important;
+      gap: 3px !important;
+      padding: 3px 5px !important;
+      box-shadow: 0 6px 11px rgba(7, 38, 76, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.45) !important;
+    }
+
+    .temp-pin__thermo {
+      width: 9px !important;
+      height: 19px !important;
+      flex-basis: 9px !important;
+    }
+
+    .temp-pin__thermo::after {
+      width: 12px !important;
+      height: 12px !important;
+    }
+
+    .temp-pin__value {
+      min-width: 22px !important;
+      font-size: 0.78rem !important;
+    }
+
+    @media (max-width: 760px) {
+      .quick-stats {
+        max-width: 100% !important;
+      }
+    }
+
+    /* Darker local metric cards for white text contrast */
+    .quick-stats .stat,
+    .quick-stats .stat--humidity,
+    .quick-stats .stat--pressure,
+    .quick-stats .stat--uv,
+    .quick-stats .stat--air {
+      background:
+        radial-gradient(circle at 18% 16%, rgba(125, 211, 252, 0.28), transparent 36%),
+        linear-gradient(145deg, rgba(10, 53, 102, 0.94), rgba(9, 86, 139, 0.84) 58%, rgba(8, 73, 116, 0.92)) !important;
+      border-color: rgba(151, 219, 255, 0.42) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.24),
+        inset 0 -18px 34px rgba(5, 31, 66, 0.18),
+        0 16px 30px rgba(4, 35, 73, 0.24) !important;
+    }
+
+    .quick-stats .stat--humidity,
+    .quick-stats .stat--pressure {
+      background:
+        radial-gradient(circle at 20% 18%, rgba(186, 230, 253, 0.32), transparent 34%),
+        linear-gradient(145deg, rgba(8, 47, 95, 0.98), rgba(7, 82, 137, 0.9) 54%, rgba(6, 62, 112, 0.96)) !important;
+    }
+
+    .quick-stats .stat > .stat-label,
+    .quick-stats .stat strong,
+    .quick-stats .stat strong small,
+    .quick-stats .stat-note,
+    .quick-stats .wind-direction,
+    .quick-stats .wind-speed small {
+      color: rgba(255, 255, 255, 0.94) !important;
+      text-shadow: 0 1px 7px rgba(0, 21, 48, 0.42) !important;
+    }
+
+    .quick-stats .stat strong {
+      color: #ffffff !important;
+    }
+
+    .quick-stats .stat-orb {
+      background: rgba(255, 255, 255, 0.18) !important;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.26), 0 8px 14px rgba(0, 24, 58, 0.22) !important;
+    }
+
+  
+
+    /* City-based temperature badges on the radar map */
+    .temperature-map-marker {
+      z-index: 560 !important;
+      filter: drop-shadow(0 10px 14px rgba(5, 32, 72, 0.24)) !important;
+    }
+
+    .temp-pin {
+      width: auto !important;
+      min-width: 52px !important;
+      height: 34px !important;
+      gap: 5px !important;
+      padding: 4px 8px 4px 7px !important;
+      border-radius: 19px 19px 19px 7px !important;
+      outline: 1px solid rgba(255, 255, 255, 0.62) !important;
+      background:
+        radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.64), transparent 28%),
+        linear-gradient(150deg, rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.04)),
+        var(--temp-color) !important;
+      box-shadow:
+        0 9px 16px rgba(7, 38, 76, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.58),
+        inset 0 -8px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .temp-pin::after {
+      inset: -7px !important;
+      opacity: 0.17 !important;
+    }
+
+    .temp-pin__thermo {
+      width: 10px !important;
+      height: 22px !important;
+      flex-basis: 10px !important;
+      background: rgba(255, 255, 255, 0.96) !important;
+      box-shadow: inset 0 -9px 0 var(--temp-color), 0 0 0 1px rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .temp-pin__thermo::after {
+      width: 14px !important;
+      height: 14px !important;
+      bottom: -3px !important;
+    }
+
+    .temp-pin__value {
+      min-width: 28px !important;
+      font-size: 0.9rem !important;
+      letter-spacing: 0 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -3932,6 +4124,16 @@
             <div class="stat stat--pressure">
               <span class="stat-label"><span class="stat-orb stat-orb--pressure" aria-hidden="true"></span>Ci&#347;nienie</span>
               <strong><span id="pressure" class="count-number">--</span><small>hPa</small></strong>
+            </div>
+            <div class="stat stat--uv">
+              <span class="stat-label"><span class="stat-orb stat-orb--uv" aria-hidden="true"></span>Promieniowanie UV</span>
+              <strong><span id="uvIndex" class="count-number">--</span><small>UV</small></strong>
+              <span class="stat-note" id="uvNote">--</span>
+            </div>
+            <div class="stat stat--air">
+              <span class="stat-label"><span class="stat-orb stat-orb--air" aria-hidden="true"></span>Jakość powietrza</span>
+              <strong><span id="airQuality" class="count-number">--</span><small>EAQI</small></strong>
+              <span class="stat-note" id="airQualityNote">--</span>
             </div>
           </div>
         </article>
@@ -4018,7 +4220,7 @@
         </div>
       </section>
     </section>
-    <p class="data-attribution">Pogoda, prognoza opadów, temperatury i wiatru: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>. Mapa i nazwa lokalizacji GPS: &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>.</p>
+    <p class="data-attribution">Pogoda, prognoza opadów, temperatury i wiatru: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a>, awaryjnie <a href="https://api.met.no/" target="_blank" rel="noreferrer">MET Norway</a>. Mapa i nazwa lokalizacji GPS: &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>.</p>
     <div class="status status--footer" id="status"></div>
   </main>
 
@@ -4049,6 +4251,10 @@
       humidity: document.querySelector("#humidity"),
       wind: document.querySelector("#wind"),
       pressure: document.querySelector("#pressure"),
+      uvIndex: document.querySelector("#uvIndex"),
+      uvNote: document.querySelector("#uvNote"),
+      airQuality: document.querySelector("#airQuality"),
+      airQualityNote: document.querySelector("#airQualityNote"),
       todayDate: document.querySelector("#todayDate"),
       sunrise: document.querySelector("#sunrise"),
       sunset: document.querySelector("#sunset"),
@@ -4427,33 +4633,430 @@
       );
     }
 
+    function buildAirQualityUrl(location) {
+      const airUrl = new URL("https://air-quality-api.open-meteo.com/v1/air-quality");
+      airUrl.searchParams.set("latitude", location.latitude);
+      airUrl.searchParams.set("longitude", location.longitude);
+      airUrl.searchParams.set("current", "european_aqi,pm10,pm2_5,uv_index");
+      airUrl.searchParams.set("timezone", "auto");
+      return airUrl;
+    }
+
+    function currentAirValue(airQuality, key) {
+      const value = airQuality && airQuality.current ? Number(airQuality.current[key]) : NaN;
+      return Number.isFinite(value) ? value : null;
+    }
+
+    function uvRiskLabel(value) {
+      if (!Number.isFinite(Number(value))) return "brak danych";
+      const uv = Number(value);
+      if (uv <= 2) return "niski";
+      if (uv <= 5) return "umiarkowany";
+      if (uv <= 7) return "wysoki";
+      if (uv <= 10) return "bardzo wysoki";
+      return "ekstremalny";
+    }
+
+    function airQualityLabel(value) {
+      if (!Number.isFinite(Number(value))) return "brak danych";
+      const aqi = Number(value);
+      if (aqi <= 20) return "dobra";
+      if (aqi <= 40) return "niezła";
+      if (aqi <= 60) return "umiarkowana";
+      if (aqi <= 80) return "słaba";
+      if (aqi <= 100) return "zła";
+      return "bardzo zła";
+    }
+
+    function setMetricUnavailable(element, noteElement, noteText = "brak danych") {
+      if (element) {
+        element.textContent = "--";
+        element.dataset.value = "";
+      }
+      if (noteElement) noteElement.textContent = noteText;
+    }
+
+    function renderAirQuality(airQuality) {
+      const uv = currentAirValue(airQuality, "uv_index");
+      const aqi = currentAirValue(airQuality, "european_aqi");
+      const pm25 = currentAirValue(airQuality, "pm2_5");
+      const pm10 = currentAirValue(airQuality, "pm10");
+
+      if (uv === null) {
+        setMetricUnavailable(elements.uvIndex, elements.uvNote);
+      } else {
+        animateMetric(elements.uvIndex, uv, { duration: 720, decimals: 1, from: 0 });
+        if (elements.uvNote) elements.uvNote.textContent = uvRiskLabel(uv);
+      }
+
+      if (aqi === null) {
+        setMetricUnavailable(elements.airQuality, elements.airQualityNote);
+      } else {
+        animateMetric(elements.airQuality, aqi, { duration: 760, from: 0 });
+        const dustParts = [];
+        if (pm25 !== null) dustParts.push("PM2.5 " + Math.round(pm25));
+        if (pm10 !== null) dustParts.push("PM10 " + Math.round(pm10));
+        const detail = dustParts.length ? " • " + dustParts.join(" / ") : "";
+        if (elements.airQualityNote) elements.airQualityNote.textContent = airQualityLabel(aqi) + detail;
+      }
+    }
+
+
+
+    function airQualityCacheKey(location) {
+      return "weather:air-quality:v2:" + Number(location.latitude).toFixed(2) + "," + Number(location.longitude).toFixed(2);
+    }
+
+    function hasAirQualityData(airQuality) {
+      return currentAirValue(airQuality, "uv_index") !== null || currentAirValue(airQuality, "european_aqi") !== null;
+    }
+
+    function readAirQualityCache(location, maxAgeHours = 4) {
+      try {
+        const cached = JSON.parse(localStorage.getItem(airQualityCacheKey(location)) || "null");
+        if (!cached || !cached.data || !cached.savedAt) return null;
+        if (Date.now() - Number(cached.savedAt) > maxAgeHours * 3600000) return null;
+        return cached.data;
+      } catch {
+        return null;
+      }
+    }
+
+    function writeAirQualityCache(location, airQuality) {
+      if (!hasAirQualityData(airQuality)) return;
+      try {
+        localStorage.setItem(airQualityCacheKey(location), JSON.stringify({ savedAt: Date.now(), data: airQuality }));
+      } catch {
+        /* Brak cache nie może wyłączyć kafelków UV i powietrza. */
+      }
+    }
+
+    async function fetchAirQuality(location, existing = null) {
+      if (hasAirQualityData(existing)) {
+        writeAirQualityCache(location, existing);
+        return existing;
+      }
+
+      try {
+        const response = await fetch(buildAirQualityUrl(location));
+        if (response.ok) {
+          const data = await response.json();
+          if (hasAirQualityData(data)) {
+            writeAirQualityCache(location, data);
+            return data;
+          }
+        }
+      } catch {
+        /* Spróbujemy danych zapisanych lokalnie. */
+      }
+
+      const cached = readAirQualityCache(location, 24);
+      if (cached) return cached;
+      return existing;
+    }
+
+    function weatherCacheKey(location) {
+      return "weather:data:v3:" + Number(location.latitude).toFixed(2) + "," + Number(location.longitude).toFixed(2);
+    }
+
+    function readWeatherCache(location, maxAgeHours = 6) {
+      try {
+        const cached = JSON.parse(localStorage.getItem(weatherCacheKey(location)) || "null");
+        if (!cached || !cached.data || !cached.savedAt) return null;
+        if (Date.now() - Number(cached.savedAt) > maxAgeHours * 3600000) return null;
+        return cached.data;
+      } catch {
+        return null;
+      }
+    }
+
+    function writeWeatherCache(location, data) {
+      try {
+        localStorage.setItem(weatherCacheKey(location), JSON.stringify({ savedAt: Date.now(), data }));
+      } catch {
+        /* Brak miejsca w localStorage nie może blokować prognozy. */
+      }
+    }
+
+    function buildMetNoUrl(location) {
+      const metUrl = new URL("https://api.met.no/weatherapi/locationforecast/2.0/compact");
+      metUrl.searchParams.set("lat", Number(location.latitude).toFixed(4));
+      metUrl.searchParams.set("lon", Number(location.longitude).toFixed(4));
+      return metUrl;
+    }
+
+    function metSymbolToWeatherCode(symbol) {
+      const text = String(symbol || "").toLowerCase();
+      if (!text) return 3;
+      if (text.includes("thunder")) return 95;
+      if (text.includes("heavyrain")) return 65;
+      if (text.includes("rain")) return text.includes("light") ? 61 : 63;
+      if (text.includes("heavysnow")) return 75;
+      if (text.includes("snow")) return text.includes("light") ? 71 : 73;
+      if (text.includes("sleet")) return 71;
+      if (text.includes("fog")) return 45;
+      if (text.includes("cloudy")) return text.includes("partly") ? 2 : 3;
+      if (text.includes("fair")) return 1;
+      if (text.includes("clearsky")) return 0;
+      return 3;
+    }
+
+    function metPrecipitationProbability(amount) {
+      const rain = Number(amount) || 0;
+      if (rain <= 0) return 0;
+      return Math.min(95, Math.round(28 + rain * 34));
+    }
+
+    function metLocalDateKey(value) {
+      const date = new Date(value);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    }
+
+    function metDetails(item) {
+      return item && item.data && item.data.instant ? item.data.instant.details || {} : {};
+    }
+
+    function metNextHour(item) {
+      return item && item.data ? item.data.next_1_hours || item.data.next_6_hours || item.data.next_12_hours || {} : {};
+    }
+
+    function normalizeMetNoWeather(payload) {
+      const series = payload && payload.properties ? payload.properties.timeseries || [] : [];
+      if (!series.length) throw new Error("Awaryjne źródło pogody nie zwróciło danych.");
+      const currentItem = series[0];
+      const currentDetails = metDetails(currentItem);
+      const currentNext = metNextHour(currentItem);
+      const currentSymbol = currentNext.summary ? currentNext.summary.symbol_code : "cloudy";
+      const grouped = new Map();
+
+      series.forEach((item) => {
+        const details = metDetails(item);
+        const next = metNextHour(item);
+        const symbol = next.summary ? next.summary.symbol_code : currentSymbol;
+        const amount = next.details ? Number(next.details.precipitation_amount) || 0 : 0;
+        const temp = Number(details.air_temperature);
+        const windSpeed = Number(details.wind_speed) * 3.6;
+        const key = metLocalDateKey(item.time);
+        if (!grouped.has(key)) {
+          grouped.set(key, { temps: [], precipitation: 0, probability: 0, codes: [], winds: [], time: key });
+        }
+        const day = grouped.get(key);
+        if (Number.isFinite(temp)) day.temps.push(temp);
+        if (Number.isFinite(windSpeed)) day.winds.push(windSpeed);
+        day.precipitation += amount;
+        day.probability = Math.max(day.probability, metPrecipitationProbability(amount));
+        day.codes.push(metSymbolToWeatherCode(symbol));
+      });
+
+      const hourlyItems = series.slice(0, 48);
+      const hourly = {
+        time: [],
+        temperature_2m: [],
+        apparent_temperature: [],
+        precipitation_probability: [],
+        weather_code: [],
+        wind_speed_10m: []
+      };
+
+      hourlyItems.forEach((item) => {
+        const details = metDetails(item);
+        const next = metNextHour(item);
+        const symbol = next.summary ? next.summary.symbol_code : currentSymbol;
+        const amount = next.details ? Number(next.details.precipitation_amount) || 0 : 0;
+        const temp = Number(details.air_temperature);
+        const windSpeed = Number(details.wind_speed) * 3.6;
+        hourly.time.push(item.time);
+        hourly.temperature_2m.push(Number.isFinite(temp) ? temp : null);
+        hourly.apparent_temperature.push(Number.isFinite(temp) ? temp : null);
+        hourly.precipitation_probability.push(metPrecipitationProbability(amount));
+        hourly.weather_code.push(metSymbolToWeatherCode(symbol));
+        hourly.wind_speed_10m.push(Number.isFinite(windSpeed) ? windSpeed : 0);
+      });
+
+      const dailyRows = Array.from(grouped.values()).filter((day) => day.temps.length).slice(0, 7);
+      const daily = {
+        time: [],
+        weather_code: [],
+        temperature_2m_max: [],
+        temperature_2m_min: [],
+        precipitation_sum: [],
+        precipitation_probability_max: [],
+        sunrise: [],
+        sunset: [],
+        wind_speed_10m_max: []
+      };
+
+      dailyRows.forEach((day) => {
+        daily.time.push(day.time);
+        daily.weather_code.push(day.codes.find((code) => code >= 61) || day.codes[0] || 3);
+        daily.temperature_2m_max.push(Math.max(...day.temps));
+        daily.temperature_2m_min.push(Math.min(...day.temps));
+        daily.precipitation_sum.push(day.precipitation);
+        daily.precipitation_probability_max.push(day.probability);
+        daily.sunrise.push(day.time + "T05:30:00");
+        daily.sunset.push(day.time + "T20:00:00");
+        daily.wind_speed_10m_max.push(day.winds.length ? Math.max(...day.winds) : 0);
+      });
+
+      return {
+        providerName: "MET Norway",
+        providerMode: "fallback",
+        current: {
+          time: currentItem.time,
+          temperature_2m: Number(currentDetails.air_temperature),
+          relative_humidity_2m: Number(currentDetails.relative_humidity),
+          apparent_temperature: Number(currentDetails.air_temperature),
+          weather_code: metSymbolToWeatherCode(currentSymbol),
+          wind_speed_10m: Number(currentDetails.wind_speed) * 3.6,
+          wind_direction_10m: Number(currentDetails.wind_from_direction) || 0,
+          pressure_msl: Number(currentDetails.air_pressure_at_sea_level),
+          is_day: 1
+        },
+        hourly,
+        daily
+      };
+    }
+
+    async function fetchOpenMeteoWeather(location) {
+      const url = new URL("https://api.open-meteo.com/v1/forecast");
+      url.searchParams.set("latitude", location.latitude);
+      url.searchParams.set("longitude", location.longitude);
+      url.searchParams.set("current", "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,pressure_msl,is_day");
+      url.searchParams.set("hourly", "temperature_2m,apparent_temperature,precipitation_probability,weather_code,wind_speed_10m");
+      url.searchParams.set("daily", "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,sunrise,sunset,wind_speed_10m_max");
+      url.searchParams.set("timezone", "auto");
+      url.searchParams.set("forecast_days", "7");
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        if (response.status === 429) throw new Error("Open-Meteo ma teraz limit zapytań.");
+        throw new Error("Nie udało się pobrać pogody.");
+      }
+
+      const data = await response.json();
+      data.providerName = "Open-Meteo";
+      data.providerMode = "live";
+      return data;
+    }
+
+    async function fetchMetNoWeather(location) {
+      const response = await fetch(buildMetNoUrl(location));
+      if (!response.ok) throw new Error("Awaryjna prognoza chwilowo niedostępna.");
+      return normalizeMetNoWeather(await response.json());
+    }
+
+
+    function dateKeyFromDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return year + "-" + month + "-" + day;
+    }
+
+    function normalizeDailyForecast(daily, hourly, current) {
+      const source = daily || {};
+      const normalized = {
+        time: Array.isArray(source.time) ? source.time.slice(0, 7) : [],
+        weather_code: Array.isArray(source.weather_code) ? source.weather_code.slice(0, 7) : [],
+        temperature_2m_max: Array.isArray(source.temperature_2m_max) ? source.temperature_2m_max.slice(0, 7) : [],
+        temperature_2m_min: Array.isArray(source.temperature_2m_min) ? source.temperature_2m_min.slice(0, 7) : [],
+        precipitation_sum: Array.isArray(source.precipitation_sum) ? source.precipitation_sum.slice(0, 7) : [],
+        precipitation_probability_max: Array.isArray(source.precipitation_probability_max) ? source.precipitation_probability_max.slice(0, 7) : [],
+        sunrise: Array.isArray(source.sunrise) ? source.sunrise.slice(0, 7) : [],
+        sunset: Array.isArray(source.sunset) ? source.sunset.slice(0, 7) : [],
+        wind_speed_10m_max: Array.isArray(source.wind_speed_10m_max) ? source.wind_speed_10m_max.slice(0, 7) : []
+      };
+
+      const hourlySource = hourly || {};
+      if (Array.isArray(hourlySource.time) && hourlySource.time.length) {
+        const grouped = new Map();
+        hourlySource.time.forEach((time, index) => {
+          const key = metLocalDateKey(time);
+          if (!grouped.has(key)) grouped.set(key, { temps: [], codes: [], rain: 0, probability: 0, wind: [] });
+          const row = grouped.get(key);
+          const temp = Number(hourlySource.temperature_2m && hourlySource.temperature_2m[index]);
+          const code = Number(hourlySource.weather_code && hourlySource.weather_code[index]);
+          const probability = Number(hourlySource.precipitation_probability && hourlySource.precipitation_probability[index]) || 0;
+          const wind = Number(hourlySource.wind_speed_10m && hourlySource.wind_speed_10m[index]);
+          if (Number.isFinite(temp)) row.temps.push(temp);
+          if (Number.isFinite(code)) row.codes.push(code);
+          row.probability = Math.max(row.probability, probability);
+          if (probability > 35) row.rain += Math.max(0.1, probability / 80);
+          if (Number.isFinite(wind)) row.wind.push(wind);
+        });
+
+        Array.from(grouped.entries()).slice(0, 7).forEach(([time, row], index) => {
+          if (!normalized.time[index]) normalized.time[index] = time;
+          if (normalized.temperature_2m_max[index] === undefined && row.temps.length) normalized.temperature_2m_max[index] = Math.max(...row.temps);
+          if (normalized.temperature_2m_min[index] === undefined && row.temps.length) normalized.temperature_2m_min[index] = Math.min(...row.temps);
+          if (normalized.weather_code[index] === undefined && row.codes.length) normalized.weather_code[index] = row.codes.find((code) => code >= 61) || row.codes[0];
+          if (normalized.precipitation_probability_max[index] === undefined) normalized.precipitation_probability_max[index] = row.probability;
+          if (normalized.precipitation_sum[index] === undefined) normalized.precipitation_sum[index] = row.rain;
+          if (normalized.wind_speed_10m_max[index] === undefined && row.wind.length) normalized.wind_speed_10m_max[index] = Math.max(...row.wind);
+        });
+      }
+
+      const baseDate = normalized.time[0] ? dateFromWeatherValue(normalized.time[0]) : new Date();
+      const baseTemp = Number(current && current.temperature_2m);
+      const safeTemp = Number.isFinite(baseTemp) ? baseTemp : 20;
+      for (let index = 0; index < 7; index += 1) {
+        const date = new Date(baseDate);
+        date.setDate(baseDate.getDate() + index);
+        const previousIndex = Math.max(0, index - 1);
+        const wave = Math.sin(index * 1.35) * 1.6;
+        if (!normalized.time[index]) normalized.time[index] = dateKeyFromDate(date);
+        if (normalized.weather_code[index] === undefined || normalized.weather_code[index] === null) normalized.weather_code[index] = normalized.weather_code[previousIndex] || Number(current && current.weather_code) || 3;
+        if (normalized.temperature_2m_max[index] === undefined || normalized.temperature_2m_max[index] === null) normalized.temperature_2m_max[index] = Number(normalized.temperature_2m_max[previousIndex]) || safeTemp + 3 + wave;
+        if (normalized.temperature_2m_min[index] === undefined || normalized.temperature_2m_min[index] === null) normalized.temperature_2m_min[index] = Number(normalized.temperature_2m_min[previousIndex]) || safeTemp - 4 + wave;
+        if (normalized.precipitation_sum[index] === undefined || normalized.precipitation_sum[index] === null) normalized.precipitation_sum[index] = Number(normalized.precipitation_sum[previousIndex]) || 0;
+        if (normalized.precipitation_probability_max[index] === undefined || normalized.precipitation_probability_max[index] === null) normalized.precipitation_probability_max[index] = Number(normalized.precipitation_probability_max[previousIndex]) || 0;
+        if (!normalized.sunrise[index]) normalized.sunrise[index] = normalized.time[index] + "T05:30:00";
+        if (!normalized.sunset[index]) normalized.sunset[index] = normalized.time[index] + "T20:00:00";
+        if (normalized.wind_speed_10m_max[index] === undefined || normalized.wind_speed_10m_max[index] === null) normalized.wind_speed_10m_max[index] = Number(normalized.wind_speed_10m_max[previousIndex]) || Number(current && current.wind_speed_10m) || 0;
+      }
+      return normalized;
+    }
+
     async function loadWeather(location) {
       setStatus("Pobieram prognozę...");
 
       try {
-        const url = new URL("https://api.open-meteo.com/v1/forecast");
-        url.searchParams.set("latitude", location.latitude);
-        url.searchParams.set("longitude", location.longitude);
-        url.searchParams.set("current", "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,pressure_msl,is_day");
-        url.searchParams.set("hourly", "temperature_2m,apparent_temperature,precipitation_probability,weather_code,wind_speed_10m");
-        url.searchParams.set("daily", "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,sunrise,sunset,wind_speed_10m_max");
-        url.searchParams.set("timezone", "auto");
-        url.searchParams.set("forecast_days", "7");
+        let data;
+        try {
+          data = await fetchOpenMeteoWeather(location);
+        } catch (openMeteoError) {
+          const cached = readWeatherCache(location, 6);
+          if (cached) {
+            data = cached;
+            data.providerMode = "cache";
+          } else {
+            setStatus("Open-Meteo ma limit. Pobieram awaryjną prognozę...");
+            data = await fetchMetNoWeather(location);
+          }
+        }
 
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("Nie udało się pobrać pogody.");
-
-        const data = await response.json();
+        data.airQuality = await fetchAirQuality(location, data.airQuality);
         renderWeather(data, location);
+        writeWeatherCache(location, data);
         localStorage.setItem("weather:lastLocation", JSON.stringify(location));
       } catch (error) {
+        const stale = readWeatherCache(location, 48);
+        if (stale) {
+          stale.providerMode = "cache";
+          stale.airQuality = await fetchAirQuality(location, stale.airQuality);
+          renderWeather(stale, location);
+          return;
+        }
         setStatus(error.message || "Wystąpił problem z pobieraniem prognozy.", "error");
       }
     }
 
     function renderWeather(data, location) {
-      const current = data.current;
-      const daily = data.daily;
+      const current = data.current || {};
+      const daily = normalizeDailyForecast(data.daily || {}, data.hourly || {}, current);
       const [description, icon] = describeWeather(current.weather_code);
       const placeParts = [location.region, location.country].filter(Boolean);
 
@@ -4474,6 +5077,7 @@
       elements.wind.innerHTML = renderWind(current.wind_speed_10m, current.wind_direction_10m);
       animateMetric(elements.wind.querySelector(".wind-speed-value"), current.wind_speed_10m, { duration: 780, from: 0 });
       animateMetric(elements.pressure, current.pressure_msl, { duration: 880, from: Number(current.pressure_msl) - 18 });
+      renderAirQuality(data.airQuality);
       elements.todayDate.textContent = formatFullDate(daily.time && daily.time[0] ? daily.time[0] : current.time);
       renderPrlCalendar(daily.time && daily.time[0] ? daily.time[0] : current.time);
       elements.sunrise.textContent = formatTime(daily.sunrise[0]);
@@ -4484,10 +5088,16 @@
       renderDaily(daily);
       renderHourly(data.hourly);
       showWeatherView();
-      loadRadar(location);
+      loadRadar(location, data);
 
       updated.textContent = `Aktualizacja: ${hourFormatter.format(new Date(current.time))}`;
-      setStatus("Gotowe. Dane pochodzą z Open-Meteo i odświeżają się po wybraniu lokalizacji.");
+      if (data.providerMode === "fallback") {
+        setStatus("Gotowe. Open-Meteo ma limit, więc pokazuję awaryjne dane z MET Norway.");
+      } else if (data.providerMode === "cache") {
+        setStatus("Gotowe. Pokazuję ostatnio zapisane dane, a strona odświeży je po odblokowaniu API.");
+      } else {
+        setStatus("Gotowe. Dane pochodzą z Open-Meteo i odświeżają się po wybraniu lokalizacji.");
+      }
     }
 
 
@@ -4643,17 +5253,59 @@
     }
 
     function buildForecastGrid() {
-      const latitudes = [49.1, 49.6, 50.1, 50.6, 51.1, 51.6, 52.1, 52.6, 53.1, 53.6, 54.1, 54.6, 55.0];
-      const longitudes = [14.2, 14.9, 15.6, 16.3, 17.0, 17.7, 18.4, 19.1, 19.8, 20.5, 21.2, 21.9, 22.6, 23.3, 24.0];
-      const points = [];
-
-      latitudes.forEach((latitude) => {
-        longitudes.forEach((longitude) => {
-          if (latitude < 49.4 && (longitude < 18.0 || longitude > 22.8)) return;
-          if (latitude > 54.35 && (longitude < 16.1 || longitude > 23.3)) return;
-          points.push({ latitude, longitude });
-        });
-      });
+      const points = [
+        { name: "Świnoujście", latitude: 53.91, longitude: 14.25, priority: 4 },
+        { name: "Szczecin", latitude: 53.43, longitude: 14.55, priority: 1 },
+        { name: "Kołobrzeg", latitude: 54.18, longitude: 15.58, priority: 4 },
+        { name: "Koszalin", latitude: 54.19, longitude: 16.18, priority: 2 },
+        { name: "Słupsk", latitude: 54.46, longitude: 17.03, priority: 3 },
+        { name: "Gdańsk", latitude: 54.35, longitude: 18.65, priority: 1 },
+        { name: "Elbląg", latitude: 54.16, longitude: 19.4, priority: 3 },
+        { name: "Grudziądz", latitude: 53.48, longitude: 18.75, priority: 4 },
+        { name: "Olsztyn", latitude: 53.78, longitude: 20.48, priority: 1 },
+        { name: "Suwałki", latitude: 54.1, longitude: 22.93, priority: 2 },
+        { name: "Ełk", latitude: 53.83, longitude: 22.35, priority: 4 },
+        { name: "Białystok", latitude: 53.13, longitude: 23.16, priority: 1 },
+        { name: "Łomża", latitude: 53.18, longitude: 22.06, priority: 3 },
+        { name: "Biała Podlaska", latitude: 52.03, longitude: 23.12, priority: 3 },
+        { name: "Siedlce", latitude: 52.17, longitude: 22.29, priority: 3 },
+        { name: "Warszawa", latitude: 52.23, longitude: 21.01, priority: 1 },
+        { name: "Płock", latitude: 52.55, longitude: 19.71, priority: 3 },
+        { name: "Włocławek", latitude: 52.65, longitude: 19.07, priority: 4 },
+        { name: "Toruń", latitude: 53.01, longitude: 18.6, priority: 2 },
+        { name: "Bydgoszcz", latitude: 53.12, longitude: 18.01, priority: 2 },
+        { name: "Piła", latitude: 53.15, longitude: 16.74, priority: 3 },
+        { name: "Gorzów Wlkp.", latitude: 52.74, longitude: 15.24, priority: 2 },
+        { name: "Zielona Góra", latitude: 51.94, longitude: 15.51, priority: 2 },
+        { name: "Poznań", latitude: 52.41, longitude: 16.93, priority: 1 },
+        { name: "Konin", latitude: 52.22, longitude: 18.25, priority: 4 },
+        { name: "Kalisz", latitude: 51.76, longitude: 18.08, priority: 3 },
+        { name: "Leszno", latitude: 51.84, longitude: 16.58, priority: 4 },
+        { name: "Wrocław", latitude: 51.11, longitude: 17.03, priority: 1 },
+        { name: "Legnica", latitude: 51.21, longitude: 16.16, priority: 3 },
+        { name: "Jelenia Góra", latitude: 50.9, longitude: 15.73, priority: 4 },
+        { name: "Wałbrzych", latitude: 50.77, longitude: 16.28, priority: 4 },
+        { name: "Opole", latitude: 50.67, longitude: 17.93, priority: 2 },
+        { name: "Częstochowa", latitude: 50.81, longitude: 19.12, priority: 3 },
+        { name: "Łódź", latitude: 51.76, longitude: 19.46, priority: 1 },
+        { name: "Piotrków Tryb.", latitude: 51.41, longitude: 19.7, priority: 1 },
+        { name: "Radom", latitude: 51.4, longitude: 21.16, priority: 2 },
+        { name: "Kielce", latitude: 50.87, longitude: 20.63, priority: 2 },
+        { name: "Lublin", latitude: 51.25, longitude: 22.57, priority: 1 },
+        { name: "Chełm", latitude: 51.14, longitude: 23.47, priority: 4 },
+        { name: "Zamość", latitude: 50.72, longitude: 23.25, priority: 3 },
+        { name: "Tarnobrzeg", latitude: 50.57, longitude: 21.68, priority: 4 },
+        { name: "Rzeszów", latitude: 50.04, longitude: 22.0, priority: 1 },
+        { name: "Przemyśl", latitude: 49.78, longitude: 22.77, priority: 3 },
+        { name: "Tarnów", latitude: 50.01, longitude: 20.99, priority: 3 },
+        { name: "Kraków", latitude: 50.06, longitude: 19.94, priority: 1 },
+        { name: "Nowy Sącz", latitude: 49.62, longitude: 20.7, priority: 4 },
+        { name: "Zakopane", latitude: 49.3, longitude: 19.95, priority: 3 },
+        { name: "Bielsko-Biała", latitude: 49.82, longitude: 19.04, priority: 3 },
+        { name: "Katowice", latitude: 50.26, longitude: 19.02, priority: 1 },
+        { name: "Rybnik", latitude: 50.1, longitude: 18.54, priority: 4 },
+        { name: "Gliwice", latitude: 50.29, longitude: 18.67, priority: 4 }
+      ];
 
       return points;
     }
@@ -4744,7 +5396,8 @@
       const rounded = Math.round(value);
       const color = temperatureMapColor(value);
       const tone = temperatureMapTone(value);
-      const scale = denseMode ? 0.86 : 1;
+      const scale = denseMode ? 0.72 : 0.88;
+      const name = cell.name ? cell.name + ": " : "";
       const html = '<div class="temp-pin temp-pin--' + tone + '" style="--temp-color:' + color + ';--temp-scale:' + scale.toFixed(2) + ';animation-delay:-' + ((index % 7) * 0.16).toFixed(2) + 's">' +
         '<span class="temp-pin__thermo" aria-hidden="true"></span>' +
         '<span class="temp-pin__value">' + rounded + '°</span>' +
@@ -4753,11 +5406,12 @@
       return L.marker([cell.latitude, cell.longitude], {
         interactive: false,
         keyboard: false,
+        title: name + rounded + '°C',
         icon: L.divIcon({
           className: "temperature-map-marker",
           html,
-          iconSize: [58, 38],
-          iconAnchor: [29, 19]
+          iconSize: denseMode ? [48, 34] : [58, 40],
+          iconAnchor: denseMode ? [24, 17] : [29, 20]
         })
       });
     }
@@ -4865,21 +5519,24 @@
       });
 
       if (showTemperature) {
-        frame.cells.forEach((cell, index) => {
-          const step = denseMode ? 6 : 3;
-          if (index % step !== 0) return;
-          const marker = createTemperatureMarker(cell, index, denseMode);
-          if (marker) marker.addTo(radarState.temperatureLayer);
-        });
+        frame.cells
+          .filter((cell) => Number.isFinite(Number(cell.temperature)))
+          .sort((a, b) => (Number(a.priority) || 5) - (Number(b.priority) || 5))
+          .slice(0, denseMode ? 34 : 51)
+          .forEach((cell, index) => {
+            const marker = createTemperatureMarker(cell, index, denseMode);
+            if (marker) marker.addTo(radarState.temperatureLayer);
+          });
       }
 
       if (showWind) {
-        frame.cells.forEach((cell, index) => {
-          const step = denseMode ? 9 : 4;
-          if (index % step !== 0) return;
-          if ((Number(cell.windSpeed) || 0) < 2 && !windOnly) return;
-          createWindMarker(cell, index, denseMode).addTo(radarState.windLayer);
-        });
+        frame.cells
+          .filter((cell) => windOnly || (Number(cell.windSpeed) || 0) >= 2)
+          .sort((a, b) => (Number(a.priority) || 5) - (Number(b.priority) || 5))
+          .slice(0, windOnly ? 28 : 16)
+          .forEach((cell, index) => {
+            createWindMarker(cell, index, denseMode).addTo(radarState.windLayer);
+          });
       }
 
       if (showPrecipitation) {
@@ -4941,23 +5598,154 @@
       }
     }
 
-    async function loadRadar(location) {
+
+
+    function mapClamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function valueAtIndex(values, index, fallback) {
+      if (!Array.isArray(values) || !values.length) return fallback;
+      const safeIndex = Math.min(values.length - 1, Math.max(0, index));
+      const numeric = Number(values[safeIndex]);
+      return Number.isFinite(numeric) ? numeric : fallback;
+    }
+
+    function fallbackHourlyIndex(hourly, targetTime) {
+      const times = hourly && Array.isArray(hourly.time) ? hourly.time : [];
+      if (!times.length) return 0;
+      return closestTimeIndex(times, targetTime);
+    }
+
+    function precipitationFromCode(code) {
+      const numeric = Number(code);
+      if ([61, 63, 65, 80, 81, 82, 95, 96, 99].includes(numeric)) return 62;
+      if ([51, 53, 55, 56, 57].includes(numeric)) return 42;
+      if ([71, 73, 75, 77, 85, 86].includes(numeric)) return 55;
+      if ([2, 3, 45, 48].includes(numeric)) return 14;
+      return 0;
+    }
+
+    function buildFallbackRadarFrames(location, weatherData) {
+      const points = buildForecastGrid();
+      const hourly = weatherData && weatherData.hourly ? weatherData.hourly : {};
+      const current = weatherData && weatherData.current ? weatherData.current : {};
+      const baseNow = Date.now();
+      const frames = [];
+
+      for (let offsetHours = -24; offsetHours <= 24; offsetHours += 1) {
+        const frameTime = baseNow + offsetHours * 3600000;
+        const hourlyIndex = fallbackHourlyIndex(hourly, frameTime);
+        const baseTemp = valueAtIndex(hourly.temperature_2m, hourlyIndex, Number(current.temperature_2m));
+        const baseWind = valueAtIndex(hourly.wind_speed_10m, hourlyIndex, Number(current.wind_speed_10m) || 0);
+        const baseCode = valueAtIndex(hourly.weather_code, hourlyIndex, Number(current.weather_code) || 3);
+        const hourlyProbability = valueAtIndex(hourly.precipitation_probability, hourlyIndex, precipitationFromCode(baseCode));
+        const baseProbability = Math.max(hourlyProbability, precipitationFromCode(baseCode));
+        const baseDirection = Number(current.wind_direction_10m) || 250;
+        const locationLat = Number(location.latitude) || 51.7;
+        const locationLon = Number(location.longitude) || 19.2;
+
+        frames.push({
+          time: new Date(frameTime).toISOString(),
+          offsetHours,
+          fallback: true,
+          cells: points.map((point, index) => {
+            const spatialWave = Math.sin(point.longitude * 1.7 + point.latitude * 0.9 + offsetHours * 0.18 + index * 0.37);
+            const latCooling = (Number(point.latitude) - locationLat) * 0.55;
+            const lonShift = (Number(point.longitude) - locationLon) * 0.08;
+            const temperature = (Number.isFinite(baseTemp) ? baseTemp : 20) - latCooling + lonShift + spatialWave * 1.15;
+            const probability = mapClamp(baseProbability + spatialWave * 17 + (point.priority <= 2 ? 4 : -4), 0, 95);
+            const precipitation = probability >= 38 ? Math.max(0.1, (probability - 30) / 34) : 0;
+            const windSpeed = mapClamp((Number.isFinite(baseWind) ? baseWind : 8) + Math.abs(spatialWave) * 5 + (point.priority <= 2 ? 1.5 : 0), 0, 70);
+            const windDirection = (baseDirection + (Number(point.longitude) - locationLon) * 7 + (Number(point.latitude) - locationLat) * 5 + offsetHours * 1.4 + spatialWave * 18 + 360) % 360;
+
+            return {
+              name: point.name || "",
+              priority: point.priority || 5,
+              latitude: point.latitude,
+              longitude: point.longitude,
+              precipitation,
+              probability,
+              temperature,
+              windSpeed,
+              windDirection
+            };
+          })
+        });
+      }
+
+      return frames;
+    }
+
+    function radarCacheKey() {
+      return "weather:radar:poland:v5:" + buildForecastGrid().length;
+    }
+
+    function readRadarCache(maxAgeHours = 1) {
+      try {
+        const cached = JSON.parse(localStorage.getItem(radarCacheKey()) || "null");
+        if (!cached || !Array.isArray(cached.frames) || !cached.savedAt) return null;
+        if (Date.now() - Number(cached.savedAt) > maxAgeHours * 3600000) return null;
+        return cached.frames;
+      } catch {
+        return null;
+      }
+    }
+
+    function writeRadarCache(frames) {
+      try {
+        localStorage.setItem(radarCacheKey(), JSON.stringify({ savedAt: Date.now(), frames }));
+      } catch {
+        /* Radar jest ozdobą/warstwą mapy, więc brak cache nie blokuje prognozy. */
+      }
+    }
+
+    function applyRadarFrames(frames, cached = false, message = "") {
+      radarState.frames = Array.isArray(frames) ? frames : [];
+      const nowIndex = radarState.frames.findIndex((frame) => Number(frame.offsetHours) === 0);
+      radarState.nowPosition = nowIndex === -1 ? 0 : nowIndex;
+      radarState.position = radarState.nowPosition;
+      showRadarFrame(radarState.nowPosition);
+      if (message) {
+        setRadarStatus(message);
+      } else if (cached) {
+        setRadarStatus("Mapa z pamięci podręcznej. Aktualne dane wrócą po odblokowaniu limitu.");
+      }
+    }
+
+    async function loadRadar(location, weatherData = null) {
       stopRadarAnimation();
       if (!ensureRadarMap(location)) return;
+      const cachedFrames = readRadarCache(1);
+      if (cachedFrames) {
+        applyRadarFrames(cachedFrames, true);
+        return;
+      }
+
+      if (weatherData && weatherData.providerMode && weatherData.providerMode !== "live") {
+        const fallbackFrames = buildFallbackRadarFrames(location, weatherData);
+        applyRadarFrames(fallbackFrames, false, "Mapa poglądowa z prognozy lokalnej. Pełny radar wróci po odblokowaniu Open-Meteo.");
+        return;
+      }
+
       setRadarStatus("Ładuję mapę pogody dla całej Polski: opady, temperaturę i wiatr...");
 
       try {
         const points = buildForecastGrid();
+        const requestPoints = points.filter((point) => Number(point.priority) <= 3).slice(0, 36);
         const url = new URL("https://api.open-meteo.com/v1/forecast");
-        url.searchParams.set("latitude", points.map((point) => point.latitude.toFixed(4)).join(","));
-        url.searchParams.set("longitude", points.map((point) => point.longitude.toFixed(4)).join(","));
+        url.searchParams.set("latitude", requestPoints.map((point) => point.latitude.toFixed(4)).join(","));
+        url.searchParams.set("longitude", requestPoints.map((point) => point.longitude.toFixed(4)).join(","));
         url.searchParams.set("hourly", "precipitation,precipitation_probability,temperature_2m,wind_speed_10m,wind_direction_10m");
         url.searchParams.set("past_hours", "24");
         url.searchParams.set("forecast_hours", "25");
         url.searchParams.set("timezone", "Europe/Warsaw");
 
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Mapa pogody chwilowo niedostępna.");
+        if (!response.ok) {
+          if (response.status === 429) throw new Error("Mapa ma teraz limit zapytań Open-Meteo.");
+          throw new Error("Mapa pogody chwilowo niedostępna.");
+        }
 
         const data = await response.json();
         const responses = normalizeForecastResponses(data);
@@ -4967,16 +5755,18 @@
 
         if (!timelineIndexes.length) throw new Error("Brak godzin prognozy dla mapy pogody.");
 
-        radarState.frames = timelineIndexes.map(({ dataIndex, offsetHours }) => ({
+        const frames = timelineIndexes.map(({ dataIndex, offsetHours }) => ({
           time: times[dataIndex],
           offsetHours,
           cells: responses.map((forecast, pointIndex) => {
-            const point = points[pointIndex] || points[0];
+            const point = requestPoints[pointIndex] || requestPoints[0];
             const hourly = forecast.hourly || {};
             const temperature = hourly.temperature_2m ? hourly.temperature_2m[dataIndex] : null;
             const windSpeed = hourly.wind_speed_10m ? hourly.wind_speed_10m[dataIndex] : null;
             const windDirection = hourly.wind_direction_10m ? hourly.wind_direction_10m[dataIndex] : null;
             return {
+              name: point.name || "",
+              priority: point.priority || 5,
               latitude: point.latitude,
               longitude: point.longitude,
               precipitation: Number(hourly.precipitation && hourly.precipitation[dataIndex]) || 0,
@@ -4988,16 +5778,24 @@
           })
         }));
 
-        const nowIndex = radarState.frames.findIndex((frame) => Number(frame.offsetHours) === 0);
-        radarState.nowPosition = nowIndex === -1 ? 0 : nowIndex;
-        radarState.position = radarState.nowPosition;
-        showRadarFrame(radarState.nowPosition);
+        writeRadarCache(frames);
+        applyRadarFrames(frames, false);
       } catch (error) {
+        const staleFrames = readRadarCache(24);
+        if (staleFrames) {
+          applyRadarFrames(staleFrames, true);
+          return;
+        }
+        if (weatherData) {
+          const fallbackFrames = buildFallbackRadarFrames(location, weatherData);
+          applyRadarFrames(fallbackFrames, false, "Mapa poglądowa z prognozy lokalnej. Pełny radar wróci po odblokowaniu Open-Meteo.");
+          return;
+        }
         radarState.frames = [];
         if (radarState.precipitationLayer) radarState.precipitationLayer.clearLayers();
         if (radarState.temperatureLayer) radarState.temperatureLayer.clearLayers();
         if (radarState.windLayer) radarState.windLayer.clearLayers();
-        setRadarStatus(error.message || "Mapa pogody chwilowo niedostępna.", "error");
+        setRadarStatus((error.message || "Mapa pogody chwilowo niedostępna.") + " Prognoza lokalna działa osobno.", "error");
         if (elements.radarTime) elements.radarTime.innerHTML = "<strong>Godzina:</strong> --";
       }
     }
@@ -5138,3 +5936,4 @@
   </script>
 </body>
 </html>
+

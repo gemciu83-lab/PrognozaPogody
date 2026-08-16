@@ -16,3 +16,5 @@ Statyczna strona HTML z prognoza pogody, prognoza 7 dni, prognoza 24h oraz animo
 Pogoda: Open-Meteo. Mapa: OpenStreetMap / Leaflet.
 
 W paczce jest tez `favicon.png`, czyli ikonka sloneczka na karte przegladarki.
+
+Nowa wersja pokazuje tez indeks UV, europejski AQI oraz geste znaczniki temperatury na mapie.
