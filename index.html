@@ -5229,6 +5229,1022 @@
     .pressure-trend--flat { background: linear-gradient(135deg, #64748b, #38bdf8); }
 
 
+
+    /* Features 3/4/5/6/7/10: chart, city cards, share, time themes, calmer layout */
+    .top-actions {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .share-weather-button {
+      min-height: 40px;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 0 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #0e958c, #1f67d4);
+      font-weight: 900;
+      box-shadow: 0 12px 28px rgba(15, 95, 148, 0.22), inset 0 1px 0 rgba(255,255,255,0.32);
+      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .share-weather-button:hover,
+    .share-weather-button:focus-visible {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      outline: none;
+      box-shadow: 0 16px 34px rgba(15, 95, 148, 0.28), inset 0 1px 0 rgba(255,255,255,0.38);
+    }
+
+    .share-weather-button::before {
+      content: "↗";
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: inline-grid;
+      place-items: center;
+      color: #0f766e;
+      background: rgba(255,255,255,0.86);
+      font-size: 0.86rem;
+      line-height: 1;
+    }
+
+    .city-card-strip {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 9px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(19, 54, 85, 0.1);
+    }
+
+    .city-weather-card {
+      position: relative;
+      min-height: 82px;
+      border: 1px solid rgba(255,255,255,0.58);
+      border-radius: var(--radius);
+      padding: 10px 11px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 10px;
+      color: #11304a;
+      background: linear-gradient(135deg, rgba(255,255,255,0.78), rgba(187,238,247,0.56));
+      box-shadow: 0 12px 24px rgba(13,48,78,0.08);
+      overflow: hidden;
+      text-align: left;
+      cursor: pointer;
+      isolation: isolate;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .city-weather-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -18px -24px auto;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,198,66,0.36), rgba(47,128,237,0.12) 58%, transparent 70%);
+      z-index: -1;
+    }
+
+    .city-weather-card:hover,
+    .city-weather-card:focus-visible,
+    .city-weather-card.is-active {
+      transform: translateY(-2px);
+      border-color: rgba(31,103,212,0.38);
+      outline: none;
+      box-shadow: 0 18px 32px rgba(13,48,78,0.14);
+    }
+
+    .city-weather-card.is-active {
+      color: #ffffff;
+      background: linear-gradient(135deg, #1f67d4, #0e958c);
+    }
+
+    .city-weather-card__name {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .city-weather-card__name b {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 0.98rem;
+      line-height: 1.05;
+    }
+
+    .city-weather-card__name small,
+    .city-weather-card__meta {
+      color: rgba(43,75,104,0.74);
+      font-weight: 800;
+      font-size: 0.72rem;
+    }
+
+    .city-weather-card.is-active .city-weather-card__name small,
+    .city-weather-card.is-active .city-weather-card__meta {
+      color: rgba(255,255,255,0.78);
+    }
+
+    .city-weather-card__weather {
+      display: grid;
+      justify-items: center;
+      gap: 3px;
+      min-width: 54px;
+    }
+
+    .city-weather-card__temp {
+      font-size: 1.32rem;
+      font-weight: 950;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .hourly-chart {
+      margin-top: 14px;
+      border: 1px solid rgba(255,255,255,0.58);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.78), rgba(187,238,247,0.45));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+      overflow: hidden;
+    }
+
+    .hourly-chart__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      color: #15334f;
+      font-weight: 950;
+      font-size: 0.92rem;
+    }
+
+    .hourly-chart__legend {
+      display: inline-flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: #486376;
+      font-size: 0.76rem;
+      font-weight: 850;
+    }
+
+    .hourly-chart__legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .hourly-chart__legend i {
+      width: 15px;
+      height: 5px;
+      border-radius: 999px;
+      display: inline-block;
+      background: #1f67d4;
+    }
+
+    .hourly-chart__legend span:nth-child(2) i { background: #38bdf8; }
+    .hourly-chart__legend span:nth-child(3) i { background: #e11d48; }
+
+    .hourly-chart svg {
+      width: 100%;
+      min-width: 720px;
+      height: 214px;
+      display: block;
+    }
+
+    .hourly-chart__scroll {
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-bottom: 2px;
+    }
+
+    .hourly-chart__scroll::-webkit-scrollbar { height: 8px; }
+    .hourly-chart__scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.44); border-radius: 999px; }
+    .hourly-chart__scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg, #0e958c, #1f67d4); border-radius: 999px; }
+
+    .hourly-chart .chart-grid { stroke: rgba(21, 51, 79, 0.1); stroke-width: 1; }
+    .hourly-chart .chart-rain { fill: rgba(56,189,248,0.42); }
+    .hourly-chart .chart-temp-line { fill: none; stroke: #1f67d4; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 5px 8px rgba(31,103,212,0.22)); }
+    .hourly-chart .chart-temp-dot { fill: #ffffff; stroke: #1f67d4; stroke-width: 3; }
+    .hourly-chart .chart-wind-arrow { fill: #e11d48; transform-box: fill-box; transform-origin: center; }
+    .hourly-chart .chart-label { fill: #234968; font-size: 12px; font-weight: 850; }
+    .hourly-chart .chart-small-label { fill: #597389; font-size: 11px; font-weight: 800; }
+
+    .detail--date {
+      overflow: visible !important;
+      z-index: 25;
+    }
+
+    .detail--date .prl-calendar-sheet {
+      width: min(390px, calc(100vw - 48px)) !important;
+      min-height: 390px !important;
+      padding: 24px 24px 20px !important;
+      transform: translate(-18px, 10px) scale(0.86) rotate(-1.5deg) !important;
+      transform-origin: top left !important;
+      box-shadow: 0 28px 70px rgba(82, 49, 21, 0.28), 0 0 0 1px rgba(120, 83, 41, 0.14) !important;
+    }
+
+    .detail--date:hover .prl-calendar-sheet,
+    .detail--date:focus-within .prl-calendar-sheet {
+      transform: translate(-36px, 16px) scale(1) rotate(-0.5deg) !important;
+    }
+
+    .prl-calendar-title {
+      text-transform: uppercase;
+      letter-spacing: 0.06em !important;
+    }
+
+    .prl-calendar-stamp {
+      width: fit-content;
+      margin: 0 auto 10px;
+      padding: 5px 10px;
+      border: 2px solid rgba(116,65,23,0.38);
+      color: #744117;
+      font-weight: 950;
+      font-size: 0.82rem;
+      transform: rotate(-2deg);
+      background: rgba(255, 255, 255, 0.26);
+    }
+
+    .prl-calendar-date {
+      font-size: 1.55rem !important;
+      line-height: 1.08 !important;
+    }
+
+    .prl-calendar-weather {
+      margin-top: 10px;
+      padding: 9px 10px;
+      border-radius: 6px;
+      color: #5b3517;
+      background: rgba(255, 248, 220, 0.62);
+      border: 1px dashed rgba(116,65,23,0.28);
+      font-weight: 850;
+    }
+
+    body.theme-day {
+      background: linear-gradient(180deg, #45b9ec 0%, #52c7d5 34%, #2f8fbd 66%, #244b76 100%);
+    }
+
+    body.theme-dawn {
+      background: linear-gradient(180deg, #ffbd86 0%, #8fd6ef 36%, #42b8cb 68%, #2f6f91 100%);
+    }
+
+    body.theme-evening {
+      background: linear-gradient(180deg, #f6a65f 0%, #d77787 34%, #5874b8 66%, #243b66 100%);
+    }
+
+    body.theme-night {
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255,255,255,0.82) 0 1.2rem, transparent 1.35rem),
+        radial-gradient(circle at 74% 18%, rgba(255,255,255,0.34) 0 0.18rem, transparent 0.25rem),
+        radial-gradient(circle at 63% 31%, rgba(255,255,255,0.28) 0 0.14rem, transparent 0.22rem),
+        linear-gradient(180deg, #081a35 0%, #113257 45%, #162c4b 100%) !important;
+    }
+
+    body.theme-night .sky-sun--one {
+      background: radial-gradient(circle at 35% 30%, #ffffff 0 18%, #d9edff 19% 66%, #99c7e8 100%);
+      box-shadow: 0 0 0 18px rgba(216,237,255,0.12), 0 0 80px rgba(190,222,255,0.24);
+    }
+
+    body.theme-night .sky-sun--one::before {
+      opacity: 0.08;
+    }
+
+    body.theme-evening .sky-sun--one,
+    body.theme-dawn .sky-sun--one {
+      filter: saturate(1.12) hue-rotate(-18deg);
+    }
+
+    #weatherView > .panel,
+    #weatherView > .main-grid,
+    #weatherView > .insight-strip,
+    #weatherView > .weather-alerts,
+    #weatherView > .action-board {
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 760px) {
+      .top-actions {
+        width: 100%;
+        justify-content: stretch;
+      }
+
+      .share-weather-button,
+      .updated {
+        flex: 1 1 100%;
+      }
+
+      .city-card-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .city-weather-card {
+        min-height: 78px;
+        padding: 9px;
+      }
+
+      .detail--date .prl-calendar-sheet {
+        left: 0 !important;
+        transform: translate(-12px, 10px) scale(0.84) rotate(-1deg) !important;
+      }
+
+      .detail--date:hover .prl-calendar-sheet,
+      .detail--date:focus-within .prl-calendar-sheet {
+        transform: translate(-12px, 14px) scale(0.92) rotate(-0.5deg) !important;
+      }
+    }
+
+
+    /* Weather v17: GPS name, day axis, history, home widgets and TV polish */
+    .empty-state--power {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 22px;
+      padding: 24px;
+      min-height: 190px;
+      text-align: left;
+      color: #0f2740;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(137, 224, 235, 0.76)),
+        radial-gradient(circle at 82% 18%, rgba(255, 206, 68, 0.38), transparent 34%);
+      box-shadow: 0 22px 48px rgba(7, 55, 91, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .empty-weather-scene {
+      position: relative;
+      min-height: 140px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: linear-gradient(160deg, rgba(38, 132, 222, 0.85), rgba(52, 206, 210, 0.62));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.42);
+    }
+
+    .empty-sun {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      right: 22px;
+      top: 18px;
+      border-radius: 50%;
+      background: #ffd84a;
+      box-shadow: 0 0 0 14px rgba(255, 216, 74, 0.24), 0 0 36px rgba(255, 216, 74, 0.56);
+      animation: emptySunSpin 10s linear infinite;
+    }
+
+    .empty-cloud {
+      position: absolute;
+      left: 24px;
+      width: 112px;
+      height: 38px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: 34px -16px 0 10px rgba(255, 255, 255, 0.82), 72px -4px 0 4px rgba(255, 255, 255, 0.78);
+      animation: emptyCloudDrift 9s ease-in-out infinite;
+    }
+
+    .empty-cloud--one { bottom: 40px; }
+    .empty-cloud--two { left: 82px; bottom: 72px; transform: scale(0.72); opacity: 0.66; animation-duration: 12s; }
+
+    .empty-rain {
+      position: absolute;
+      left: 72px;
+      bottom: 18px;
+      width: 92px;
+      height: 48px;
+      background: repeating-linear-gradient(105deg, transparent 0 12px, rgba(255, 255, 255, 0.78) 13px 16px, transparent 17px 28px);
+      animation: emptyRainFall 0.8s linear infinite;
+      opacity: 0.52;
+    }
+
+    .empty-copy p,
+    .day-axis-head p,
+    .history-head p {
+      margin: 0;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: #087c7b;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .empty-copy h2 {
+      margin: 5px 0 7px;
+      font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+      line-height: 1.05;
+    }
+
+    .empty-copy span {
+      color: #35596f;
+      font-weight: 750;
+    }
+
+    .empty-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .empty-actions button,
+    .gps-name-panel button,
+    .tv-fullscreen {
+      border: 0;
+      cursor: pointer;
+      font-weight: 950;
+    }
+
+    .empty-actions button {
+      padding: 13px 16px;
+      border-radius: 12px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #143d72, #0ca79c);
+      box-shadow: 0 14px 28px rgba(12, 76, 119, 0.22);
+    }
+
+    .gps-name-panel {
+      display: grid;
+      grid-template-columns: minmax(180px, 1fr) auto minmax(180px, 0.7fr) auto;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      margin: 12px 0 18px;
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(16, 62, 112, 0.86), rgba(14, 135, 149, 0.78));
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      box-shadow: 0 16px 34px rgba(7, 51, 88, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    }
+
+    .gps-name-panel[hidden] {
+      display: none;
+    }
+
+    .gps-name-panel strong,
+    .gps-name-panel span {
+      display: block;
+    }
+
+    .gps-name-panel span {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 750;
+    }
+
+    .gps-name-panel label {
+      font-size: 0.72rem;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.82);
+      text-transform: uppercase;
+    }
+
+    .gps-name-panel input {
+      min-width: 0;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-weight: 850;
+      color: #0d2740;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .gps-name-panel button {
+      padding: 10px 14px;
+      border-radius: 10px;
+      color: #0a3157;
+      background: #ffdc5c;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.14);
+    }
+
+    .storm-mode-banner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: -2px 0 16px;
+      padding: 14px 16px;
+      border-radius: var(--radius);
+      color: #ffffff;
+      background: linear-gradient(135deg, rgba(33, 47, 84, 0.95), rgba(18, 128, 154, 0.88));
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      box-shadow: 0 18px 36px rgba(8, 46, 83, 0.22);
+    }
+
+    .storm-mode-banner[hidden] {
+      display: none;
+    }
+
+    .storm-mode-banner strong {
+      font-size: 1.05rem;
+      white-space: nowrap;
+    }
+
+    .storm-mode-banner span {
+      font-size: 0.9rem;
+      font-weight: 750;
+      color: rgba(255, 255, 255, 0.86);
+    }
+
+    body.weather-mode-storm .storm-mode-banner {
+      background: linear-gradient(135deg, #271b55, #0b5d87 54%, #efbe2f);
+    }
+
+    body.weather-mode-rain .storm-mode-banner {
+      background: linear-gradient(135deg, #12355b, #0b7fa0);
+    }
+
+    body.weather-mode-wind .storm-mode-banner {
+      background: linear-gradient(135deg, #164561, #5f879b);
+    }
+
+    body.weather-mode-heat .storm-mode-banner {
+      background: linear-gradient(135deg, #b83c2b, #f2a81f);
+    }
+
+    body.weather-mode-frost .storm-mode-banner {
+      background: linear-gradient(135deg, #435bd6, #a9e8ff);
+    }
+
+    .action-board {
+      grid-template-columns: repeat(auto-fit, minmax(112px, 1fr));
+    }
+
+    .action-board article {
+      min-height: 84px;
+      padding: 10px 7px;
+    }
+
+    .day-axis-panel,
+    .weather-history-panel {
+      margin-bottom: 18px;
+    }
+
+    .day-axis-head,
+    .history-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .day-axis-head h3,
+    .history-head h3 {
+      margin-bottom: 4px;
+    }
+
+    #dayAxisSummary,
+    #weatherHistoryBadge {
+      flex: 0 0 auto;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #083b5c;
+      background: rgba(255, 255, 255, 0.72);
+      font-size: 0.82rem;
+      font-weight: 950;
+    }
+
+    .day-axis-grid,
+    .weather-history-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .day-axis-card,
+    .weather-history-grid article {
+      min-width: 0;
+      border-radius: var(--radius);
+      padding: 12px;
+      color: #102033;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(190, 236, 244, 0.74));
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      box-shadow: 0 14px 28px rgba(5, 45, 77, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .day-axis-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 4px 10px;
+    }
+
+    .day-axis-card__label {
+      display: grid;
+      gap: 1px;
+      font-weight: 950;
+    }
+
+    .day-axis-card__label small,
+    .day-axis-card span:not(.day-axis-card__icon):not(.day-axis-card__label) {
+      color: #4c6c82;
+      font-size: 0.78rem;
+      font-weight: 750;
+    }
+
+    .day-axis-card__icon {
+      grid-row: span 2;
+      transform: scale(1.08);
+    }
+
+    .day-axis-card strong {
+      font-size: 1.55rem;
+      line-height: 1;
+    }
+
+    .weather-history-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr)) minmax(220px, 1.1fr);
+      align-items: stretch;
+    }
+
+    .weather-history-grid article {
+      display: grid;
+      gap: 4px;
+    }
+
+    .weather-history-grid small {
+      color: #4d7186;
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .weather-history-grid strong {
+      font-size: 1.1rem;
+    }
+
+    .weather-history-grid article span {
+      color: #567389;
+      font-size: 0.76rem;
+      font-weight: 750;
+    }
+
+    .history-bars {
+      display: flex;
+      align-items: end;
+      gap: 5px;
+      min-height: 92px;
+      padding: 12px;
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(19, 91, 151, 0.24), rgba(255, 255, 255, 0.38));
+      border: 1px solid rgba(255, 255, 255, 0.52);
+    }
+
+    .history-bars span {
+      flex: 1;
+      min-width: 5px;
+      border-radius: 999px 999px 2px 2px;
+      background: linear-gradient(180deg, #ffd85a, #16a6bb, #1b61d6);
+      box-shadow: 0 0 14px rgba(30, 114, 208, 0.24);
+    }
+
+    .day-axis-empty,
+    .history-empty {
+      grid-column: 1 / -1;
+      color: #3e6177;
+      font-weight: 850;
+    }
+
+    .city-weather-card__badge {
+      display: inline-flex;
+      width: fit-content;
+      padding: 2px 7px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: linear-gradient(135deg, #156bd6, #0e928c);
+      font-size: 0.62rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .tv-fullscreen {
+      position: absolute;
+      right: 84px;
+      top: 24px;
+      z-index: 5;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      backdrop-filter: blur(10px);
+      font-size: 1.25rem;
+    }
+
+    @keyframes emptySunSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes emptyCloudDrift {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(18px); }
+    }
+
+    @keyframes emptyRainFall {
+      to { background-position: 0 24px; }
+    }
+
+    @media (max-width: 860px) {
+      .empty-state--power,
+      .gps-name-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .empty-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .day-axis-grid,
+      .weather-history-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .history-bars {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .empty-state--power {
+        padding: 18px;
+      }
+
+      .empty-actions,
+      .day-axis-grid,
+      .weather-history-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .storm-mode-banner,
+      .day-axis-head,
+      .history-head {
+        align-items: start;
+        flex-direction: column;
+      }
+    }
+
+    /* Weather v18: storm, snow and freezing-rain map layer */
+    .layer-icon--events::before {
+      content: "";
+      position: absolute;
+      left: 5px;
+      top: 7px;
+      width: 15px;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #ffffff, #94a3b8);
+      box-shadow: 5px -4px 0 1px rgba(255, 255, 255, 0.84);
+    }
+
+    .layer-icon--events::after {
+      content: "⚡";
+      position: absolute;
+      left: 8px;
+      top: 9px;
+      color: #facc15;
+      font-size: 0.88rem;
+      line-height: 1;
+      text-shadow: 0 1px 3px rgba(15, 23, 42, 0.38);
+    }
+
+    .radar-layer-button[data-radar-layer="events"]:not(.is-active) .layer-icon--events::after {
+      color: #94a3b8;
+    }
+
+    .weather-event-marker {
+      width: 78px !important;
+      height: 68px !important;
+      margin-left: -39px !important;
+      margin-top: -34px !important;
+      border: 0 !important;
+      background: transparent !important;
+      pointer-events: none;
+      z-index: 680 !important;
+      filter: drop-shadow(0 14px 16px rgba(15, 23, 42, 0.26));
+    }
+
+    .weather-event-pin {
+      --event-scale: 1;
+      position: relative;
+      width: 78px;
+      height: 68px;
+      transform: scale(var(--event-scale));
+      transform-origin: center center;
+      animation: weatherEventFloat 1.7s ease-in-out infinite;
+    }
+
+    .weather-event-pin__cloud {
+      position: absolute;
+      left: 14px;
+      top: 16px;
+      width: 48px;
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #f8fafc, #94a3b8);
+      box-shadow: inset -8px -8px 12px rgba(30, 41, 59, 0.22), 0 0 22px rgba(255, 255, 255, 0.34);
+    }
+
+    .weather-event-pin__cloud::before,
+    .weather-event-pin__cloud::after {
+      content: "";
+      position: absolute;
+      bottom: 9px;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    .weather-event-pin__cloud::before {
+      left: 7px;
+      width: 26px;
+      height: 26px;
+    }
+
+    .weather-event-pin__cloud::after {
+      right: 5px;
+      width: 34px;
+      height: 34px;
+    }
+
+    .weather-event-pin--storm .weather-event-pin__cloud {
+      background: linear-gradient(180deg, #dbeafe, #475569);
+      box-shadow: inset -10px -10px 14px rgba(15, 23, 42, 0.32), 0 0 24px rgba(250, 204, 21, 0.36);
+    }
+
+    .weather-event-pin--snow .weather-event-pin__cloud {
+      background: linear-gradient(180deg, #ffffff, #c7eaff);
+    }
+
+    .weather-event-pin--freezing .weather-event-pin__cloud {
+      background: linear-gradient(180deg, #f8fbff, #b8d7ee);
+      box-shadow: inset -10px -10px 14px rgba(59, 130, 246, 0.18), 0 0 24px rgba(147, 197, 253, 0.42);
+    }
+
+    .weather-event-pin__bolt {
+      position: absolute;
+      left: 35px;
+      top: 32px;
+      width: 16px;
+      height: 29px;
+      background: #facc15;
+      clip-path: polygon(45% 0, 100% 0, 66% 40%, 100% 40%, 28% 100%, 43% 55%, 0 55%);
+      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.75));
+      animation: weatherBoltFlash 0.95s steps(2, end) infinite;
+    }
+
+    .weather-event-pin__rain {
+      position: absolute;
+      left: 20px;
+      top: 41px;
+      display: flex;
+      gap: 7px;
+    }
+
+    .weather-event-pin__rain i {
+      width: 4px;
+      height: 20px;
+      border-radius: 99px;
+      background: linear-gradient(180deg, rgba(224, 250, 255, 0.34), #38bdf8);
+      transform: rotate(14deg);
+      animation: precipFall 0.82s linear infinite;
+    }
+
+    .weather-event-pin__rain i:nth-child(2) {
+      height: 16px;
+      animation-delay: -0.25s;
+    }
+
+    .weather-event-pin__snow {
+      position: absolute;
+      left: 20px;
+      right: 18px;
+      top: 40px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .weather-event-pin__snow i {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0 35%, #bfefff 36% 100%);
+      box-shadow: 0 0 9px rgba(255, 255, 255, 0.84);
+      animation: weatherSnowFall 1.35s ease-in-out infinite;
+    }
+
+    .weather-event-pin__snow i:nth-child(2) {
+      animation-delay: -0.4s;
+      transform: scale(0.8);
+    }
+
+    .weather-event-pin__snow i:nth-child(3) {
+      animation-delay: -0.75s;
+      transform: scale(1.08);
+    }
+
+    .weather-event-pin__ice {
+      position: absolute;
+      left: 20px;
+      top: 38px;
+      width: 38px;
+      height: 18px;
+      border-radius: 0 0 16px 16px;
+      background: linear-gradient(180deg, rgba(219, 234, 254, 0.88), rgba(125, 211, 252, 0.58));
+      box-shadow: inset 0 1px 0 #ffffff, 0 0 13px rgba(125, 211, 252, 0.58);
+    }
+
+    .weather-event-pin__drop {
+      position: absolute;
+      left: 47px;
+      top: 42px;
+      width: 10px;
+      height: 18px;
+      border-radius: 10px 10px 10px 2px;
+      background: linear-gradient(180deg, #e0f2fe, #38bdf8);
+      transform: rotate(26deg);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.68);
+      animation: weatherFreezeDrop 1.1s ease-in-out infinite;
+    }
+
+    .weather-event-pin__label {
+      position: absolute;
+      right: 3px;
+      bottom: 5px;
+      min-width: 28px;
+      padding: 3px 6px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: rgba(15, 23, 42, 0.72);
+      font-size: 0.62rem;
+      line-height: 1;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .legend-event {
+      position: relative;
+      width: 34px;
+      height: 26px;
+      flex: 0 0 auto;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #f8fafc, #94a3b8);
+      box-shadow: 0 7px 12px rgba(13, 48, 78, 0.16);
+    }
+
+    .legend-event--storm::after {
+      content: "⚡";
+      color: #facc15;
+      font-size: 1rem;
+      text-shadow: 0 1px 3px rgba(15, 23, 42, 0.44);
+    }
+
+    .legend-event--snow::after {
+      content: "❄";
+      color: #e0f2fe;
+      font-size: 1rem;
+      text-shadow: 0 1px 3px rgba(14, 116, 144, 0.44);
+    }
+
+    .legend-event--freezing::after {
+      content: "";
+      width: 10px;
+      height: 17px;
+      border-radius: 10px 10px 10px 2px;
+      background: linear-gradient(180deg, #e0f2fe, #38bdf8);
+      transform: rotate(25deg);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.62);
+    }
+
+    @keyframes weatherEventFloat {
+      0%, 100% { transform: translateY(0) scale(var(--event-scale)); }
+      50% { transform: translateY(-5px) scale(var(--event-scale)); }
+    }
+
+    @keyframes weatherBoltFlash {
+      0%, 55%, 100% { opacity: 1; transform: translateY(0) scale(1); }
+      56%, 72% { opacity: 0.35; transform: translateY(1px) scale(0.94); }
+    }
+
+    @keyframes weatherSnowFall {
+      0%, 100% { translate: 0 -2px; opacity: 0.55; }
+      50% { translate: 0 7px; opacity: 1; }
+    }
+
+    @keyframes weatherFreezeDrop {
+      0%, 100% { translate: 0 -2px; opacity: 0.72; }
+      50% { translate: 0 5px; opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -5246,7 +6262,10 @@
       <div class="brand brand--compact">
         <p class="brand__label brand__label--solo">Pogoda lokalna dla Ciebie</p>
       </div>
-      <div class="updated" id="updated">Gotowe do sprawdzenia pogody • v15</div>
+      <div class="top-actions">
+        <button class="share-weather-button" id="shareWeatherButton" type="button">Udostępnij pogodę</button>
+        <div class="updated" id="updated">Gotowe do sprawdzenia pogody</div>
+      </div>
     </header>
 
     <section class="search-panel" aria-label="Wyszukiwarka pogody">
@@ -5271,10 +6290,35 @@
         <span>Propozycje:</span>
         <div class="favorites-list favorites-list--suggestions" id="favoriteSuggestedCities"></div>
       </div>
+      <div class="city-card-strip" id="cityWeatherCards" aria-label="Szybkie karty miast"></div>
     </section>
 
-    <section id="emptyState" class="empty-state">
-      <p>Wybierz swoją lokalizację albo wpisz miasto, żeby zobaczyć aktualną pogodę i prognozę.</p>
+    <section class="gps-name-panel" id="gpsNamePanel" hidden>
+      <div>
+        <strong>Podpis GPS</strong>
+        <span id="gpsNameHint">Możesz nadać własną nazwę tej lokalizacji.</span>
+      </div>
+      <label for="gpsNameInput">Nazwa miejsca</label>
+      <input id="gpsNameInput" type="text" maxlength="42" placeholder="np. Piotrków Tryb." />
+      <button id="gpsNameSave" type="button">Zapisz nazwę</button>
+    </section>
+
+    <section id="emptyState" class="empty-state empty-state--power">
+      <div class="empty-weather-scene" aria-hidden="true">
+        <span class="empty-sun"></span>
+        <span class="empty-cloud empty-cloud--one"></span>
+        <span class="empty-cloud empty-cloud--two"></span>
+        <span class="empty-rain"></span>
+      </div>
+      <div class="empty-copy">
+        <p>Start pogody</p>
+        <h2>Wybierz miasto albo swoją lokalizację</h2>
+        <span>Po wyborze od razu pokażę pogodę, mapę, oś dnia i podpowiedzi dla domu.</span>
+      </div>
+      <div class="empty-actions">
+        <button type="button" onclick="document.querySelector('#locationButton').click()">Moja lokalizacja</button>
+        <button type="button" onclick="document.querySelector('#cityInput').focus()">Wpiszę miasto</button>
+      </div>
     </section>
 
     <section id="weatherView" class="is-hidden" aria-live="polite">
@@ -5295,6 +6339,7 @@
       </div>
 
       <div class="weather-alerts" id="weatherAlerts" aria-live="polite"></div>
+      <div class="storm-mode-banner" id="stormModeBanner" hidden></div>
 
       <section class="action-board" id="actionBoard" aria-label="Co robić dzisiaj">
         <article><span class="action-icon">☔</span><b id="actionUmbrella">--</b><small>Parasol</small></article>
@@ -5303,6 +6348,21 @@
         <article><span class="action-icon">UV</span><b id="actionUv">--</b><small>Okulary/krem</small></article>
         <article><span class="action-icon">AQI</span><b id="actionAir">--</b><small>Powietrze</small></article>
         <article><span class="action-icon">⛗</span><b id="actionCar">--</b><small>Mycie auta</small></article>
+        <article><span class="action-icon">☼</span><b id="actionLaundry">--</b><small>Pranie</small></article>
+        <article><span class="action-icon">☘</span><b id="actionGarden">--</b><small>Ogród</small></article>
+        <article><span class="action-icon">♨</span><b id="actionGrill">--</b><small>Grill</small></article>
+        <article><span class="action-icon">☺</span><b id="actionChild">--</b><small>Dziecko</small></article>
+      </section>
+
+      <section class="panel day-axis-panel" id="dayAxisPanel" aria-label="Oś dnia">
+        <div class="day-axis-head">
+          <div>
+            <h3>Oś dnia</h3>
+            <p>Rano, południe, wieczór i noc bez przeklikiwania prognozy godzinowej.</p>
+          </div>
+          <span id="dayAxisSummary">--</span>
+        </div>
+        <div class="day-axis-grid" id="dayAxisGrid"></div>
       </section>
 
       <div class="main-grid">
@@ -5378,12 +6438,14 @@
                 <span class="metric-label"><span class="mini-icon mini-icon--calendar" aria-hidden="true"></span>Dzisiaj</span>
                 <strong id="todayDate">--</strong>
                 <div class="prl-calendar-sheet" role="note" aria-label="Kartka z kalendarza PRL">
-                  <p class="prl-calendar-title">Kartka z kalendarza</p>
+                  <p class="prl-calendar-title">Kartka z kalendarza PRL</p>
+                  <div class="prl-calendar-stamp" id="prlCalendarStamp">--</div>
                   <div class="prl-calendar-date" id="prlCalendarDate">--</div>
                   <div class="prl-calendar-line"><b>Imieniny:</b> <span id="prlCalendarNames">--</span></div>
                   <div class="prl-calendar-recipe"><b>Przepis dnia:</b> <span id="prlCalendarRecipe">--</span></div>
                   <div class="prl-calendar-line"><b>Powiedzonko:</b> <span id="prlCalendarSaying">--</span></div>
-                  <div class="prl-calendar-tip" id="prlCalendarTip">Po najechaniu: imieniny, przepis i powiedzonko.</div>
+                  <div class="prl-calendar-weather" id="prlCalendarWeather">--</div>
+                  <div class="prl-calendar-tip" id="prlCalendarTip">Najedź, żeby rozwinąć kartkę.</div>
                 </div>
               </div>
               <div class="detail">
@@ -5415,6 +6477,18 @@
       <section class="panel hourly-wrap">
         <h3>Najbliższe 24 godziny</h3>
         <div class="hourly" id="hourlyForecast"></div>
+        <div class="hourly-chart" id="hourlyChart" aria-label="Wykres temperatury, opadów i wiatru na 24 godziny"></div>
+      </section>
+
+      <section class="panel weather-history-panel" id="weatherHistoryPanel" aria-label="Historia pogody">
+        <div class="history-head">
+          <div>
+            <h3>Historia 12 godzin</h3>
+            <p>Krótki trend temperatury, ciśnienia, wiatru i opadów.</p>
+          </div>
+          <span id="weatherHistoryBadge">ostatnie godziny</span>
+        </div>
+        <div class="weather-history-grid" id="weatherHistory"></div>
       </section>
 
       <section class="panel compare-wrap" id="comparePanel">
@@ -5441,6 +6515,7 @@
               <button class="radar-layer-button" type="button" data-radar-layer="temperature" aria-pressed="false"><span class="layer-icon layer-icon--temp" aria-hidden="true"></span>Temp.</button>
               <button class="radar-layer-button" type="button" data-radar-layer="wind" aria-pressed="false"><span class="layer-icon layer-icon--wind" aria-hidden="true"></span>Wiatr</button>
               <button class="radar-layer-button" type="button" data-radar-layer="air" aria-pressed="false"><span class="layer-icon layer-icon--air" aria-hidden="true"></span>Powietrze</button>
+              <button class="radar-layer-button" type="button" data-radar-layer="events" aria-pressed="false"><span class="layer-icon layer-icon--events" aria-hidden="true"></span>Burze/zimowe</button>
             </div>
             <div class="radar-controls" aria-label="Sterowanie prognozą pogody na mapie">
               <button class="radar-button" id="radarPrevButton" type="button" title="Poprzednia klatka" aria-label="Poprzednia klatka">←</button>
@@ -5461,6 +6536,9 @@
           <span><span class="legend-temp" aria-hidden="true">°C</span>Temperatura</span>
           <span><span class="legend-wind" aria-hidden="true"></span>Wiatr</span>
           <span><span class="legend-air" aria-hidden="true">AQI</span>Powietrze</span>
+          <span><span class="legend-event legend-event--storm" aria-hidden="true"></span>Burze</span>
+          <span><span class="legend-event legend-event--snow" aria-hidden="true"></span>Śnieg</span>
+          <span><span class="legend-event legend-event--freezing" aria-hidden="true"></span>Marznący deszcz</span>
         </div>
         <div class="radar-meta">
           <span id="radarStatus">Prognoza czeka na lokalizację</span>
@@ -5470,6 +6548,7 @@
     <div class="tv-mode-overlay" id="tvModeOverlay" aria-hidden="true">
       <div class="tv-mode-stage">
         <button class="tv-close" id="tvCloseButton" type="button" aria-label="Zamknij tryb TV">×</button>
+        <button class="tv-fullscreen" id="tvFullscreenButton" type="button" aria-label="Pełny ekran">⛶</button>
         <div class="tv-brand">Pogoda lokalna na żywo</div>
         <div class="tv-city" id="tvCity">--</div>
         <div class="tv-temp"><span id="tvTemp">--</span><small>°C</small></div>
@@ -5513,6 +6592,10 @@
       uvNote: document.querySelector("#uvNote"),
       airQuality: document.querySelector("#airQuality"),
       airQualityNote: document.querySelector("#airQualityNote"),
+      gpsNamePanel: document.querySelector("#gpsNamePanel"),
+      gpsNameInput: document.querySelector("#gpsNameInput"),
+      gpsNameSave: document.querySelector("#gpsNameSave"),
+      gpsNameHint: document.querySelector("#gpsNameHint"),
       todayBriefIcon: document.querySelector("#todayBriefIcon"),
       todayBriefTitle: document.querySelector("#todayBriefTitle"),
       todayBriefText: document.querySelector("#todayBriefText"),
@@ -5520,8 +6603,16 @@
       comfortAdvice: document.querySelector("#comfortAdvice"),
       uvAdvice: document.querySelector("#uvAdvice"),
       weatherAlerts: document.querySelector("#weatherAlerts"),
+      stormModeBanner: document.querySelector("#stormModeBanner"),
       favoriteSavedCities: document.querySelector("#favoriteSavedCities"),
       favoriteSuggestedCities: document.querySelector("#favoriteSuggestedCities"),
+      cityWeatherCards: document.querySelector("#cityWeatherCards"),
+      hourlyChart: document.querySelector("#hourlyChart"),
+      dayAxisGrid: document.querySelector("#dayAxisGrid"),
+      dayAxisSummary: document.querySelector("#dayAxisSummary"),
+      weatherHistory: document.querySelector("#weatherHistory"),
+      weatherHistoryBadge: document.querySelector("#weatherHistoryBadge"),
+      shareWeatherButton: document.querySelector("#shareWeatherButton"),
       pressureTrend: document.querySelector("#pressureTrend"),
       actionUmbrella: document.querySelector("#actionUmbrella"),
       actionWalk: document.querySelector("#actionWalk"),
@@ -5529,6 +6620,10 @@
       actionUv: document.querySelector("#actionUv"),
       actionAir: document.querySelector("#actionAir"),
       actionCar: document.querySelector("#actionCar"),
+      actionLaundry: document.querySelector("#actionLaundry"),
+      actionGarden: document.querySelector("#actionGarden"),
+      actionGrill: document.querySelector("#actionGrill"),
+      actionChild: document.querySelector("#actionChild"),
       heroCard: document.querySelector("#heroCard"),
       heroWeatherFx: document.querySelector("#heroWeatherFx"),
       feelsSpark: document.querySelector("#feelsSpark"),
@@ -5543,6 +6638,7 @@
       tvModeButton: document.querySelector("#tvModeButton"),
       tvModeOverlay: document.querySelector("#tvModeOverlay"),
       tvCloseButton: document.querySelector("#tvCloseButton"),
+      tvFullscreenButton: document.querySelector("#tvFullscreenButton"),
       tvCity: document.querySelector("#tvCity"),
       tvTemp: document.querySelector("#tvTemp"),
       tvDesc: document.querySelector("#tvDesc"),
@@ -5568,10 +6664,12 @@
       radarNextButton: document.querySelector("#radarNextButton"),
       radarNowButton: document.querySelector("#radarNowButton"),
       radarLayerButtons: document.querySelectorAll("[data-radar-layer]"),
+      prlCalendarStamp: document.querySelector("#prlCalendarStamp"),
       prlCalendarDate: document.querySelector("#prlCalendarDate"),
       prlCalendarNames: document.querySelector("#prlCalendarNames"),
       prlCalendarRecipe: document.querySelector("#prlCalendarRecipe"),
       prlCalendarSaying: document.querySelector("#prlCalendarSaying"),
+      prlCalendarWeather: document.querySelector("#prlCalendarWeather"),
       prlCalendarTip: document.querySelector("#prlCalendarTip")
     };
 
@@ -5583,20 +6681,22 @@
       temperatureLayer: null,
       windLayer: null,
       airQualityLayer: null,
+      weatherEventsLayer: null,
       frames: [],
       position: 0,
       nowPosition: 0,
       timer: null,
       isPlaying: false,
       currentLocation: null,
-      activeLayers: ["precipitation", "temperature", "wind", "air"]
+      activeLayers: ["precipitation", "temperature", "wind", "air", "events"]
     };
 
-    const radarCoreLayers = ["precipitation", "temperature", "wind", "air"];
+    const radarCoreLayers = ["precipitation", "temperature", "wind", "air", "events"];
     let lastRenderedWeather = null;
     let lastRenderedLocation = null;
     const favoriteStorageKey = "weather:favorites:v1";
     const suggestedStorageKey = "weather:suggestions:v1";
+    const gpsAliasStorageKey = "weather:gps-alias:v1";
     const defaultSuggestedCities = [
       { name: "Piotrków Trybunalski", region: "województwo łódzkie", country: "Polska", latitude: 51.4052, longitude: 19.7032 },
       { name: "Łódź", region: "województwo łódzkie", country: "Polska", latitude: 51.7592, longitude: 19.4550 },
@@ -5608,6 +6708,8 @@
     let searchDebounceId = null;
     let searchRequestId = 0;
     let lastSearchResults = [];
+    let cityWeatherCardItems = [];
+    let cityCardsRequestId = 0;
 
     const weatherCodes = {
       0: ["Bezchmurnie", "sun"],
@@ -5857,7 +6959,89 @@
     }
 
     function pickAddressName(address = {}) {
-      return address.city || address.town || address.village || address.municipality || address.hamlet || address.county || '';
+      const directName = address.city || address.town || address.village || address.municipality || address.hamlet || address.locality || address.city_district || address.suburb || address.neighbourhood;
+      if (directName) return directName;
+      if (address.county) return "okolice " + String(address.county).replace(/^powiat\s+/i, "");
+      return "";
+    }
+
+    function gpsAliasKey(latitude, longitude) {
+      return Number(latitude).toFixed(3) + "," + Number(longitude).toFixed(3);
+    }
+
+    function readGpsAliases() {
+      try {
+        return JSON.parse(localStorage.getItem(gpsAliasStorageKey) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function writeGpsAlias(location, alias) {
+      if (!location || !Number.isFinite(Number(location.latitude)) || !Number.isFinite(Number(location.longitude))) return;
+      const aliases = readGpsAliases();
+      aliases[gpsAliasKey(location.latitude, location.longitude)] = alias;
+      try {
+        localStorage.setItem(gpsAliasStorageKey, JSON.stringify(aliases));
+      } catch {
+        /* Własna nazwa GPS jest wygodą, nie blokuje pogody. */
+      }
+    }
+
+    function readGpsAlias(location) {
+      if (!location || !Number.isFinite(Number(location.latitude)) || !Number.isFinite(Number(location.longitude))) return "";
+      const aliases = readGpsAliases();
+      return String(aliases[gpsAliasKey(location.latitude, location.longitude)] || "").trim();
+    }
+
+    function withGpsAlias(location) {
+      if (!location || location.source !== "gps") return location;
+      const alias = readGpsAlias(location);
+      return alias ? { ...location, name: alias } : location;
+    }
+
+    function renderGpsNamePanel(location = lastRenderedLocation) {
+      if (!elements.gpsNamePanel) return;
+      const isGps = location && location.source === "gps";
+      elements.gpsNamePanel.hidden = !isGps;
+      if (!isGps) return;
+      const alias = readGpsAlias(location);
+      const currentName = alias || (location.name && location.name !== "Moja lokalizacja" ? location.name : "");
+      if (elements.gpsNameInput && document.activeElement !== elements.gpsNameInput) {
+        elements.gpsNameInput.value = currentName;
+      }
+      if (elements.gpsNameHint) {
+        elements.gpsNameHint.textContent = location.name && location.name !== "Moja lokalizacja"
+          ? "Aktualnie podpisuję GPS jako: " + location.name + ". Możesz zmienić nazwę."
+          : "GPS podał współrzędne. Wpisz własną nazwę, np. Piotrków Tryb.";
+      }
+    }
+
+    function saveGpsLocationAlias() {
+      if (!lastRenderedLocation || lastRenderedLocation.source !== "gps") return;
+      const alias = elements.gpsNameInput ? elements.gpsNameInput.value.trim() : "";
+      if (!alias) {
+        setStatus("Wpisz nazwę lokalizacji GPS, np. Piotrków Tryb.", "error");
+        return;
+      }
+      writeGpsAlias(lastRenderedLocation, alias);
+      const nextLocation = { ...lastRenderedLocation, name: alias };
+      lastRenderedLocation = nextLocation;
+      try {
+        localStorage.setItem("weather:lastLocation", JSON.stringify(nextLocation));
+      } catch {
+        /* Brak zapisu nie blokuje aktualnego widoku. */
+      }
+      if (elements.placeName) elements.placeName.textContent = alias;
+      if (lastRenderedWeather) {
+        const current = lastRenderedWeather.current || {};
+        const daily = normalizeDailyForecast(lastRenderedWeather.daily || {}, lastRenderedWeather.hourly || {}, current);
+        renderTodayBrief(lastRenderedWeather, current, daily, nextLocation);
+        renderCityWeatherCards(nextLocation, lastRenderedWeather, false);
+      }
+      renderGpsNamePanel(nextLocation);
+      renderTvMode();
+      setStatus("Zapisane. Ta lokalizacja GPS będzie podpisana jako " + alias + ".");
     }
 
     async function resolveGpsLocation(latitude, longitude) {
@@ -5869,7 +7053,7 @@
       url.searchParams.set('format', 'jsonv2');
       url.searchParams.set('lat', latitude);
       url.searchParams.set('lon', longitude);
-      url.searchParams.set('zoom', '10');
+      url.searchParams.set('zoom', '14');
       url.searchParams.set('addressdetails', '1');
       url.searchParams.set('accept-language', 'pl');
       url.searchParams.set('layer', 'address');
@@ -5952,26 +7136,26 @@
         async (position) => {
           const latitude = position.coords.latitude;
           const longitude = position.coords.longitude;
-          const fallbackLocation = {
+          const fallbackLocation = withGpsAlias({
             name: "Moja lokalizacja",
             country: "",
             region: latitude.toFixed(3) + ", " + longitude.toFixed(3),
             latitude,
             longitude,
             source: "gps"
-          };
+          });
 
           try {
             setStatus("Rozpoznaję najbliższą miejscowość...");
             const resolved = await resolveGpsLocation(latitude, longitude);
-            loadWeather({
+            loadWeather(withGpsAlias({
               ...fallbackLocation,
               name: resolved.name,
               country: resolved.country,
               region: resolved.region || fallbackLocation.region
-            });
+            }));
           } catch {
-            loadWeather(fallbackLocation);
+            loadWeather(withGpsAlias(fallbackLocation));
           }
         },
         () => {
@@ -6279,6 +7463,7 @@
       url.searchParams.set("daily", "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,sunrise,sunset,wind_speed_10m_max");
       url.searchParams.set("timezone", "auto");
       url.searchParams.set("forecast_days", "7");
+      url.searchParams.set("past_hours", "12");
 
       const response = await fetch(url);
       if (!response.ok) {
@@ -6551,12 +7736,19 @@
 
     function applyWeatherTheme(current, daily, icon) {
       const night = isNightFromForecast(current, daily);
+      const currentDate = dateFromWeatherValue(current && current.time);
+      const hour = currentDate.getHours();
+      let phase = night ? "night" : "day";
+      if (!night && hour >= 5 && hour < 9) phase = "dawn";
+      if (!night && hour >= 18 && hour < 21) phase = "evening";
       if (document.body) {
-        document.body.classList.toggle("theme-night", night);
+        ["theme-night", "theme-day", "theme-dawn", "theme-evening"].forEach((name) => document.body.classList.remove(name));
+        document.body.classList.add("theme-" + phase);
         document.body.dataset.weatherMood = icon || "cloud";
+        document.body.dataset.timePhase = phase;
       }
       const themeMeta = document.querySelector('meta[name="theme-color"]');
-      if (themeMeta) themeMeta.setAttribute("content", night ? "#102033" : "#1f67d4");
+      if (themeMeta) themeMeta.setAttribute("content", phase === "night" ? "#102033" : phase === "evening" ? "#d77787" : phase === "dawn" ? "#ffbd86" : "#1f67d4");
     }
 
     function renderTodayBrief(data, current, daily, location) {
@@ -6793,6 +7985,7 @@
 
     function renderActionBoard(data, current, daily) {
       const temp = Number(current.temperature_2m);
+      const humidity = Number(current.relative_humidity_2m) || 0;
       const wind = Number(current.wind_speed_10m) || 0;
       const rain = firstDailyValue(daily, "precipitation_sum", 0) || 0;
       const chance = firstDailyValue(daily, "precipitation_probability_max", 0) || 0;
@@ -6802,6 +7995,7 @@
       const hot = Number.isFinite(temp) && temp >= 30;
       const cold = Number.isFinite(temp) && temp <= 2;
       const windy = wind >= 35;
+      const veryCleanAir = aqi !== null && aqi < 35;
 
       setText(elements.actionUmbrella, wet ? "Weź" : "Zostaw");
       setText(elements.actionWalk, wet || windy || hot || cold ? "Krótko" : "Dobry");
@@ -6809,6 +8003,127 @@
       setText(elements.actionUv, uv === null ? "--" : uv >= 6 ? "Tak" : "Lekko");
       setText(elements.actionAir, aqi === null ? "--" : aqi >= 60 ? "Uważaj" : "OK");
       setText(elements.actionCar, wet ? "Nie myj" : chance >= 30 ? "Ryzyko" : "Można");
+      setText(elements.actionLaundry, wet || humidity >= 82 ? "W domu" : wind >= 12 ? "Szybko" : "Można");
+      setText(elements.actionGarden, rain >= 2 || chance >= 70 ? "Nie trzeba" : hot && humidity < 55 ? "Podlej" : "Rano");
+      setText(elements.actionGrill, wet || windy ? "Słabo" : hot ? "Cień" : "Dobry");
+      setText(elements.actionChild, wet || windy || hot || cold || (aqi !== null && aqi >= 70) ? "Krótko" : veryCleanAir ? "Super" : "OK");
+    }
+
+    function rowsFromHourly(hourly) {
+      if (!hourly || !Array.isArray(hourly.time)) return [];
+      return hourly.time.map((time, index) => ({
+        time,
+        date: new Date(time),
+        temp: Number(hourly.temperature_2m && hourly.temperature_2m[index]),
+        apparent: Number(hourly.apparent_temperature && hourly.apparent_temperature[index]),
+        humidity: Number(hourly.relative_humidity_2m && hourly.relative_humidity_2m[index]),
+        pressure: Number(hourly.pressure_msl && hourly.pressure_msl[index]),
+        rain: Number(hourly.precipitation_probability && hourly.precipitation_probability[index]),
+        wind: Number(hourly.wind_speed_10m && hourly.wind_speed_10m[index]),
+        code: Number(hourly.weather_code && hourly.weather_code[index])
+      })).filter((row) => !Number.isNaN(row.date.getTime()));
+    }
+
+    function findClosestHour(rows, hour) {
+      if (!rows.length) return null;
+      const today = new Date();
+      const target = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hour, 0, 0);
+      return rows.reduce((best, row) => {
+        const distance = Math.abs(row.date - target);
+        return !best || distance < best.distance ? { row, distance } : best;
+      }, null).row;
+    }
+
+    function renderDayAxis(hourly) {
+      if (!elements.dayAxisGrid) return;
+      const rows = rowsFromHourly(hourly);
+      const slots = [
+        { label: "Rano", hour: 6 },
+        { label: "Południe", hour: 12 },
+        { label: "Wieczór", hour: 18 },
+        { label: "Noc", hour: 23 }
+      ];
+      if (!rows.length) {
+        elements.dayAxisGrid.innerHTML = '<div class="day-axis-empty">Oś dnia pojawi się po pobraniu prognozy godzinowej.</div>';
+        setText(elements.dayAxisSummary, "--");
+        return;
+      }
+      const selected = slots.map((slot) => ({ ...slot, row: findClosestHour(rows, slot.hour) })).filter((slot) => slot.row);
+      elements.dayAxisGrid.innerHTML = selected.map((slot) => {
+        const info = describeWeather(slot.row.code);
+        return '<article class="day-axis-card">' +
+          '<span class="day-axis-card__label">' + slot.label + '<small>' + formatTime(slot.row.time) + '</small></span>' +
+          '<span class="day-axis-card__icon" aria-hidden="true">' + renderWeatherIcon(info[1] || "cloud", "small") + '</span>' +
+          '<strong>' + (Number.isFinite(slot.row.temp) ? Math.round(slot.row.temp) + '°C' : '--') + '</strong>' +
+          '<span>opady ' + (Number.isFinite(slot.row.rain) ? Math.round(slot.row.rain) : 0) + '%</span>' +
+          '<span>wiatr ' + (Number.isFinite(slot.row.wind) ? Math.round(slot.row.wind) : 0) + ' km/h</span>' +
+        '</article>';
+      }).join('');
+      const temps = selected.map((slot) => slot.row.temp).filter(Number.isFinite);
+      if (temps.length && elements.dayAxisSummary) {
+        elements.dayAxisSummary.textContent = "od " + Math.round(Math.min(...temps)) + "° do " + Math.round(Math.max(...temps)) + "°";
+      }
+    }
+
+    function trendWord(delta, upWord, downWord, flatWord) {
+      if (delta > 0.8) return upWord;
+      if (delta < -0.8) return downWord;
+      return flatWord;
+    }
+
+    function renderWeatherHistory(hourly, current) {
+      if (!elements.weatherHistory) return;
+      const now = new Date(current && current.time ? current.time : Date.now());
+      const rows = rowsFromHourly(hourly).filter((row) => row.date <= now).slice(-12);
+      if (rows.length < 2) {
+        elements.weatherHistory.innerHTML = '<div class="history-empty">Historia pojawi się, gdy prognoza dostarczy dane z poprzednich godzin.</div>';
+        setText(elements.weatherHistoryBadge, "czekam na dane");
+        return;
+      }
+      const first = rows[0];
+      const last = rows[rows.length - 1];
+      const tempDelta = Number.isFinite(first.temp) && Number.isFinite(last.temp) ? last.temp - first.temp : 0;
+      const pressureDelta = Number.isFinite(first.pressure) && Number.isFinite(last.pressure) ? last.pressure - first.pressure : 0;
+      const maxWind = Math.max(...rows.map((row) => Number.isFinite(row.wind) ? row.wind : 0));
+      const maxRain = Math.max(...rows.map((row) => Number.isFinite(row.rain) ? row.rain : 0));
+      const bars = rows.map((row) => {
+        const temp = Number.isFinite(row.temp) ? row.temp : 0;
+        const height = Math.max(12, Math.min(92, 28 + temp * 2));
+        return '<span style="height:' + height + '%" title="' + formatTime(row.time) + ' / ' + Math.round(temp) + '°"></span>';
+      }).join('');
+      elements.weatherHistory.innerHTML =
+        '<article><small>Temperatura</small><strong>' + trendWord(tempDelta, "rośnie", "spada", "stabilna") + '</strong><span>' + (tempDelta >= 0 ? "+" : "") + tempDelta.toFixed(1) + '°C</span></article>' +
+        '<article><small>Ciśnienie</small><strong>' + trendWord(pressureDelta, "rośnie", "spada", "bez zmian") + '</strong><span>' + (pressureDelta >= 0 ? "+" : "") + pressureDelta.toFixed(1) + ' hPa</span></article>' +
+        '<article><small>Wiatr</small><strong>' + Math.round(maxWind) + ' km/h</strong><span>najmocniejszy podmuch</span></article>' +
+        '<article><small>Opady</small><strong>' + Math.round(maxRain) + '%</strong><span>maks. ryzyko</span></article>' +
+        '<div class="history-bars" aria-hidden="true">' + bars + '</div>';
+      setText(elements.weatherHistoryBadge, formatTime(first.time) + " - " + formatTime(last.time));
+    }
+
+    function applySevereWeatherMode(current, daily) {
+      const classes = ["weather-mode-storm", "weather-mode-rain", "weather-mode-wind", "weather-mode-heat", "weather-mode-frost"];
+      if (document.body) classes.forEach((name) => document.body.classList.remove(name));
+      if (!elements.stormModeBanner) return;
+      const temp = Number(current.temperature_2m);
+      const wind = Number(current.wind_speed_10m) || 0;
+      const code = Number(current.weather_code);
+      const rain = firstDailyValue(daily, "precipitation_sum", 0) || 0;
+      const chance = firstDailyValue(daily, "precipitation_probability_max", 0) || 0;
+      const windMax = firstDailyValue(daily, "wind_speed_10m_max", wind) || wind;
+      let mode = null;
+      if ([95, 96, 99].includes(code)) mode = { cls: "weather-mode-storm", title: "Tryb burzowy", text: "Burza w prognozie. Mapa i alerty są teraz najważniejsze." };
+      else if (chance >= 75 || rain >= 8) mode = { cls: "weather-mode-rain", title: "Tryb opadów", text: "Wysoka szansa deszczu. Parasol i radar mają dziś pierwszeństwo." };
+      else if (wind >= 40 || windMax >= 55) mode = { cls: "weather-mode-wind", title: "Tryb wiatru", text: "Mocny wiatr w prognozie. Sprawdź kierunek i porywy na mapie." };
+      else if (Number.isFinite(temp) && temp >= 32) mode = { cls: "weather-mode-heat", title: "Tryb upału", text: "Gorąco. UV, woda i cień są dziś ważniejsze niż zwykle." };
+      else if (Number.isFinite(temp) && temp <= -6) mode = { cls: "weather-mode-frost", title: "Tryb mrozu", text: "Mróz w prognozie. Zwróć uwagę na odczuwalną temperaturę." };
+      if (!mode) {
+        elements.stormModeBanner.hidden = true;
+        elements.stormModeBanner.innerHTML = "";
+        return;
+      }
+      if (document.body) document.body.classList.add(mode.cls);
+      elements.stormModeBanner.hidden = false;
+      elements.stormModeBanner.innerHTML = '<strong>' + mode.title + '</strong><span>' + mode.text + '</span>';
     }
 
     function chooseCompareCells(frame, location, data) {
@@ -6902,6 +8217,15 @@
       document.body.classList.remove("tv-mode-active");
       if (elements.tvModeOverlay) elements.tvModeOverlay.setAttribute("aria-hidden", "true");
       stopRadarAnimation();
+    }
+
+    function toggleTvFullscreen() {
+      const target = elements.tvModeOverlay || document.documentElement;
+      if (!document.fullscreenElement && target && target.requestFullscreen) {
+        target.requestFullscreen().catch(() => setStatus("Przeglądarka zablokowała pełny ekran. Kliknij TV i spróbuj jeszcze raz."));
+      } else if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => undefined);
+      }
     }
 
     let favoriteCitiesMemory = [];
@@ -7057,6 +8381,7 @@
       window.weatherRemoveFavorite = weatherRemoveFavorite;
       window.weatherSelectSuggestion = weatherSelectSuggestion;
       window.weatherRemoveSuggestion = weatherRemoveSuggestion;
+      window.weatherSelectCityCard = weatherSelectCityCard;
     }
 
     function renderFavoriteCities(activeLocation = lastRenderedLocation) {
@@ -7104,12 +8429,135 @@
       });
     }
 
+
+    function cityCardCacheKey() {
+      return "weather:cityCards:v1";
+    }
+
+    function readCityCardCache() {
+      try {
+        return JSON.parse(localStorage.getItem(cityCardCacheKey()) || "{}");
+      } catch {
+        return {};
+      }
+    }
+
+    function writeCityCardCache(cache) {
+      try {
+        localStorage.setItem(cityCardCacheKey(), JSON.stringify(cache || {}));
+      } catch {
+        /* Karty miast są dodatkiem, brak zapisu nie blokuje prognozy. */
+      }
+    }
+
+    function cityCardsSource() {
+      const rows = [];
+      const seen = new Set();
+      const add = (location, label) => {
+        const item = normalizeFavorite(location);
+        const key = favoriteKey(item);
+        if (!Number.isFinite(item.latitude) || !Number.isFinite(item.longitude) || seen.has(key)) return;
+        seen.add(key);
+        rows.push({ ...item, dashboardSource: label });
+      };
+      readFavoriteCities().forEach((location) => add(location, "Moje"));
+      readSuggestedCities().forEach((location) => add(location, "Propozycja"));
+      return rows.slice(0, 10);
+    }
+
+    function cityCardCachedWeather(location, activeLocation, activeData, cache) {
+      const key = favoriteKey(location);
+      if (activeLocation && favoriteKey(activeLocation) === key && activeData && activeData.current) {
+        const info = describeWeather(activeData.current.weather_code);
+        return {
+          temp: Number(activeData.current.temperature_2m),
+          icon: info[1] || "cloud",
+          desc: info[0] || "Prognoza"
+        };
+      }
+      const cached = cache && cache[key];
+      if (!cached || Date.now() - Number(cached.savedAt || 0) > 30 * 60000) return null;
+      return cached;
+    }
+
+    function renderCityWeatherCards(activeLocation = lastRenderedLocation, activeData = lastRenderedWeather, refresh = true) {
+      if (!elements.cityWeatherCards) return;
+      const locations = cityCardsSource();
+      cityWeatherCardItems = locations;
+      elements.cityWeatherCards.innerHTML = "";
+      if (!locations.length) {
+        const empty = document.createElement("span");
+        empty.className = "favorite-empty";
+        empty.textContent = "Dodaj miasta, a pojawią się tu szybkie kafelki.";
+        elements.cityWeatherCards.appendChild(empty);
+        return;
+      }
+      const cache = readCityCardCache();
+      locations.forEach((location, index) => {
+        const active = activeLocation && favoriteKey(location) === favoriteKey(activeLocation);
+        const weather = cityCardCachedWeather(location, activeLocation, activeData, cache);
+        const icon = weather && weather.icon ? weather.icon : "partly";
+        const temp = weather && Number.isFinite(Number(weather.temp)) ? Math.round(Number(weather.temp)) + "°" : "--°";
+        const desc = weather && weather.desc ? weather.desc : "kliknij";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "city-weather-card" + (active ? " is-active" : "");
+        button.setAttribute("onclick", "event.stopPropagation(); return window.weatherSelectCityCard(" + index + ")");
+        button.setAttribute("aria-label", "Pokaż pogodę dla " + (location.name || "miasta"));
+        button.innerHTML = '' +
+          '<span class="city-weather-card__name"><span class="city-weather-card__badge">' + escapeHtml(location.dashboardSource || "Miasto") + '</span><b>' + escapeHtml(location.name || "Moje miasto") + '</b><small>' + escapeHtml(location.region || location.country || "szybki wybór") + '</small><span class="city-weather-card__meta">' + escapeHtml(desc) + '</span></span>' +
+          '<span class="city-weather-card__weather"><span aria-hidden="true">' + renderWeatherIcon(icon, "small") + '</span><span class="city-weather-card__temp">' + escapeHtml(temp) + '</span></span>';
+        elements.cityWeatherCards.appendChild(button);
+      });
+      if (refresh) refreshCityWeatherCards(locations, activeLocation, activeData);
+    }
+
+    async function refreshCityWeatherCards(locations, activeLocation, activeData) {
+      const rows = (Array.isArray(locations) ? locations : []).filter((location) => Number.isFinite(Number(location.latitude)) && Number.isFinite(Number(location.longitude))).slice(0, 10);
+      if (!rows.length) return;
+      const requestId = ++cityCardsRequestId;
+      try {
+        const url = new URL("https://api.open-meteo.com/v1/forecast");
+        url.searchParams.set("latitude", rows.map((item) => Number(item.latitude).toFixed(4)).join(","));
+        url.searchParams.set("longitude", rows.map((item) => Number(item.longitude).toFixed(4)).join(","));
+        url.searchParams.set("current", "temperature_2m,weather_code,wind_speed_10m");
+        url.searchParams.set("timezone", "Europe/Warsaw");
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Nie udało się odświeżyć kafelków miast.");
+        const payload = await response.json();
+        const list = Array.isArray(payload) ? payload : [payload];
+        const cache = readCityCardCache();
+        list.forEach((item, index) => {
+          const location = rows[index];
+          const current = item && item.current ? item.current : {};
+          const info = describeWeather(current.weather_code);
+          cache[favoriteKey(location)] = {
+            temp: Number(current.temperature_2m),
+            icon: info[1] || "cloud",
+            desc: info[0] || "Prognoza",
+            savedAt: Date.now()
+          };
+        });
+        writeCityCardCache(cache);
+        if (requestId === cityCardsRequestId) renderCityWeatherCards(activeLocation, activeData, false);
+      } catch {
+        /* Gdy API ma limit, kafelki zostają z cache albo w trybie kliknij. */
+      }
+    }
+
+    function weatherSelectCityCard(index) {
+      const location = cityWeatherCardItems[Number(index)];
+      if (location) loadWeather(normalizeFavorite(location));
+      return false;
+    }
+
     function addFavoriteLocation(location) {
       const next = normalizeFavorite(location);
       if (!Number.isFinite(next.latitude) || !Number.isFinite(next.longitude)) return null;
       const favorites = readFavoriteCities().filter((item) => favoriteKey(item) !== favoriteKey(next));
       writeFavoriteCities([next, ...favorites]);
       renderFavoriteCities(next);
+      renderCityWeatherCards(next, lastRenderedWeather);
       setStatus(next.name + " dodane do moich miast.");
       return next;
     }
@@ -7120,6 +8568,7 @@
       const suggestions = readSuggestedCities().filter((item) => favoriteKey(item) !== favoriteKey(next));
       writeSuggestedCities([next, ...suggestions]);
       renderSuggestedCities(next);
+      renderCityWeatherCards(next, lastRenderedWeather);
       setStatus(next.name + " dodane do propozycji.");
       return next;
     }
@@ -7131,6 +8580,7 @@
       favorites.splice(index, 1);
       writeFavoriteCities(favorites);
       renderFavoriteCities(lastRenderedLocation);
+      renderCityWeatherCards(lastRenderedLocation, lastRenderedWeather);
       setStatus((removed && removed.name ? removed.name : "Miasto") + " usunięte z moich miast.");
     }
 
@@ -7141,6 +8591,7 @@
       suggestions.splice(index, 1);
       writeSuggestedCities(suggestions);
       renderSuggestedCities(lastRenderedLocation);
+      renderCityWeatherCards(lastRenderedLocation, lastRenderedWeather);
       setStatus((removed && removed.name ? removed.name : "Miasto") + " usunięte z propozycji.");
     }
 
@@ -7148,6 +8599,7 @@
       exposeCityActionFunctions();
       renderFavoriteCities();
       renderSuggestedCities();
+      renderCityWeatherCards();
     }
 
     function renderWeather(data, location) {
@@ -7159,6 +8611,8 @@
       lastRenderedLocation = location;
       renderFavoriteCities(location);
       renderSuggestedCities(location);
+      renderCityWeatherCards(location, data);
+      renderGpsNamePanel(location);
 
       elements.placeName.textContent = location.name;
       elements.placeMeta.textContent = placeParts.length ? placeParts.join(", ") : "Prognoza z aktualnych współrzędnych";
@@ -7182,6 +8636,7 @@
       applyWeatherTheme(current, daily, icon);
       renderTodayBrief(data, current, daily, location);
       renderWeatherAlerts(data, current, daily);
+      applySevereWeatherMode(current, daily);
       updateStatDetails(data, current, daily);
       renderActionBoard(data, current, daily);
       renderStatSparks(data, current);
@@ -7189,7 +8644,7 @@
       renderComparePanel(location, data);
       renderTvMode();
       elements.todayDate.textContent = formatFullDate(daily.time && daily.time[0] ? daily.time[0] : current.time);
-      renderPrlCalendar(daily.time && daily.time[0] ? daily.time[0] : current.time);
+      renderPrlCalendar(daily.time && daily.time[0] ? daily.time[0] : current.time, current, daily);
       elements.sunrise.textContent = formatTime(daily.sunrise[0]);
       elements.sunset.textContent = formatTime(daily.sunset[0]);
       animateMetric(elements.rainToday, daily.precipitation_sum[0], { duration: 700, decimals: 1, from: 0 });
@@ -7197,10 +8652,13 @@
 
       renderDaily(daily);
       renderHourly(data.hourly);
+      renderHourlyChart(data.hourly);
+      renderDayAxis(data.hourly);
+      renderWeatherHistory(data.hourly, current);
       showWeatherView();
       loadRadar(location, data);
 
-      updated.textContent = `Aktualizacja: ${hourFormatter.format(new Date(current.time))} • v15`;
+      updated.textContent = `Aktualizacja: ${hourFormatter.format(new Date(current.time))}`;
       if (data.providerMode === "fallback") {
         setStatus("Gotowe. Open-Meteo ma limit, więc pokazuję awaryjne dane z MET Norway.");
       } else if (data.providerMode === "cache") {
@@ -7257,14 +8715,22 @@
       return Math.floor((date - start) / 86400000);
     }
 
-    function renderPrlCalendar(value) {
+    function renderPrlCalendar(value, current = null, daily = null) {
       const date = dateFromWeatherValue(value);
       const index = Math.max(0, dayOfYear(date) - 1);
+      if (elements.prlCalendarStamp) elements.prlCalendarStamp.textContent = "Dzień " + String(index + 1).padStart(3, "0");
       if (elements.prlCalendarDate) elements.prlCalendarDate.textContent = longDateFormatter.format(date);
       if (elements.prlCalendarNames) elements.prlCalendarNames.textContent = prlNames[index % prlNames.length];
       if (elements.prlCalendarRecipe) elements.prlCalendarRecipe.textContent = prlRecipes[index % prlRecipes.length];
       if (elements.prlCalendarSaying) elements.prlCalendarSaying.textContent = prlSayings[index % prlSayings.length];
-      if (elements.prlCalendarTip) elements.prlCalendarTip.textContent = "Kartka nr " + (index + 1) + " w roku. Najedź, żeby rozwinąć klimat PRL.";
+      const temp = current ? Number(current.temperature_2m) : NaN;
+      const rain = daily ? firstDailyValue(daily, "precipitation_probability_max", 0) : null;
+      if (elements.prlCalendarWeather) {
+        const tempText = Number.isFinite(temp) ? "Termometr pokazuje " + Math.round(temp) + "°C" : "Termometr czeka na dane";
+        const rainText = rain === null ? "" : ", opady " + Math.round(rain) + "%";
+        elements.prlCalendarWeather.textContent = tempText + rainText + ".";
+      }
+      if (elements.prlCalendarTip) elements.prlCalendarTip.textContent = "Kartka nr " + (index + 1) + " w roku. Imieniny, kuchnia i pogoda w starym stylu.";
     }
 
     function radarFrameClockDate(frame) {
@@ -7345,6 +8811,7 @@
         radarState.windLayer = L.layerGroup().addTo(radarState.map);
         radarState.airQualityLayer = L.layerGroup().addTo(radarState.map);
         radarState.precipitationLayer = L.layerGroup().addTo(radarState.map);
+        radarState.weatherEventsLayer = L.layerGroup().addTo(radarState.map);
         radarState.marker = L.marker(center, {
           icon: locationPinIcon()
         }).addTo(radarState.map);
@@ -7356,6 +8823,7 @@
         if (!radarState.windLayer) radarState.windLayer = L.layerGroup().addTo(radarState.map);
         if (!radarState.airQualityLayer) radarState.airQualityLayer = L.layerGroup().addTo(radarState.map);
         if (!radarState.precipitationLayer) radarState.precipitationLayer = L.layerGroup().addTo(radarState.map);
+        if (!radarState.weatherEventsLayer) radarState.weatherEventsLayer = L.layerGroup().addTo(radarState.map);
       }
 
       fitRadarMapToPoland();
@@ -7502,7 +8970,8 @@
         precipitation: { x: -Math.round(spread * 0.88), y: Math.round(spread * 0.62) },
         temperature: { x: -spread, y: -Math.round(spread * 0.72) },
         wind: { x: spread, y: -Math.round(spread * 0.62) },
-        air: { x: Math.round(spread * 0.9), y: Math.round(spread * 0.78) }
+        air: { x: Math.round(spread * 0.9), y: Math.round(spread * 0.78) },
+        events: { x: 0, y: -Math.round(spread * 1.38) }
       };
       return offsets[layer] || { x: 0, y: 0 };
     }
@@ -7666,12 +9135,59 @@
       });
     }
 
+
+    function radarWeatherEvent(cell) {
+      const code = Number(cell && cell.weatherCode);
+      const temp = Number(cell && cell.temperature);
+      const probability = Number(cell && cell.probability) || 0;
+      const precipitation = Number(cell && cell.precipitation) || 0;
+      if ([95, 96, 99].includes(code)) return "storm";
+      if ([56, 57, 66, 67].includes(code)) return "freezing";
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return "snow";
+      if (Number.isFinite(temp) && precipitation > 0 && probability >= 45) {
+        if (temp <= -1) return "snow";
+        if (temp <= 1.5) return "freezing";
+      }
+      return "";
+    }
+
+    function weatherEventLabel(type) {
+      if (type === "storm") return "Burza";
+      if (type === "snow") return "Opady śniegu";
+      if (type === "freezing") return "Marznący deszcz";
+      return "Zjawisko pogodowe";
+    }
+
+    function createWeatherEventMarker(cell, type, index, denseMode, offset = null) {
+      const scale = denseMode ? 0.82 : 1;
+      const chance = Math.round(Number(cell.probability) || 0);
+      const html = '<div class="weather-event-pin weather-event-pin--' + type + '" style="--event-scale:' + scale.toFixed(2) + ';animation-delay:-' + ((index % 5) * 0.18).toFixed(2) + 's">' +
+        '<span class="weather-event-pin__cloud"></span>' +
+        (type === "storm" ? '<span class="weather-event-pin__bolt"></span><span class="weather-event-pin__rain"><i></i><i></i></span>' : '') +
+        (type === "snow" ? '<span class="weather-event-pin__snow"><i></i><i></i><i></i></span>' : '') +
+        (type === "freezing" ? '<span class="weather-event-pin__ice"></span><span class="weather-event-pin__drop"></span>' : '') +
+        '<span class="weather-event-pin__label">' + chance + '%</span>' +
+      '</div>';
+
+      return L.marker([cell.latitude, cell.longitude], {
+        interactive: false,
+        keyboard: false,
+        title: (cell.name ? cell.name + ': ' : '') + weatherEventLabel(type) + ' / ' + chance + '%',
+        icon: L.divIcon({
+          className: "weather-event-marker",
+          html,
+          iconSize: denseMode ? [64, 58] : [78, 68],
+          iconAnchor: denseMode ? shiftedIconAnchor(32, 29, offset) : shiftedIconAnchor(39, 34, offset)
+        })
+      });
+    }
+
     function normalizeForecastResponses(data) {
       return Array.isArray(data) ? data : [data];
     }
 
     function showRadarFrame(position) {
-      if (!radarState.map || !radarState.precipitationLayer || !radarState.temperatureLayer || !radarState.windLayer || !radarState.airQualityLayer || !radarState.frames.length) return;
+      if (!radarState.map || !radarState.precipitationLayer || !radarState.temperatureLayer || !radarState.windLayer || !radarState.airQualityLayer || !radarState.weatherEventsLayer || !radarState.frames.length) return;
       const frameCount = radarState.frames.length;
       const wrapped = ((position % frameCount) + frameCount) % frameCount;
       const frame = radarState.frames[wrapped];
@@ -7680,15 +9196,18 @@
       const showTemperature = radarLayerEnabled("temperature");
       const showWind = radarLayerEnabled("wind");
       const showAir = radarLayerEnabled("air");
+      const showEvents = radarLayerEnabled("events");
       const selectedLayerCount = radarCoreLayers.filter((layer) => radarLayerEnabled(layer)).length;
       const denseMode = selectedLayerCount > 1;
       const temperatureOnly = selectedLayerCount === 1 && showTemperature;
       const windOnly = selectedLayerCount === 1 && showWind;
       const airOnly = selectedLayerCount === 1 && showAir;
+      const eventsOnly = selectedLayerCount === 1 && showEvents;
       const precipitationOffset = radarMarkerOffset("precipitation", selectedLayerCount);
       const temperatureOffset = radarMarkerOffset("temperature", selectedLayerCount);
       const windOffset = radarMarkerOffset("wind", selectedLayerCount);
       const airOffset = radarMarkerOffset("air", selectedLayerCount);
+      const eventsOffset = radarMarkerOffset("events", selectedLayerCount);
       let maxChance = 0;
       let maxAmount = 0;
       let minTemp = Infinity;
@@ -7696,12 +9215,14 @@
       let maxWind = 0;
       let minAqi = Infinity;
       let maxAqi = -Infinity;
+      const eventCounts = { storm: 0, snow: 0, freezing: 0 };
 
       radarState.precipitationLayer.clearLayers();
       if (radarState.temperatureSurfaceLayer) radarState.temperatureSurfaceLayer.clearLayers();
       radarState.temperatureLayer.clearLayers();
       radarState.windLayer.clearLayers();
       radarState.airQualityLayer.clearLayers();
+      radarState.weatherEventsLayer.clearLayers();
 
       const precipitationCells = cells
         .map((cell, index) => {
@@ -7767,6 +9288,21 @@
         });
       }
 
+      if (showEvents) {
+        const eventCells = cells
+          .map((cell, index) => ({ cell, type: radarWeatherEvent(cell), index }))
+          .filter((item) => item.type)
+          .sort((a, b) => {
+            const weight = { storm: 3, freezing: 2, snow: 1 };
+            return (weight[b.type] || 0) - (weight[a.type] || 0) || (Number(b.cell.probability) || 0) - (Number(a.cell.probability) || 0);
+          })
+          .slice(0, eventsOnly ? 44 : 22);
+        eventCells.forEach((item, index) => {
+          eventCounts[item.type] += 1;
+          createWeatherEventMarker(item.cell, item.type, index, denseMode, eventsOffset).addTo(radarState.weatherEventsLayer);
+        });
+      }
+
       radarState.position = wrapped;
       refreshRadarClock();
 
@@ -7782,6 +9318,13 @@
       }
       if (showAir && Number.isFinite(minAqi) && Number.isFinite(maxAqi)) {
         parts.push("powietrze: EAQI " + Math.round(minAqi) + "-" + Math.round(maxAqi));
+      }
+      if (showEvents) {
+        const eventText = [];
+        if (eventCounts.storm) eventText.push("burze " + eventCounts.storm);
+        if (eventCounts.snow) eventText.push("śnieg " + eventCounts.snow);
+        if (eventCounts.freezing) eventText.push("marznący deszcz " + eventCounts.freezing);
+        parts.push(eventText.length ? "zjawiska: " + eventText.join(", ") : "zjawiska: brak burz/śniegu");
       }
       setRadarStatus(parts.length ? parts.join("  /  ") : "Wybierz warstwę mapy pogody.");
       renderComparePanel(radarState.currentLocation || lastRenderedLocation, lastRenderedWeather, frame);
@@ -7846,11 +9389,25 @@
 
     function precipitationFromCode(code) {
       const numeric = Number(code);
-      if ([61, 63, 65, 80, 81, 82, 95, 96, 99].includes(numeric)) return 62;
+      if ([61, 63, 65, 66, 67, 80, 81, 82, 95, 96, 99].includes(numeric)) return 62;
       if ([51, 53, 55, 56, 57].includes(numeric)) return 42;
       if ([71, 73, 75, 77, 85, 86].includes(numeric)) return 55;
       if ([2, 3, 45, 48].includes(numeric)) return 14;
       return 0;
+    }
+
+    function radarSyntheticWeatherCode(baseCode, temperature, probability, precipitation, wave) {
+      const code = Number(baseCode) || 3;
+      if ([56, 57, 66, 67, 71, 73, 75, 77, 85, 86, 95, 96, 99].includes(code)) return code;
+      const temp = Number(temperature);
+      const chance = Number(probability) || 0;
+      const amount = Number(precipitation) || 0;
+      if (Number.isFinite(temp) && amount > 0 && chance >= 42) {
+        if (temp <= -1) return chance >= 70 ? 73 : 71;
+        if (temp <= 1.5) return chance >= 70 ? 67 : 66;
+      }
+      if (chance >= 82 && amount >= 1.4 && Number.isFinite(temp) && temp >= 16 && Number(wave) > 0.35) return 95;
+      return code;
     }
 
     function buildFallbackRadarFrames(location, weatherData) {
@@ -7891,6 +9448,7 @@
             const airQuality = baseAqi === null ? null : mapClamp(baseAqi + spatialWave * 8 + (point.priority <= 2 ? -2 : 2), 1, 125);
             const pm25 = basePm25 === null ? null : mapClamp(basePm25 + spatialWave * 2.4, 1, 85);
             const pm10 = basePm10 === null ? null : mapClamp(basePm10 + spatialWave * 3.2, 1, 120);
+            const weatherCode = radarSyntheticWeatherCode(baseCode, temperature, probability, precipitation, spatialWave);
 
             return {
               name: point.name || "",
@@ -7899,6 +9457,7 @@
               longitude: point.longitude,
               precipitation,
               probability,
+              weatherCode,
               temperature,
               windSpeed,
               windDirection,
@@ -7914,7 +9473,7 @@
     }
 
     function radarCacheKey() {
-      return "weather:radar:poland:v8:" + buildForecastGrid().length;
+      return "weather:radar:poland:v9:" + buildForecastGrid().length;
     }
 
     function readRadarCache(maxAgeHours = 1) {
@@ -7975,7 +9534,7 @@
         const url = new URL("https://api.open-meteo.com/v1/forecast");
         url.searchParams.set("latitude", requestPoints.map((point) => point.latitude.toFixed(4)).join(","));
         url.searchParams.set("longitude", requestPoints.map((point) => point.longitude.toFixed(4)).join(","));
-        url.searchParams.set("hourly", "precipitation,precipitation_probability,temperature_2m,wind_speed_10m,wind_direction_10m");
+        url.searchParams.set("hourly", "precipitation,precipitation_probability,weather_code,temperature_2m,wind_speed_10m,wind_direction_10m");
         url.searchParams.set("past_hours", "24");
         url.searchParams.set("forecast_hours", "25");
         url.searchParams.set("timezone", "Europe/Warsaw");
@@ -8018,6 +9577,7 @@
               longitude: point.longitude,
               precipitation: Number(hourly.precipitation && hourly.precipitation[dataIndex]) || 0,
               probability: Number(hourly.precipitation_probability && hourly.precipitation_probability[dataIndex]) || 0,
+              weatherCode: hourly.weather_code ? Number(hourly.weather_code[dataIndex]) : null,
               temperature: temperature === null || temperature === undefined ? null : Number(temperature),
               windSpeed: windSpeed === null || windSpeed === undefined ? 0 : Number(windSpeed) || 0,
               windDirection: windDirection === null || windDirection === undefined ? 0 : Number(windDirection) || 0,
@@ -8046,9 +9606,210 @@
         if (radarState.temperatureLayer) radarState.temperatureLayer.clearLayers();
         if (radarState.windLayer) radarState.windLayer.clearLayers();
         if (radarState.airQualityLayer) radarState.airQualityLayer.clearLayers();
+        if (radarState.weatherEventsLayer) radarState.weatherEventsLayer.clearLayers();
         setRadarStatus((error.message || "Mapa pogody chwilowo niedostępna.") + " Prognoza lokalna działa osobno.", "error");
         if (elements.radarTime) elements.radarTime.innerHTML = "<strong>Godzina:</strong> --";
       }
+    }
+
+
+    function hourlyWindow(hourly, limit = 24) {
+      const now = Date.now();
+      const times = hourly && Array.isArray(hourly.time) ? hourly.time : [];
+      const startIndex = times.findIndex((time) => new Date(time).getTime() >= now);
+      const safeStart = startIndex === -1 ? 0 : startIndex;
+      return times.slice(safeStart, safeStart + limit).map((time, offset) => ({ time, index: safeStart + offset }));
+    }
+
+    function renderHourlyChart(hourly) {
+      if (!elements.hourlyChart || !hourly || !Array.isArray(hourly.time)) return;
+      const rows = hourlyWindow(hourly, 24).map(({ time, index }) => ({
+        time,
+        temp: Number(hourly.temperature_2m && hourly.temperature_2m[index]),
+        rain: Number(hourly.precipitation_probability && hourly.precipitation_probability[index]) || 0,
+        wind: Number(hourly.wind_speed_10m && hourly.wind_speed_10m[index]) || 0
+      })).filter((row) => Number.isFinite(row.temp));
+      if (rows.length < 2) {
+        elements.hourlyChart.innerHTML = "";
+        return;
+      }
+      const width = Math.max(720, rows.length * 38);
+      const height = 214;
+      const left = 34;
+      const right = 18;
+      const top = 22;
+      const bottom = 44;
+      const plotW = width - left - right;
+      const plotH = height - top - bottom;
+      const temps = rows.map((row) => row.temp);
+      const minTemp = Math.floor(Math.min(...temps) - 1);
+      const maxTemp = Math.ceil(Math.max(...temps) + 1);
+      const tempRange = Math.max(1, maxTemp - minTemp);
+      const xAt = (index) => left + (rows.length === 1 ? 0 : index * (plotW / (rows.length - 1)));
+      const yTemp = (value) => top + (maxTemp - value) / tempRange * plotH;
+      const points = rows.map((row, index) => xAt(index).toFixed(1) + "," + yTemp(row.temp).toFixed(1)).join(" ");
+      const grid = [0, 0.5, 1].map((ratio) => '<line class="chart-grid" x1="' + left + '" y1="' + (top + plotH * ratio).toFixed(1) + '" x2="' + (width - right) + '" y2="' + (top + plotH * ratio).toFixed(1) + '" />').join("");
+      const rainBars = rows.map((row, index) => {
+        const x = xAt(index) - 7;
+        const barH = Math.max(3, Math.min(58, row.rain * 0.58));
+        return '<rect class="chart-rain" x="' + x.toFixed(1) + '" y="' + (height - bottom - barH).toFixed(1) + '" width="14" height="' + barH.toFixed(1) + '" rx="5"><title>Opady ' + Math.round(row.rain) + '%</title></rect>';
+      }).join("");
+      const dots = rows.map((row, index) => '<circle class="chart-temp-dot" cx="' + xAt(index).toFixed(1) + '" cy="' + yTemp(row.temp).toFixed(1) + '" r="4"><title>' + hourFormatter.format(new Date(row.time)) + ' - ' + Math.round(row.temp) + '°C</title></circle>').join("");
+      const labels = rows.map((row, index) => {
+        if (index % 3 !== 0 && index !== rows.length - 1) return "";
+        return '<text class="chart-small-label" x="' + xAt(index).toFixed(1) + '" y="' + (height - 15) + '" text-anchor="middle">' + hourFormatter.format(new Date(row.time)) + '</text>';
+      }).join("");
+      const tempLabels = rows.map((row, index) => {
+        if (index % 4 !== 0 && index !== rows.length - 1) return "";
+        return '<text class="chart-label" x="' + xAt(index).toFixed(1) + '" y="' + (yTemp(row.temp) - 10).toFixed(1) + '" text-anchor="middle">' + Math.round(row.temp) + '°</text>';
+      }).join("");
+      const windArrows = rows.map((row, index) => {
+        if (index % 3 !== 1) return "";
+        const x = xAt(index);
+        const y = top + plotH + 16;
+        const scale = Math.max(0.7, Math.min(1.18, row.wind / 28 + 0.72));
+        return '<path class="chart-wind-arrow" d="M0,-7 L8,7 L0,3 L-8,7 Z" transform="translate(' + x.toFixed(1) + " " + y.toFixed(1) + ') scale(' + scale.toFixed(2) + ')"><title>Wiatr ' + Math.round(row.wind) + ' km/h</title></path>';
+      }).join("");
+
+      elements.hourlyChart.innerHTML = '' +
+        '<div class="hourly-chart__head"><span>Wykres 24h</span><span class="hourly-chart__legend"><span><i></i>temperatura</span><span><i></i>opady</span><span><i></i>wiatr</span></span></div>' +
+        '<div class="hourly-chart__scroll"><svg viewBox="0 0 ' + width + " " + height + '" role="img" aria-label="Temperatura, opady i wiatr w kolejnych 24 godzinach">' +
+        grid + rainBars + '<polyline class="chart-temp-line" points="' + points + '" />' + dots + tempLabels + windArrows + labels +
+        '<text class="chart-small-label" x="' + left + '" y="17">' + minTemp + '°C</text><text class="chart-small-label" x="' + left + '" y="' + (top + plotH + 4) + '">' + maxTemp + '°C</text>' +
+        '</svg></div>';
+    }
+
+    function buildShareWeatherText() {
+      const current = lastRenderedWeather && lastRenderedWeather.current ? lastRenderedWeather.current : null;
+      const location = lastRenderedLocation || {};
+      if (!current) return "Pogoda lokalna dla Ciebie";
+      const desc = describeWeather(current.weather_code)[0];
+      const parts = [
+        (location.name || "Moja lokalizacja") + ": " + safeMetric(current.temperature_2m, "°C") + ", " + desc.toLowerCase(),
+        "odczuwalnie " + safeMetric(current.apparent_temperature, "°C"),
+        "wiatr " + safeMetric(current.wind_speed_10m, " km/h"),
+        "ciśnienie " + safeMetric(current.pressure_msl, " hPa")
+      ];
+      const uv = currentAirValue(lastRenderedWeather.airQuality, "uv_index");
+      const aqi = currentAirValue(lastRenderedWeather.airQuality, "european_aqi");
+      if (uv !== null) parts.push("UV " + safeMetric(uv, "", 1));
+      if (aqi !== null) parts.push("powietrze " + airQualityLabel(aqi));
+      return parts.join(" • ");
+    }
+
+    function drawRoundedRect(ctx, x, y, width, height, radius) {
+      const r = Math.min(radius, width / 2, height / 2);
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + width, y, x + width, y + height, r);
+      ctx.arcTo(x + width, y + height, x, y + height, r);
+      ctx.arcTo(x, y + height, x, y, r);
+      ctx.arcTo(x, y, x + width, y, r);
+      ctx.closePath();
+    }
+
+    function wrapCanvasText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 3) {
+      const words = String(text || "").split(/\s+/).filter(Boolean);
+      let line = "";
+      let lines = 0;
+      words.forEach((word) => {
+        const test = line ? line + " " + word : word;
+        if (ctx.measureText(test).width > maxWidth && line) {
+          if (lines < maxLines) ctx.fillText(line, x, y + lines * lineHeight);
+          lines += 1;
+          line = word;
+        } else {
+          line = test;
+        }
+      });
+      if (line && lines < maxLines) ctx.fillText(line, x, y + lines * lineHeight);
+    }
+
+    function createShareWeatherImageBlob(text) {
+      return new Promise((resolve) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 1200;
+        canvas.height = 630;
+        const ctx = canvas.getContext && canvas.getContext("2d");
+        if (!ctx) return resolve(null);
+        const current = lastRenderedWeather && lastRenderedWeather.current ? lastRenderedWeather.current : {};
+        const location = lastRenderedLocation || {};
+        const desc = describeWeather(current.weather_code)[0];
+        const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
+        gradient.addColorStop(0, "#45b9ec");
+        gradient.addColorStop(0.48, "#1f67d4");
+        gradient.addColorStop(1, "#0e958c");
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 1200, 630);
+        ctx.fillStyle = "rgba(255,255,255,0.22)";
+        ctx.beginPath();
+        ctx.arc(960, 150, 110, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "rgba(255,198,66,0.9)";
+        ctx.beginPath();
+        ctx.arc(930, 130, 70, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "rgba(255,255,255,0.88)";
+        drawRoundedRect(ctx, 74, 74, 1052, 482, 26);
+        ctx.fill();
+        ctx.fillStyle = "#102033";
+        ctx.font = "800 44px Segoe UI, Arial, sans-serif";
+        ctx.fillText("Pogoda lokalna dla Ciebie", 122, 144);
+        ctx.font = "900 64px Segoe UI, Arial, sans-serif";
+        wrapCanvasText(ctx, location.name || "Moja lokalizacja", 122, 232, 640, 68, 2);
+        ctx.font = "950 150px Segoe UI, Arial, sans-serif";
+        ctx.fillStyle = "#1f67d4";
+        ctx.fillText(safeMetric(current.temperature_2m, "°C"), 122, 420);
+        ctx.fillStyle = "#0f766e";
+        ctx.font = "800 36px Segoe UI, Arial, sans-serif";
+        ctx.fillText(desc || "Prognoza", 128, 478);
+        ctx.fillStyle = "#234968";
+        ctx.font = "700 28px Segoe UI, Arial, sans-serif";
+        wrapCanvasText(ctx, text, 628, 260, 430, 42, 5);
+        canvas.toBlob((blob) => resolve(blob), "image/png", 0.92);
+      });
+    }
+
+    async function shareWeather() {
+      const text = buildShareWeatherText();
+      const title = "Pogoda lokalna";
+      const url = window.location && window.location.href ? window.location.href : "";
+      try {
+        const blob = await createShareWeatherImageBlob(text);
+        if (blob && navigator.canShare && navigator.share && typeof File !== "undefined") {
+          const file = new File([blob], "pogoda-lokalna.png", { type: "image/png" });
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({ title, text, files: [file] });
+            setStatus("Gotowe. Kartka pogodowa wysłana do udostępniania.");
+            return;
+          }
+        }
+        if (navigator.share) {
+          await navigator.share({ title, text, url });
+          setStatus("Gotowe. Pogoda wysłana do udostępniania.");
+          return;
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text + (url ? "\n" + url : ""));
+          setStatus("Gotowe. Tekst pogody skopiowany do schowka.");
+        } else {
+          setStatus(text);
+        }
+        if (blob && typeof URL !== "undefined" && URL.createObjectURL) {
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "pogoda-lokalna.png";
+          link.click();
+          setTimeout(() => URL.revokeObjectURL(link.href), 1200);
+        }
+      } catch {
+        setStatus("Nie udało się udostępnić automatycznie. Skopiuj pogodę z ekranu.", "error");
+      }
+    }
+
+    function setupShareButton() {
+      if (!elements.shareWeatherButton) return;
+      elements.shareWeatherButton.addEventListener("click", shareWeather);
     }
 
         function renderDaily(daily) {
@@ -8073,13 +9834,9 @@
     function renderHourly(hourly) {
       elements.hourlyForecast.innerHTML = "";
 
-      const now = Date.now();
-      const startIndex = hourly.time.findIndex((time) => new Date(time).getTime() >= now);
-      const safeStart = startIndex === -1 ? 0 : startIndex;
-      const hours = hourly.time.slice(safeStart, safeStart + 24);
+      const hours = hourlyWindow(hourly, 24);
 
-      hours.forEach((time, offset) => {
-        const index = safeStart + offset;
+      hours.forEach(({ time, index }) => {
         const weather = describeWeather(hourly.weather_code[index]);
         const description = weather[0];
         const icon = weather[1];
@@ -8097,6 +9854,7 @@
 
     setupStatCardInteractions();
     setupFavoriteCities();
+    setupShareButton();
     registerPwa();
 
     window.setInterval(refreshRadarClock, 1000);
@@ -8126,6 +9884,9 @@
     }
     if (elements.tvModeButton) elements.tvModeButton.addEventListener("click", startTvMode);
     if (elements.tvCloseButton) elements.tvCloseButton.addEventListener("click", stopTvMode);
+    if (elements.tvFullscreenButton) elements.tvFullscreenButton.addEventListener("click", toggleTvFullscreen);
+    if (elements.gpsNameSave) elements.gpsNameSave.addEventListener("click", saveGpsLocationAlias);
+    if (elements.gpsNameInput) elements.gpsNameInput.addEventListener("keydown", (event) => { if (event.key === "Enter") saveGpsLocationAlias(); });
     if (elements.tvModeOverlay) elements.tvModeOverlay.addEventListener("click", (event) => { if (event.target === elements.tvModeOverlay) stopTvMode(); });
     if (elements.compareRefreshButton) elements.compareRefreshButton.addEventListener("click", () => renderComparePanel(lastRenderedLocation, lastRenderedWeather));
 
@@ -8174,10 +9935,15 @@
       if (saved) {
         try {
           const savedLocation = JSON.parse(saved);
-          if (savedLocation.source === "gps" && savedLocation.name === "Moja lokalizacja") {
-            resolveGpsLocation(savedLocation.latitude, savedLocation.longitude)
-              .then((resolved) => loadWeather({ ...savedLocation, name: resolved.name, country: resolved.country, region: resolved.region || savedLocation.region }))
-              .catch(() => loadWeather(savedLocation));
+          if (savedLocation.source === "gps") {
+            const aliasedLocation = withGpsAlias(savedLocation);
+            if (aliasedLocation.name === "Moja lokalizacja") {
+              resolveGpsLocation(savedLocation.latitude, savedLocation.longitude)
+                .then((resolved) => loadWeather(withGpsAlias({ ...aliasedLocation, name: resolved.name, country: resolved.country, region: resolved.region || aliasedLocation.region })))
+                .catch(() => loadWeather(aliasedLocation));
+            } else {
+              loadWeather(aliasedLocation);
+            }
           } else {
             loadWeather(savedLocation);
           }

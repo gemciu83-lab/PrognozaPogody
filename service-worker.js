@@ -1,4 +1,4 @@
-const CACHE_NAME = "pogoda-lokalna-v15";
+const CACHE_NAME = "pogoda-lokalna-v18";
 const CORE_ASSETS = ["./", "./index.html", "./favicon.png", "./manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {

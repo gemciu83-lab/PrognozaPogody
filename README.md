@@ -17,4 +17,11 @@ Pogoda: Open-Meteo. Mapa: OpenStreetMap / Leaflet.
 
 W paczce jest tez `favicon.png`, czyli ikonka sloneczka na karte przegladarki.
 
-Nowa wersja pokazuje tez indeks UV, europejski AQI oraz geste znaczniki temperatury na mapie.
+## Aktualna wersja
+
+- wykres 24h: temperatura, opady i wiatr,
+- szybkie karty miast,
+- tło dzień / poranek / wieczór / noc,
+- większa kartka kalendarza PRL,
+- przycisk udostępniania pogody,
+- spokojniejszy porządek wizualny sekcji.
