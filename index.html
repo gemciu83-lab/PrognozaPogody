@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Pogoda i 7-dniowa prognoza dla Twojej lokalizacji lub wybranego miasta." />
-  <title>Pogoda lokalna • Wersja 2</title>
+  <title>Pogoda lokalna • Wersja 2.1</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="favicon.svg" />
   <meta name="theme-color" content="#1f67d4" />
@@ -6253,6 +6253,8 @@
     @media(max-width:600px) { .connection-bar { margin:8px; padding:10px; font-size:12px; } }
     @media(prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
   </style>
+  <link rel="stylesheet" href="summary.css?v=2.1" />
+  <script src="summary.js?v=2.1"></script>
 </head>
 <body>
   <div class="sky-scene" aria-hidden="true">
@@ -6264,7 +6266,7 @@
     <span class="sky-breeze"></span>
     <span class="sky-rain"><span style="--i: 0"></span><span style="--i: 1"></span><span style="--i: 2"></span><span style="--i: 3"></span><span style="--i: 4"></span></span>
   </div>
-  <aside class="connection-bar" aria-label="Stan połączenia"><span><strong>Pogoda 2</strong> · <span id="connectionState">Sprawdzam połączenie</span></span><button id="retryWeather" type="button">Odśwież prognozę</button></aside>
+  <aside class="connection-bar" aria-label="Stan połączenia"><span><strong>Pogoda 2.1</strong> · <span id="connectionState">Sprawdzam połączenie</span></span><button id="retryWeather" type="button">Odśwież prognozę</button></aside>
   <main class="app">
     <header class="topbar">
       <div class="brand brand--compact">
@@ -6330,6 +6332,12 @@
     </section>
 
     <section id="weatherView" class="is-hidden" aria-live="polite">
+      <section class="quick-forecast" id="quickForecast" aria-labelledby="quickPlace">
+        <div class="quick-heading"><div><p class="quick-eyebrow">Pogoda w skrócie</p><h2 id="quickPlace">Twoja lokalizacja</h2></div><span id="quickTemp">—</span></div>
+        <dl class="quick-metrics"><div><dt>Odczuwalna</dt><dd id="quickFeels">—</dd></div><div><dt>Wiatr teraz</dt><dd id="quickWind">—</dd></div><div><dt>Szansa opadów · 6 h</dt><dd id="quickRain">—</dd></div></dl>
+        <p id="quickMessage">Czekam na prognozę…</p>
+        <span id="quickSource"></span><div class="quick-meta"><span id="quickFetched"></span><span id="quickTime"></span></div>
+      </section>
       <div class="insight-strip" id="todayBrief" aria-label="Dzisiaj w skrócie">
         <div class="insight-main">
           <div class="insight-weather" id="todayBriefIcon" aria-hidden="true"></div>
@@ -7703,6 +7711,7 @@
           }
         }
         if (!isCurrent()) return;
+        if (data.providerMode !== "cache") data.fetchedAt = Date.now();
         data.airQuality = await fetchAirQuality(location, data.airQuality);
         if (!isCurrent()) return;
         renderWeather(data, location);
@@ -8634,6 +8643,7 @@
       const daily = normalizeDailyForecast(data.daily || {}, data.hourly || {}, current);
       const [description, icon] = describeWeather(current.weather_code);
       const placeParts = [location.region, location.country].filter(Boolean);
+      renderQuickForecast(data, location);
       lastRenderedWeather = data;
       lastRenderedLocation = location;
       renderFavoriteCities(location);

@@ -1,5 +1,5 @@
-const CACHE_NAME = 'pogoda-lokalna-v19';
-const CORE_ASSETS = ['./', './index.html', './favicon.svg', './manifest.webmanifest'];
+const CACHE_NAME = 'pogoda-lokalna-v21';
+const CORE_ASSETS = ['./', './index.html', './favicon.svg', './manifest.webmanifest', './summary.css?v=2.1', './summary.js?v=2.1'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting()));
 });

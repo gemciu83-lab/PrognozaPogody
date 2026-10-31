@@ -1,0 +1,29 @@
+.quick-forecast { margin:0 0 18px; padding:24px; border:1px solid #b9e1e7; border-radius:18px; background:linear-gradient(125deg,#f7ffff,#e2f4fc); color:#102c45; box-shadow:0 8px 28px #102c4514; }
+.quick-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.quick-heading h2 { margin:4px 0; font-size:clamp(22px,4vw,32px); }
+.quick-eyebrow { margin:0; font-size:12px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:#42687b; }
+#quickTemp { font-size:clamp(36px,7vw,56px); font-weight:800; letter-spacing:-.04em; white-space:nowrap; }
+.quick-metrics { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:18px 0; }
+.quick-metrics div { padding:14px; background:#ffffffbd; border-radius:12px; }
+.quick-metrics dt { font-size:12px; color:#426075; }
+.quick-metrics dd { margin:6px 0 0; font-size:21px; font-weight:750; }
+#quickMessage { line-height:1.5; font-size:16px; margin:14px 0; }
+.quick-meta { display:flex; flex-wrap:wrap; gap:6px 18px; font-size:12px; color:#426075; }
+#quickSource { display:block; font-size:12px; font-weight:700; margin-bottom:8px; }
+.quick-forecast[data-cached="true"] { border-color:#dcaa44; background:#fff7df; }
+.forecast-details { min-width:0; margin-bottom:16px; }
+.forecast-details > summary { padding:16px; background:#f4fbff; border:1px solid #c3dce8; border-radius:10px; cursor:pointer; font-weight:700; color:#102c45; }
+.forecast-details[open] > summary { margin-bottom:8px; }
+@media(min-width:701px) { .forecast-details > summary { display:none; } }
+@media(max-width:700px) {
+  .quick-forecast { padding:16px; border-radius:14px; }
+  .quick-metrics { gap:6px; }
+  .quick-metrics div { padding:10px 8px; }
+  .quick-metrics dd { font-size:18px; }
+  .quick-metrics dt { font-size:11px; }
+  .connection-bar { flex-wrap:wrap; }
+  .favorites-row--suggestions, .city-card-strip { display:none; }
+  #todayBrief { display:none; }
+  .hourly { overscroll-behavior-x:contain; }
+  .forecast-details .panel { margin-bottom:0; }
+}
