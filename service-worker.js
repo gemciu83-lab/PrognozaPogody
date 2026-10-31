@@ -1,48 +1,41 @@
-const CACHE_NAME = "pogoda-lokalna-v18";
-const CORE_ASSETS = ["./", "./index.html", "./favicon.png", "./manifest.webmanifest"];
-
-self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => cache.addAll(CORE_ASSETS))
-      .catch(() => undefined)
-  );
-  self.skipWaiting();
+const CACHE_NAME = 'pogoda-lokalna-v19';
+const CORE_ASSETS = ['./', './index.html', './favicon.svg', './manifest.webmanifest'];
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting()));
 });
-
-self.addEventListener("activate", (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => Promise.all(
-      keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-    ))
-  );
-  self.clients.claim();
+self.addEventListener('activate', event => {
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys
+    .filter(key => key.startsWith('pogoda-lokalna-') && key !== CACHE_NAME)
+    .map(key => caches.delete(key)))).then(() => self.clients.claim()));
 });
-
-self.addEventListener("fetch", (event) => {
+self.addEventListener('fetch', event => {
   const request = event.request;
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin || request.method !== "GET") return;
-
-  if (request.mode === "navigate") {
-    event.respondWith(
-      fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put("./index.html", copy));
-          return response;
-        })
-        .catch(() => caches.match("./index.html"))
-    );
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+  if (request.mode === 'navigate') {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE_NAME);
+      try {
+        const response = await fetch(request);
+        if (!response.ok) throw new Error('Navigation failed');
+        // Only the application entry point may replace the offline page.
+        if (url.pathname === new URL('./', self.registration.scope).pathname || url.pathname === new URL('./index.html', self.registration.scope).pathname) {
+          try { await cache.put('./index.html', response.clone()); } catch {}
+        }
+        return response;
+      } catch {
+        return (await cache.match('./index.html')) || Response.error();
+      }
+    })());
     return;
   }
-
-  event.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request).then((response) => {
-      const copy = response.clone();
-      caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
-      return response;
-    }))
-  );
+  if (!CORE_ASSETS.some(asset => new URL(asset, self.registration.scope).href === url.href)) return;
+  event.respondWith((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const cached = await cache.match(request);
+    if (cached) return cached;
+    const response = await fetch(request);
+    if (response.ok) { try { await cache.put(request, response.clone()); } catch {} }
+    return response;
+  })());
 });
-
