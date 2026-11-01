@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Pogoda i 7-dniowa prognoza dla Twojej lokalizacji lub wybranego miasta." />
-  <title>Pogoda lokalna • Wersja 2.1</title>
+  <title>Pogoda lokalna • Wersja 2.2</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="apple-touch-icon" href="favicon.svg" />
   <meta name="theme-color" content="#1f67d4" />
@@ -6253,8 +6253,8 @@
     @media(max-width:600px) { .connection-bar { margin:8px; padding:10px; font-size:12px; } }
     @media(prefers-reduced-motion:reduce) { *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
   </style>
-  <link rel="stylesheet" href="summary.css?v=2.1" />
-  <script src="summary.js?v=2.1"></script>
+  <link rel="stylesheet" href="summary.css?v=2.2" />
+  <script src="summary.js?v=2.2"></script>
 </head>
 <body>
   <div class="sky-scene" aria-hidden="true">
@@ -6266,7 +6266,7 @@
     <span class="sky-breeze"></span>
     <span class="sky-rain"><span style="--i: 0"></span><span style="--i: 1"></span><span style="--i: 2"></span><span style="--i: 3"></span><span style="--i: 4"></span></span>
   </div>
-  <aside class="connection-bar" aria-label="Stan połączenia"><span><strong>Pogoda 2.1</strong> · <span id="connectionState">Sprawdzam połączenie</span></span><button id="retryWeather" type="button">Odśwież prognozę</button></aside>
+  <aside class="connection-bar" aria-label="Stan połączenia"><span><strong>Pogoda 2.2</strong> · <span id="connectionState">Sprawdzam połączenie</span></span><button id="retryWeather" type="button">Odśwież prognozę</button></aside>
   <main class="app">
     <header class="topbar">
       <div class="brand brand--compact">
@@ -6521,8 +6521,8 @@
       <section class="panel radar-wrap">
         <div class="radar-head">
           <div>
-            <h3>Mapa pogody: cała Polska</h3>
-            <p>Animacja od -24 godzin przez teraz do +24 godzin.</p>
+            <h3>Mapa prognozy: cała Polska</h3>
+            <p>Dane modelu Open-Meteo, nie pomiary radaru. Symbole pokazują prognozę w wybranych punktach, a nie rzeczywisty zasięg opadów. Także godziny minione pochodzą z modelu.</p>
           </div>
           <div class="radar-tools">
             <div class="radar-layer-controls" aria-label="Warstwy mapy pogody">
@@ -7496,7 +7496,7 @@
       url.searchParams.set("latitude", location.latitude);
       url.searchParams.set("longitude", location.longitude);
       url.searchParams.set("current", "temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m,pressure_msl,is_day");
-      url.searchParams.set("hourly", "temperature_2m,apparent_temperature,relative_humidity_2m,pressure_msl,precipitation_probability,weather_code,wind_speed_10m");
+      url.searchParams.set("hourly", "temperature_2m,apparent_temperature,relative_humidity_2m,pressure_msl,precipitation,precipitation_probability,weather_code,wind_speed_10m");
       url.searchParams.set("daily", "weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,sunrise,sunset,wind_speed_10m_max");
       url.searchParams.set("timezone", "auto");
       url.searchParams.set("forecast_days", "7");
@@ -9510,7 +9510,9 @@
     }
 
     function radarCacheKey() {
-      return "weather:radar:poland:v9:" + buildForecastGrid().length;
+      return "weather:radar:verified-grid:v22";
+
+
     }
 
     function readRadarCache(maxAgeHours = 1) {
@@ -9543,7 +9545,7 @@
       if (message) {
         setRadarStatus(message);
       } else if (cached) {
-        setRadarStatus("Mapa z pamięci podręcznej. Aktualne dane wrócą po odblokowaniu limitu.");
+        setRadarStatus("Zapisana prognoza modelu — może być nieaktualna. To nie radar pomiarowy.");
       }
     }
 
@@ -9557,11 +9559,6 @@
         return;
       }
 
-      if (weatherData && weatherData.providerMode && weatherData.providerMode !== "live") {
-        const fallbackFrames = buildFallbackRadarFrames(location, weatherData);
-        applyRadarFrames(fallbackFrames, false, "Mapa poglądowa z prognozy lokalnej. Pełny radar wróci po odblokowaniu Open-Meteo.");
-        return;
-      }
 
       setRadarStatus("Ładuję mapę pogody dla całej Polski: opady, temperaturę i wiatr...");
 
@@ -9604,9 +9601,9 @@
             const windSpeed = hourly.wind_speed_10m ? hourly.wind_speed_10m[dataIndex] : null;
             const windDirection = hourly.wind_direction_10m ? hourly.wind_direction_10m[dataIndex] : null;
             const airWave = Math.sin(point.longitude * 1.31 + point.latitude * 0.72 + offsetHours * 0.09 + pointIndex * 0.41);
-            const airQuality = liveBaseAqi === null ? null : mapClamp(liveBaseAqi + airWave * 6 + (point.priority <= 2 ? -1 : 2), 1, 125);
-            const pm25 = liveBasePm25 === null ? null : mapClamp(liveBasePm25 + airWave * 2, 1, 85);
-            const pm10 = liveBasePm10 === null ? null : mapClamp(liveBasePm10 + airWave * 3, 1, 120);
+            const airQuality = null;
+            const pm25 = null;
+            const pm10 = null;
             return {
               name: point.name || "",
               priority: point.priority || 5,
@@ -9633,11 +9630,6 @@
           applyRadarFrames(staleFrames, true);
           return;
         }
-        if (weatherData) {
-          const fallbackFrames = buildFallbackRadarFrames(location, weatherData);
-          applyRadarFrames(fallbackFrames, false, "Mapa poglądowa z prognozy lokalnej. Pełny radar wróci po odblokowaniu Open-Meteo.");
-          return;
-        }
         radarState.frames = [];
         if (radarState.precipitationLayer) radarState.precipitationLayer.clearLayers();
         if (radarState.temperatureLayer) radarState.temperatureLayer.clearLayers();
@@ -9659,61 +9651,22 @@
     }
 
     function renderHourlyChart(hourly) {
-      if (!elements.hourlyChart || !hourly || !Array.isArray(hourly.time)) return;
-      const rows = hourlyWindow(hourly, 24).map(({ time, index }) => ({
-        time,
-        temp: Number(hourly.temperature_2m && hourly.temperature_2m[index]),
-        rain: Number(hourly.precipitation_probability && hourly.precipitation_probability[index]) || 0,
-        wind: Number(hourly.wind_speed_10m && hourly.wind_speed_10m[index]) || 0
-      })).filter((row) => Number.isFinite(row.temp));
-      if (rows.length < 2) {
-        elements.hourlyChart.innerHTML = "";
-        return;
-      }
-      const width = Math.max(720, rows.length * 38);
-      const height = 214;
-      const left = 34;
-      const right = 18;
-      const top = 22;
-      const bottom = 44;
-      const plotW = width - left - right;
-      const plotH = height - top - bottom;
-      const temps = rows.map((row) => row.temp);
-      const minTemp = Math.floor(Math.min(...temps) - 1);
-      const maxTemp = Math.ceil(Math.max(...temps) + 1);
-      const tempRange = Math.max(1, maxTemp - minTemp);
-      const xAt = (index) => left + (rows.length === 1 ? 0 : index * (plotW / (rows.length - 1)));
-      const yTemp = (value) => top + (maxTemp - value) / tempRange * plotH;
-      const points = rows.map((row, index) => xAt(index).toFixed(1) + "," + yTemp(row.temp).toFixed(1)).join(" ");
-      const grid = [0, 0.5, 1].map((ratio) => '<line class="chart-grid" x1="' + left + '" y1="' + (top + plotH * ratio).toFixed(1) + '" x2="' + (width - right) + '" y2="' + (top + plotH * ratio).toFixed(1) + '" />').join("");
-      const rainBars = rows.map((row, index) => {
-        const x = xAt(index) - 7;
-        const barH = Math.max(3, Math.min(58, row.rain * 0.58));
-        return '<rect class="chart-rain" x="' + x.toFixed(1) + '" y="' + (height - bottom - barH).toFixed(1) + '" width="14" height="' + barH.toFixed(1) + '" rx="5"><title>Opady ' + Math.round(row.rain) + '%</title></rect>';
-      }).join("");
-      const dots = rows.map((row, index) => '<circle class="chart-temp-dot" cx="' + xAt(index).toFixed(1) + '" cy="' + yTemp(row.temp).toFixed(1) + '" r="4"><title>' + hourFormatter.format(new Date(row.time)) + ' - ' + Math.round(row.temp) + '°C</title></circle>').join("");
-      const labels = rows.map((row, index) => {
-        if (index % 3 !== 0 && index !== rows.length - 1) return "";
-        return '<text class="chart-small-label" x="' + xAt(index).toFixed(1) + '" y="' + (height - 15) + '" text-anchor="middle">' + hourFormatter.format(new Date(row.time)) + '</text>';
-      }).join("");
-      const tempLabels = rows.map((row, index) => {
-        if (index % 4 !== 0 && index !== rows.length - 1) return "";
-        return '<text class="chart-label" x="' + xAt(index).toFixed(1) + '" y="' + (yTemp(row.temp) - 10).toFixed(1) + '" text-anchor="middle">' + Math.round(row.temp) + '°</text>';
-      }).join("");
-      const windArrows = rows.map((row, index) => {
-        if (index % 3 !== 1) return "";
-        const x = xAt(index);
-        const y = top + plotH + 16;
-        const scale = Math.max(0.7, Math.min(1.18, row.wind / 28 + 0.72));
-        return '<path class="chart-wind-arrow" d="M0,-7 L8,7 L0,3 L-8,7 Z" transform="translate(' + x.toFixed(1) + " " + y.toFixed(1) + ') scale(' + scale.toFixed(2) + ')"><title>Wiatr ' + Math.round(row.wind) + ' km/h</title></path>';
-      }).join("");
-
-      elements.hourlyChart.innerHTML = '' +
-        '<div class="hourly-chart__head"><span>Wykres 24h</span><span class="hourly-chart__legend"><span><i></i>temperatura</span><span><i></i>opady</span><span><i></i>wiatr</span></span></div>' +
-        '<div class="hourly-chart__scroll"><svg viewBox="0 0 ' + width + " " + height + '" role="img" aria-label="Temperatura, opady i wiatr w kolejnych 24 godzinach">' +
-        grid + rainBars + '<polyline class="chart-temp-line" points="' + points + '" />' + dots + tempLabels + windArrows + labels +
-        '<text class="chart-small-label" x="' + left + '" y="17">' + minTemp + '°C</text><text class="chart-small-label" x="' + left + '" y="' + (top + plotH + 4) + '">' + maxTemp + '°C</text>' +
-        '</svg></div>';
+      if (!elements.hourlyChart) return;
+      const offset = Number(lastRenderedWeather && lastRenderedWeather.utc_offset_seconds) || 0;
+      const now = Date.now();
+      const valid = value => value !== null && value !== undefined && Number.isFinite(Number(value));
+      const rows = ((hourly && hourly.time) || []).map((time, index) => ({ time, index, at: forecastMoment(time, offset) }))
+        .filter(row => row.at >= now).slice(0, 24);
+      if (!rows.length) { elements.hourlyChart.textContent = 'Brak aktualnych danych godzinowych.'; return; }
+      const number = (values, i, suffix) => valid(values && values[i]) ? Number(values[i]).toLocaleString('pl-PL', {maximumFractionDigits:1}) + suffix : '—';
+      const values = rows.map(row => hourly.precipitation?.[row.index]).filter(valid).map(Number);
+      const scale = Math.max(1, ...values);
+      const clock = new Intl.DateTimeFormat('pl-PL', {hour:'2-digit',minute:'2-digit',timeZone:lastRenderedWeather?.timezone || 'UTC'});
+      elements.hourlyChart.innerHTML = '<h3>Prognoza godzinowa · temperatura i opady</h3><p>Słupki: ilość opadów w mm w godzinie. Procenty: prawdopodobieństwo opadów. — oznacza brak danych.</p><div class="rain-table-scroll"><table class="rain-table"><caption>Najbliższe 24 godziny · czas lokalizacji</caption><thead><tr><th scope="col">Godzina</th><th scope="col">Temperatura</th><th scope="col">Opady / godzinę</th><th scope="col">Szansa opadów</th><th scope="col">Wiatr</th></tr></thead><tbody>' + rows.map(({index:i,at}) => {
+        const amount = hourly.precipitation?.[i];
+        const bar = valid(amount) ? '<span class="rain-amount-bar" aria-hidden="true" style="width:' + Math.max(0, Number(amount) / scale * 100) + '%"></span>' : '';
+        return '<tr><th scope="row">' + clock.format(at) + '</th><td>' + number(hourly.temperature_2m,i,'°C') + '</td><td class="rain-amount">' + bar + '<span>' + number(hourly.precipitation,i,' mm') + '</span></td><td>' + number(hourly.precipitation_probability,i,'%') + '</td><td>' + number(hourly.wind_speed_10m,i,' km/h') + '</td></tr>';
+      }).join('') + '</tbody></table></div>';
     }
 
     function buildShareWeatherText() {

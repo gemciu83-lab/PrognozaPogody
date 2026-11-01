@@ -27,3 +27,12 @@
   .hourly { overscroll-behavior-x:contain; }
   .forecast-details .panel { margin-bottom:0; }
 }
+
+.rain-table-scroll { overflow:auto; max-height:490px; border-radius:12px; border:1px solid #bdd7e3; }
+.rain-table { width:100%; min-width:550px; border-collapse:collapse; background:#f8fdff; color:#102c45; font-size:14px; }
+.rain-table caption { text-align:left; padding:12px; background:#e6f3fa; }
+.rain-table th,.rain-table td { padding:12px; border-bottom:1px solid #d4e5ee; text-align:left; white-space:nowrap; }
+.rain-table thead { position:sticky; top:0; background:#173d59; color:white; z-index:1; }
+.rain-amount { position:relative; min-width:140px; }
+.rain-amount-bar { position:absolute; left:0; top:5px; bottom:5px; background:#a3d8f3; border-radius:4px; }
+.rain-amount > span:last-child { position:relative; }
