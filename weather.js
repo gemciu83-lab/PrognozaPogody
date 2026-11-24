@@ -28,25 +28,25 @@ async function getModel(model,loc,force){
 function statCell(stat,suffix='',digits=1){return fmt(stat?.mean,digits)+suffix+(stat?.count>0&&stat.count<3?` <small>(${stat.count})</small>`:'');}
 const metricIcons={"Odczuwalna":"<path d=\"M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0Z\"/><path d=\"M12 10v8\"/>","Wilgotność":"<path d=\"M12 3S5 11 5 15a7 7 0 0 0 14 0c0-4-7-12-7-12Z\"/><path d=\"M8 15a4 4 0 0 0 4 4\"/>","Ciśnienie na poziomie morza":"<path d=\"M4 18a9 9 0 1 1 16 0\"/><path d=\"m12 13 4-5M5 12h2m10 0h2M12 4v2M8 19h8\"/><circle cx=\"12\" cy=\"13\" r=\"1\"/>","Wiatr":"<path d=\"M3 8h12a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h6a3 3 0 1 1-3 3\"/>","Porywy wiatru":"<path d=\"M3 7h13a3 3 0 1 0-3-3M5 12h14a3 3 0 1 1-3 3M2 17h9M2 21h6\"/>","Opady w godzinie":"<path d=\"M6 14a4 4 0 0 1-1-8 6 6 0 0 1 11-1 4.5 4.5 0 0 1 2 9H6Zm1 3-1 3m6-3-1 4m6-4-1 3\"/>","Zachmurzenie":"<path d=\"M6 18a5 5 0 0 1-1-10 6 6 0 0 1 11-1 5.5 5.5 0 0 1 2 11H6Z\"/>","Śnieg w godzinie":"<path d=\"M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9 5l3 3 3-3M9 19l3-3 3 3M5 11l4-1-1-4M19 13l-4 1 1 4M5 13l4 1-1 4M19 11l-4-1 1-4\"/>"};
 function metric(label,stat,unit,digits=0,extra=''){
-  return `<article class="metric"><span class="metric-label"><svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${metricIcons[label]||''}</svg>${label}</span><strong>${fmt(stat.mean,digits)} ${unit}</strong><small>${stat.count?`Zakres: ${fmt(stat.min,digits)}–${fmt(stat.max,digits)} ${unit} · ${stat.count}/3 modeli`:'Brak danych źródłowych'}${extra?'<br>'+extra:''}</small></article>`;
+  return `<article class="metric"><span class="metric-label"><svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${metricIcons[label]||''}</svg>${label}</span><strong>${fmt(stat.mean,digits)} ${unit}</strong><small>${stat.count?`Zakres: ${fmt(stat.min,digits)}–${fmt(stat.max,digits)} ${unit}`:'Brak danych źródłowych'}${extra?'<br>'+extra:''}</small></article>`;
 }
 function render(){
   const nowHour=Math.floor(Date.now()/3600000)*3600;
   const current=rowsNow.find(r=>r.time===nowHour);
   $('forecast').hidden=false;$('place').textContent=locationNow.name;
   $('placeMeta').textContent=[locationNow.region,locationNow.country,`strefa: ${zone()}`].filter(Boolean).join(' · ');
-  $('coverage').textContent=`${current?.members.length || 0}/3 modeli · obecna godzina`;
+  $('coverage').textContent=current?.members.length===3?'Prognoza uśredniona':'Niepełne dane';
   $('temperature').textContent=current?fmt(current.temperature_2m.mean)+'°C':'—';
   $('spread').textContent=current?`Zakres modeli: ${fmt(current.temperature_2m.min)}–${fmt(current.temperature_2m.max)}°C`:'Brak danych na obecną godzinę';
   $('currentTime').textContent=current?timeLabel(current.time,true):'Sprawdź prognozę godzinową';
-  $('brief').textContent=current?`Opady: ${fmt(current.precipitation.mean)} mm/h · modele z opadem: ${current.wetCount}/${current.rainCount}.`:'Dostępne dane nie obejmują obecnej godziny.';
+  $('brief').textContent=current?`Opady: ${fmt(current.precipitation.mean)} mm/h.`:'Dostępne dane nie obejmują obecnej godziny.';
   const old=rowsNow.find(r=>r.time===nowHour-10800);
   // Compare only the same models at both times to avoid a change in model mix masquerading as a trend.
   const changes=current&&old?current.members.flatMap(m=>{const prev=old.members.find(p=>p.id===m.id);return C.numeric(m.pressure_msl)&&C.numeric(prev?.pressure_msl)?[m.pressure_msl-prev.pressure_msl]:[];}):[];
   const change=C.stats(changes).mean;
   $('metrics').innerHTML=current?[
     metric('Odczuwalna',current.apparent_temperature,'°C',1),metric('Wilgotność',current.relative_humidity_2m,'%',0),
-    metric('Ciśnienie na poziomie morza',current.pressure_msl,'hPa',1,C.numeric(change)?`${change>=0?'+':''}${fmt(change)} hPa / 3 h · ${changes.length} modeli`:''),
+    metric('Ciśnienie na poziomie morza',current.pressure_msl,'hPa',1,C.numeric(change)?`${change>=0?'+':''}${fmt(change)} hPa / 3 h`:''),
     metric('Wiatr',current.wind_speed_10m,'km/h',0,`Kierunek: ${fmt(current.wind_direction_10m.mean,0)}°`),
     metric('Porywy wiatru',current.wind_gusts_10m,'km/h',0),metric('Opady w godzinie',current.precipitation,'mm',1),
     metric('Zachmurzenie',current.cloud_cover,'%',0),metric('Śnieg w godzinie',current.snowfall,'cm',1)
@@ -59,11 +59,11 @@ function render(){
   const missing=C.models.filter(m=>!sourcesNow.some(s=>s.id===m.id)).map(m=>m.name);
   $('availability').textContent=[missing.length?'Brak źródeł: '+missing.join(', ')+'. Średnia obejmuje tylko dostępne modele.':'',sourcesNow.some(s=>s.stale)?'UWAGA: część prognoz pochodzi z zapisu awaryjnego; sprawdź daty pobrania.':'',sourcesNow.length===1?'Dostępny jest jeden model — to pojedyncza prognoza, bez porównania źródeł.':''].filter(Boolean).join(' ');
   renderHourly();
-  $('daily').innerHTML=C.daily(rowsNow,zone()).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm <small>(${d.rain.count} modeli)</small></td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td><td>${d.minModels===d.maxModels?d.minModels:d.minModels+'–'+d.maxModels}</td></tr>`).join('');
+  $('daily').innerHTML=C.daily(rowsNow,zone()).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm</td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td><td>${d.minModels===d.maxModels?d.minModels:d.minModels+'–'+d.maxModels}</td></tr>`).join('');
 }
 function renderHourly(){
   const rows=rowsNow.filter(r=>r.time>=Math.floor(Date.now()/3600000)*3600).slice(0,Number($('hours').value));
-  $('hourly').innerHTML=rows.map(r=>`<tr><th scope="row">${timeLabel(r.time,true)}</th><td>${statCell(r.temperature_2m,'°C')}</td><td>${fmt(r.temperature_2m.min)}–${fmt(r.temperature_2m.max)}°</td><td>${statCell(r.apparent_temperature,'°C')}</td><td class="${r.precipitation.mean>=0.1?'rain':''}">${statCell(r.precipitation)}<br><small>${fmt(r.precipitation.min)}–${fmt(r.precipitation.max)} mm</small></td><td>${r.wetCount}/${r.rainCount}</td><td>${statCell(r.snowfall)}</td><td>${statCell(r.wind_speed_10m,'',0)}</td><td>${statCell(r.wind_gusts_10m,'',0)}</td><td>${statCell(r.wind_direction_10m,'°',0)}</td><td>${statCell(r.relative_humidity_2m,'%',0)}</td><td>${statCell(r.pressure_msl)}</td><td>${statCell(r.cloud_cover,'%',0)}</td><td>${r.members.length}/3</td></tr>`).join('');
+  $('hourly').innerHTML=rows.map(r=>`<tr><th scope="row">${timeLabel(r.time,true)}</th><td>${statCell(r.temperature_2m,'°C')}</td><td>${fmt(r.temperature_2m.min)}–${fmt(r.temperature_2m.max)}°</td><td>${statCell(r.apparent_temperature,'°C')}</td><td class="${r.precipitation.mean>=0.1?'rain':''}">${statCell(r.precipitation)}<br><small>${fmt(r.precipitation.min)}–${fmt(r.precipitation.max)} mm</small></td><td>${statCell(r.snowfall)}</td><td>${statCell(r.wind_speed_10m,'',0)}</td><td>${statCell(r.wind_gusts_10m,'',0)}</td><td>${statCell(r.wind_direction_10m,'°',0)}</td><td>${statCell(r.relative_humidity_2m,'%',0)}</td><td>${statCell(r.pressure_msl)}</td><td>${statCell(r.cloud_cover,'%',0)}</td></tr>`).join('');
 }
 function validLocation(loc){return loc && C.numeric(loc.latitude)&&C.numeric(loc.longitude)&&Math.abs(loc.latitude)<=90&&Math.abs(loc.longitude)<=180;}
 async function loadLocation(loc,force=false){
@@ -76,16 +76,42 @@ async function loadLocation(loc,force=false){
   $('refresh').disabled=false;
   if(!rowsNow.some(r=>r.time>=Math.floor(Date.now()/3600000)*3600)){status('Brak prognoz dla tej lokalizacji. '+results.filter(r=>r.status==='rejected').map(r=>r.reason.message).join(' · ')+'. Spróbuj odświeżyć później.',true);return;}
   storage.set('weather:lastLocation',locationNow);render();
-  status(sourcesNow.some(s=>s.stale)?'Wyświetlam także zapisane prognozy. Sprawdź daty pobrania poniżej.':`Gotowe: ${sourcesNow.length}/3 modeli. Odświeżanie co 30 minut przy otwartej stronie.`,sourcesNow.some(s=>s.stale)||sourcesNow.length<3);
+  status(sourcesNow.some(s=>s.stale)?'Wyświetlam także zapisane prognozy. Sprawdź daty pobrania poniżej.':(sourcesNow.length===3?'Prognoza aktualna.':'Część źródeł jest niedostępna.')+' Odświeżanie co 30 minut.',sourcesNow.some(s=>s.stale)||sourcesNow.length<3);
 }
-$('searchForm').addEventListener('submit',async event=>{
-  event.preventDefault();const query=$('city').value.trim();if(query.length<2)return;
-  const id=++searchGeneration;$('results').replaceChildren();status('Szukam miejscowości…');
-  try{const url=new URL('https://geocoding-api.open-meteo.com/v1/search');url.search=new URLSearchParams({name:query,count:6,language:'pl',format:'json'});const data=await fetchJSON(url.href);if(id!==searchGeneration)return;
-    (data.results||[]).forEach(item=>{const button=document.createElement('button');button.type='button';button.textContent=[item.name,item.admin1,item.country].filter(Boolean).join(' · ');button.addEventListener('click',()=>{$('results').replaceChildren();++searchGeneration;loadLocation({name:item.name,region:item.admin1,country:item.country,latitude:item.latitude,longitude:item.longitude});});$('results').append(button);});status(data.results?.length?'Wybierz miejscowość z wyników.':'Nie znaleziono miejscowości.',!data.results?.length);
-  }catch(e){if(id===searchGeneration)status('Wyszukiwanie niedostępne: '+e.message,true);}
+let searchTimer;
+function searchStatus(text){$('searchStatus').textContent=text;}
+async function searchCities(){
+  clearTimeout(searchTimer);
+  const query=$('city').value.trim(),id=++searchGeneration;
+  $('results').replaceChildren();
+  if(query.length<2){searchStatus('Wpisz minimum 2 znaki.');return;}
+  searchStatus('Szukam miejscowości…');
+  try{
+    const url=new URL('https://geocoding-api.open-meteo.com/v1/search');
+    url.search=new URLSearchParams({name:query,count:8,language:'pl',format:'json'});
+    const data=await fetchJSON(url.href);if(id!==searchGeneration)return;
+    const results=(data.results||[]).filter(validLocation).sort((a,b)=>(b.country_code==='PL')-(a.country_code==='PL'));
+    for(const item of results){
+      const button=document.createElement('button');button.type='button';
+      button.textContent=[item.name,item.admin1,item.country].filter(Boolean).join(' · ');
+      button.addEventListener('click',()=>{
+        clearTimeout(searchTimer);++searchGeneration;$('city').value=item.name;
+        $('results').replaceChildren();searchStatus('Wybrano: '+button.textContent);
+        loadLocation({name:item.name,region:item.admin1,country:item.country,latitude:item.latitude,longitude:item.longitude});
+      });$('results').append(button);
+    }
+    searchStatus(results.length?'Wybierz miejscowość:':'Nie znaleziono miejscowości. Spróbuj pełnej nazwy.');
+  }catch(e){if(id===searchGeneration)searchStatus('Wyszukiwanie niedostępne: '+e.message+'. Spróbuj ponownie przyciskiem Szukaj.');}
+}
+$('searchForm').addEventListener('submit',e=>{e.preventDefault();searchCities();});
+$('city').addEventListener('input',()=>{
+  clearTimeout(searchTimer);++searchGeneration;$('results').replaceChildren();
+  searchStatus('');if($('city').value.trim().length>=2)searchTimer=setTimeout(searchCities,400);
 });
-$('city').addEventListener('input',()=>{++searchGeneration;$('results').replaceChildren();});
+$('city').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){const first=$('results').querySelector('button');if(first){e.preventDefault();first.focus();}}if(e.key==='Escape'){clearTimeout(searchTimer);++searchGeneration;$('results').replaceChildren();searchStatus('');}});
+function setTheme(dark){document.documentElement.dataset.theme=dark?'dark':'light';$('theme').textContent=dark?'Tryb jasny':'Tryb ciemny';$('theme').setAttribute('aria-pressed',String(dark));}
+setTheme(storage.get('weather:theme')==='dark'||(!storage.get('weather:theme')&&matchMedia('(prefers-color-scheme: dark)').matches));
+$('theme').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';setTheme(dark);storage.set('weather:theme',dark?'dark':'light');});
 $('refresh').addEventListener('click',()=>locationNow&&loadLocation(locationNow,true));
 $('hours').addEventListener('change',renderHourly);
 $('gps').addEventListener('click',()=>{
