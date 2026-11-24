@@ -26,8 +26,9 @@ async function getModel(model,loc,force){
   }catch(error){const old=usable(saved,loc,model,48*3600000);if(old)return {...old,cache:true,stale:true,error:error.message};throw error;}
 }
 function statCell(stat,suffix='',digits=1){return fmt(stat?.mean,digits)+suffix+(stat?.count>0&&stat.count<3?` <small>(${stat.count})</small>`:'');}
+const metricIcons={"Odczuwalna":"<path d=\"M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 1-4 0Z\"/><path d=\"M12 10v8\"/>","Wilgotność":"<path d=\"M12 3S5 11 5 15a7 7 0 0 0 14 0c0-4-7-12-7-12Z\"/><path d=\"M8 15a4 4 0 0 0 4 4\"/>","Ciśnienie na poziomie morza":"<path d=\"M4 18a9 9 0 1 1 16 0\"/><path d=\"m12 13 4-5M5 12h2m10 0h2M12 4v2M8 19h8\"/><circle cx=\"12\" cy=\"13\" r=\"1\"/>","Wiatr":"<path d=\"M3 8h12a3 3 0 1 0-3-3M3 12h16a3 3 0 1 1-3 3M3 16h6a3 3 0 1 1-3 3\"/>","Porywy wiatru":"<path d=\"M3 7h13a3 3 0 1 0-3-3M5 12h14a3 3 0 1 1-3 3M2 17h9M2 21h6\"/>","Opady w godzinie":"<path d=\"M6 14a4 4 0 0 1-1-8 6 6 0 0 1 11-1 4.5 4.5 0 0 1 2 9H6Zm1 3-1 3m6-3-1 4m6-4-1 3\"/>","Zachmurzenie":"<path d=\"M6 18a5 5 0 0 1-1-10 6 6 0 0 1 11-1 5.5 5.5 0 0 1 2 11H6Z\"/>","Śnieg w godzinie":"<path d=\"M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9 5l3 3 3-3M9 19l3-3 3 3M5 11l4-1-1-4M19 13l-4 1 1 4M5 13l4 1-1 4M19 11l-4-1 1-4\"/>"};
 function metric(label,stat,unit,digits=0,extra=''){
-  return `<article class="metric"><span>${label}</span><strong>${fmt(stat.mean,digits)} ${unit}</strong><small>${stat.count?`Zakres: ${fmt(stat.min,digits)}–${fmt(stat.max,digits)} ${unit} · ${stat.count}/3 modeli`:'Brak danych źródłowych'}${extra?'<br>'+extra:''}</small></article>`;
+  return `<article class="metric"><span class="metric-label"><svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${metricIcons[label]||''}</svg>${label}</span><strong>${fmt(stat.mean,digits)} ${unit}</strong><small>${stat.count?`Zakres: ${fmt(stat.min,digits)}–${fmt(stat.max,digits)} ${unit} · ${stat.count}/3 modeli`:'Brak danych źródłowych'}${extra?'<br>'+extra:''}</small></article>`;
 }
 function render(){
   const nowHour=Math.floor(Date.now()/3600000)*3600;
