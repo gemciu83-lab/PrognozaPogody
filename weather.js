@@ -68,7 +68,7 @@ function renderHourly(){
 function validLocation(loc){return loc && C.numeric(loc.latitude)&&C.numeric(loc.longitude)&&Math.abs(loc.latitude)<=90&&Math.abs(loc.longitude)<=180;}
 async function loadLocation(loc,force=false){
   if(!validLocation(loc)){status('Nieprawidłowe współrzędne lokalizacji.',true);return;}
-  const id=++generation;locationNow={...loc,name:loc.name||'Wybrana lokalizacja'};lastAttempt=Date.now();
+  const id=++generation;locationNow={...loc,name:loc.name||'Wybrana lokalizacja'};lastAttempt=Date.now();$('city').value=locationNow.name;
   $('refresh').disabled=true;$('forecast').hidden=true;status('Pobieram ECMWF, ICON i GFS dla: '+locationNow.name+'…');
   const results=await Promise.allSettled(C.models.map(model=>getModel(model,locationNow,force)));
   if(id!==generation)return;
@@ -78,50 +78,51 @@ async function loadLocation(loc,force=false){
   storage.set('weather:lastLocation',locationNow);render();
   status(sourcesNow.some(s=>s.stale)?'Wyświetlam także zapisane prognozy. Sprawdź daty pobrania poniżej.':(sourcesNow.length===3?'Prognoza aktualna.':'Część źródeł jest niedostępna.')+' Odświeżanie co 30 minut.',sourcesNow.some(s=>s.stale)||sourcesNow.length<3);
 }
-let searchTimer;
+let locationIntent=0;
 function searchStatus(text){$('searchStatus').textContent=text;}
 async function searchCities(){
-  clearTimeout(searchTimer);
-  const query=$('city').value.trim(),id=++searchGeneration;
-  $('results').replaceChildren();
+  const query=$('city').value.trim(),id=++searchGeneration; ++locationIntent;
   if(query.length<2){searchStatus('Wpisz minimum 2 znaki.');return;}
   searchStatus('Szukam miejscowości…');
   try{
     const url=new URL('https://geocoding-api.open-meteo.com/v1/search');
-    url.search=new URLSearchParams({name:query,count:8,language:'pl',format:'json'});
+    url.search=new URLSearchParams({name:query,count:50,language:'pl',format:'json'});
     const data=await fetchJSON(url.href);if(id!==searchGeneration)return;
-    const results=(data.results||[]).filter(validLocation).sort((a,b)=>(b.country_code==='PL')-(a.country_code==='PL'));
-    for(const item of results){
-      const button=document.createElement('button');button.type='button';
-      button.textContent=[item.name,item.admin1,item.country].filter(Boolean).join(' · ');
-      button.addEventListener('click',()=>{
-        clearTimeout(searchTimer);++searchGeneration;$('city').value=item.name;
-        $('results').replaceChildren();searchStatus('Wybrano: '+button.textContent);
-        loadLocation({name:item.name,region:item.admin1,country:item.country,latitude:item.latitude,longitude:item.longitude});
-      });$('results').append(button);
-    }
-    searchStatus(results.length?'Wybierz miejscowość:':'Nie znaleziono miejscowości. Spróbuj pełnej nazwy.');
-  }catch(e){if(id===searchGeneration)searchStatus('Wyszukiwanie niedostępne: '+e.message+'. Spróbuj ponownie przyciskiem Szukaj.');}
+    const normalize=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/ł/g,'l').toLowerCase().trim();
+    const score=x=>(normalize(x.name)===normalize(query)?100:0)+(x.country_code==='PL'?20:0);
+    const results=(data.results||[]).filter(validLocation).sort((a,b)=>score(b)-score(a)||(b.population||0)-(a.population||0));
+    if(!results.length){searchStatus('Nie znaleziono miejscowości. Wpisz pełną nazwę.');return;}
+    const item=results[0];searchStatus('Wybrano: '+[item.name,item.admin1,item.country].filter(Boolean).join(' · '));
+    loadLocation({name:item.name,region:item.admin1,country:item.country,latitude:item.latitude,longitude:item.longitude});
+  }catch(e){if(id===searchGeneration)searchStatus('Wyszukiwanie niedostępne: '+e.message+'. Spróbuj ponownie.');}
 }
 $('searchForm').addEventListener('submit',e=>{e.preventDefault();searchCities();});
-$('city').addEventListener('input',()=>{
-  clearTimeout(searchTimer);++searchGeneration;$('results').replaceChildren();
-  searchStatus('');if($('city').value.trim().length>=2)searchTimer=setTimeout(searchCities,400);
-});
-$('city').addEventListener('keydown',e=>{if(e.key==='ArrowDown'){const first=$('results').querySelector('button');if(first){e.preventDefault();first.focus();}}if(e.key==='Escape'){clearTimeout(searchTimer);++searchGeneration;$('results').replaceChildren();searchStatus('');}});
+$('city').addEventListener('input',()=>{++searchGeneration;++locationIntent;searchStatus('');});
 function setTheme(dark){document.documentElement.dataset.theme=dark?'dark':'light';$('theme').textContent=dark?'Tryb jasny':'Tryb ciemny';$('theme').setAttribute('aria-pressed',String(dark));}
 setTheme(storage.get('weather:theme')==='dark'||(!storage.get('weather:theme')&&matchMedia('(prefers-color-scheme: dark)').matches));
 $('theme').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';setTheme(dark);storage.set('weather:theme',dark?'dark':'light');});
 $('refresh').addEventListener('click',()=>locationNow&&loadLocation(locationNow,true));
 $('hours').addEventListener('change',renderHourly);
-$('gps').addEventListener('click',()=>{
-  if(!navigator.geolocation){status('Ta przeglądarka nie obsługuje lokalizacji.',true);return;}
-  status('Czekam na lokalizację urządzenia…');navigator.geolocation.getCurrentPosition(p=>loadLocation({name:'Moja lokalizacja',latitude:p.coords.latitude,longitude:p.coords.longitude}),()=>status('Nie udało się ustalić lokalizacji. Wpisz miejscowość.',true),{timeout:12000,maximumAge:300000});
-});
+function locateDevice(){
+  const intent=++locationIntent;++searchGeneration;searchStatus('');
+  function fallback(){
+    if(intent!==locationIntent)return;
+    const saved=storage.get('weather:lastLocation');
+    if(!locationNow&&validLocation(saved))loadLocation(saved);
+    searchStatus('Lokalizacja urządzenia jest niedostępna. Wpisz miejscowość lub włącz dostęp do lokalizacji.');
+    if(!locationNow&&!validLocation(saved))status('Wpisz miejscowość, aby wczytać prognozę.');
+  }
+  if(!navigator.geolocation){fallback();return;}
+  status('Ustalam lokalizację urządzenia…');
+  navigator.geolocation.getCurrentPosition(p=>{
+    if(intent!==locationIntent)return;
+    loadLocation({name:'Moja lokalizacja',region:p.coords.latitude.toFixed(3)+'°, '+p.coords.longitude.toFixed(3)+'°',latitude:p.coords.latitude,longitude:p.coords.longitude});
+  },fallback,{timeout:10000,maximumAge:300000});
+}
+$('gps').addEventListener('click',locateDevice);
 function autoRefresh(){if(!document.hidden&&locationNow&&Date.now()-lastAttempt>=30*60000)loadLocation(locationNow);}
 setInterval(autoRefresh,60000);document.addEventListener('visibilitychange',autoRefresh);
 window.addEventListener('online',()=>{if(locationNow&&!$('refresh').disabled)loadLocation(locationNow);});
 window.addEventListener('offline',()=>status('Brak połączenia. Widoczne dane są wcześniej pobraną prognozą.',true));
-const saved=storage.get('weather:lastLocation');
-loadLocation(validLocation(saved)?saved:{name:'Piotrków Trybunalski',region:'Łódzkie',country:'Polska',latitude:51.4052,longitude:19.7032});
+locateDevice();
 if('serviceWorker' in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('service-worker.js').catch(()=>{});
