@@ -1,41 +1,11 @@
-const CACHE_NAME = 'pogoda-lokalna-v22';
-const CORE_ASSETS = ['./', './index.html', './favicon.svg', './manifest.webmanifest', './summary.css?v=2.2', './summary.js?v=2.2'];
-self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS)).then(() => self.skipWaiting()));
-});
-self.addEventListener('activate', event => {
-  event.waitUntil(caches.keys().then(keys => Promise.all(keys
-    .filter(key => key.startsWith('pogoda-lokalna-') && key !== CACHE_NAME)
-    .map(key => caches.delete(key)))).then(() => self.clients.claim()));
-});
-self.addEventListener('fetch', event => {
-  const request = event.request;
-  const url = new URL(request.url);
-  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
-  if (request.mode === 'navigate') {
-    event.respondWith((async () => {
-      const cache = await caches.open(CACHE_NAME);
-      try {
-        const response = await fetch(request);
-        if (!response.ok) throw new Error('Navigation failed');
-        // Only the application entry point may replace the offline page.
-        if (url.pathname === new URL('./', self.registration.scope).pathname || url.pathname === new URL('./index.html', self.registration.scope).pathname) {
-          try { await cache.put('./index.html', response.clone()); } catch {}
-        }
-        return response;
-      } catch {
-        return (await cache.match('./index.html')) || Response.error();
-      }
-    })());
-    return;
+const CACHE='pogoda-lokalna-v30';
+const ASSETS=['./index.html','./weather.css?v=3','./forecast-core.js?v=3','./weather.js?v=3','./favicon.svg'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('pogoda-lokalna-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{
+  const r=e.request,u=new URL(r.url);if(r.method!=='GET'||u.origin!==self.location.origin)return;
+  if(r.mode==='navigate'){
+    e.respondWith((async()=>{const c=await caches.open(CACHE);try{const res=await fetch(r);if(!res.ok)throw Error();if(u.pathname===new URL('./',self.registration.scope).pathname||u.pathname===new URL('./index.html',self.registration.scope).pathname){try{await c.put('./index.html',res.clone());}catch{}}return res;}catch{return await c.match('./index.html')||Response.error();}})());return;
   }
-  if (!CORE_ASSETS.some(asset => new URL(asset, self.registration.scope).href === url.href)) return;
-  event.respondWith((async () => {
-    const cache = await caches.open(CACHE_NAME);
-    const cached = await cache.match(request);
-    if (cached) return cached;
-    const response = await fetch(request);
-    if (response.ok) { try { await cache.put(request, response.clone()); } catch {} }
-    return response;
-  })());
+  if(ASSETS.some(p=>new URL(p,self.registration.scope).href===u.href))e.respondWith(caches.open(CACHE).then(async c=>(await c.match(r))||fetch(r)));
 });
