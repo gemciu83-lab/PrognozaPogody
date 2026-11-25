@@ -59,7 +59,7 @@ function render(){
   const missing=C.models.filter(m=>!sourcesNow.some(s=>s.id===m.id)).map(m=>m.name);
   $('availability').textContent=[missing.length?'Brak źródeł: '+missing.join(', ')+'. Średnia obejmuje tylko dostępne modele.':'',sourcesNow.some(s=>s.stale)?'UWAGA: część prognoz pochodzi z zapisu awaryjnego; sprawdź daty pobrania.':'',sourcesNow.length===1?'Dostępny jest jeden model — to pojedyncza prognoza, bez porównania źródeł.':''].filter(Boolean).join(' ');
   renderHourly();
-  $('daily').innerHTML=C.daily(rowsNow,zone()).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm</td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td><td>${d.minModels===d.maxModels?d.minModels:d.minModels+'–'+d.maxModels}</td></tr>`).join('');
+  $('daily').innerHTML=C.daily(rowsNow,zone()).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm</td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td></tr>`).join('');
 }
 function renderHourly(){
   const rows=rowsNow.filter(r=>r.time>=Math.floor(Date.now()/3600000)*3600).slice(0,Number($('hours').value));
