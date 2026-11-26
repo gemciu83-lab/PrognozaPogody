@@ -4,7 +4,7 @@ const storage={get(key){try{return JSON.parse(localStorage.getItem(key));}catch{
 let locationNow=null, sourcesNow=[], rowsNow=[], generation=0, searchGeneration=0, lastAttempt=0;
 const fmt=(n,d=1)=>C.numeric(n)?n.toLocaleString('pl-PL',{maximumFractionDigits:d}):'—';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const cacheKey=(loc,model)=>`weather:multi:v3:${Number(loc.latitude).toFixed(4)},${Number(loc.longitude).toFixed(4)}:${model.id}`;
+const cacheKey=(loc,model)=>`weather:multi:v34:${Number(loc.latitude).toFixed(4)},${Number(loc.longitude).toFixed(4)}:${model.id}`;
 const zone=()=>sourcesNow[0]?.data.timezone || 'Europe/Warsaw';
 const timeLabel=(t,date=false)=>new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),...(date?{day:'2-digit',month:'2-digit'}:{}),hour:'2-digit',minute:'2-digit'}).format(t*1000);
 function status(message,error=false){$('status').textContent=message;$('status').className=error?'error':'';}
@@ -30,6 +30,39 @@ const metricIcons={"Odczuwalna":"<path d=\"M10 14.5V5a2 2 0 0 1 4 0v9.5a4 4 0 1 
 function metric(label,stat,unit,digits=0,extra=''){
   return `<article class="metric"><span class="metric-label"><svg class="metric-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${metricIcons[label]||''}</svg>${label}</span><strong>${fmt(stat.mean,digits)} ${unit}</strong><small>${stat.count?`Zakres: ${fmt(stat.min,digits)}–${fmt(stat.max,digits)} ${unit}`:'Brak danych źródłowych'}${extra?'<br>'+extra:''}</small></article>`;
 }
+
+function conditions(row){
+  if(!row)return {kind:'unknown',label:'Brak danych'};
+  const rain=row.precipitation?.mean,snow=row.snowfall?.mean,cloud=row.cloud_cover?.mean;
+  if(C.numeric(snow)&&snow>=0.1)return {kind:'snow',label:'Opady śniegu'};
+  if(C.numeric(rain)&&rain>=0.1)return {kind:'rain',label:rain>=2?'Silniejsze opady':'Opady'};
+  if(!C.numeric(cloud))return {kind:'unknown',label:'Brak opisu warunków'};
+  if(cloud>=75)return {kind:'cloud',label:'Pochmurno'};
+  if(cloud>=25)return {kind:'partly',night:row.is_day?.mean<0.5,label:'Częściowe zachmurzenie'};
+  return {kind:row.is_day?.mean>=0.5?'sun':'moon',label:'Pogodnie'};
+}
+function weatherIcon(condition){
+  const c='<path d="M16 39a10 10 0 0 1-1-20 15 15 0 0 1 28-3 12 12 0 0 1 4 23Z" fill="#b7d3e3" stroke="#759eb8"/>';
+  const sun='<circle cx="32" cy="26" r="12" fill="#f5ce75" stroke="#c69335"/><path d="M32 6V2m0 48v-4M12 26H8m48 0h-4M18 12l-3-3m34 34-3-3M18 40l-3 3m34-34-3 3" stroke="#d7aa51"/>';
+  const moon='<path d="M40 8a21 21 0 1 0 13 32A22 22 0 0 1 40 8Z" fill="#b8cbea" stroke="#839dc9"/>';
+  const marks=condition.kind==='snow'?'<path d="M20 45v12m-5-9 10 6m0-6-10 6m28-9v12m-5-9 10 6m0-6-10 6" stroke="#7ebee0"/>':condition.kind==='rain'?'<path d="m20 45-3 9m15-9-3 12m15-12-3 9" stroke="#4d9cce"/>':'';
+  const art=condition.kind==='sun'?sun:condition.kind==='moon'?moon:condition.kind==='unknown'?'<path d="M24 20a9 9 0 1 1 14 8c-5 3-6 5-6 9m0 10v1" stroke="#9bb4c7"/>':(condition.kind==='partly'&&condition.night?'<path d="M46 3a10 10 0 1 0 7 17A11 11 0 0 1 46 3Z" fill="#b8cbea"/>':condition.kind==='partly'?'<circle cx="43" cy="14" r="10" fill="#f5ce75"/>':'')+c+marks;
+  return '<svg class="forecast-icon" viewBox="0 0 64 64" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+art+'</svg>';
+}
+function conditionCell(row){const c=conditions(row);return '<span class="condition-cell">'+weatherIcon(c)+'<span>'+c.label+'</span></span>';}
+function dayCondition(day){
+  const rs=rowsNow.filter(r=>C.dayKey(r.time,zone())===day&&r.time>=Math.floor(Date.now()/3600000)*3600);
+  const counts=new Map();for(const r of rs){const c=conditions(r);const key=c.kind==='moon'?'sun':c.kind;counts.set(key,(counts.get(key)||0)+1);}
+  const winner=[...counts].sort((a,b)=>b[1]-a[1])[0]?.[0];
+  return rs.find(r=>{const k=conditions(r).kind;return k===winner||(winner==='sun'&&k==='moon');});
+}
+function renderToday(current){
+  const c=conditions(current);$('currentGraphic').innerHTML=weatherIcon(c);$('conditionNow').textContent=c.label;
+  const today=C.daily(rowsNow,zone())[0];
+  $('todaySummary').textContent=today?'Do końca dnia: '+fmt(today.min)+' do '+fmt(today.max)+'°C · opady '+fmt(today.rain.mean)+' mm · maks. porywy '+fmt(today.wind.max,0)+' km/h':'';
+  $('nextHours').innerHTML=rowsNow.filter(r=>r.time>=Math.floor(Date.now()/3600000)*3600).slice(0,8).map(r=>{const c=conditions(r);return '<article class="hour-preview"><time>'+timeLabel(r.time)+'</time>'+weatherIcon(c)+'<span>'+c.label+'</span><strong>'+fmt(r.temperature_2m.mean)+'°C</strong><small>'+fmt(r.precipitation.mean)+' mm</small></article>';}).join('');
+}
+
 function render(){
   const nowHour=Math.floor(Date.now()/3600000)*3600;
   const current=rowsNow.find(r=>r.time===nowHour);
@@ -58,12 +91,13 @@ function render(){
   }).join('');
   const missing=C.models.filter(m=>!sourcesNow.some(s=>s.id===m.id)).map(m=>m.name);
   $('availability').textContent=[missing.length?'Brak źródeł: '+missing.join(', ')+'. Średnia obejmuje tylko dostępne modele.':'',sourcesNow.some(s=>s.stale)?'UWAGA: część prognoz pochodzi z zapisu awaryjnego; sprawdź daty pobrania.':'',sourcesNow.length===1?'Dostępny jest jeden model — to pojedyncza prognoza, bez porównania źródeł.':''].filter(Boolean).join(' ');
+  renderToday(current);
   renderHourly();
-  $('daily').innerHTML=C.daily(rowsNow,zone()).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm</td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td></tr>`).join('');
+  $('daily').innerHTML=C.daily(rowsNow,zone()).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${conditionCell(dayCondition(d.day))}</td><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm</td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td></tr>`).join('');
 }
 function renderHourly(){
   const rows=rowsNow.filter(r=>r.time>=Math.floor(Date.now()/3600000)*3600).slice(0,Number($('hours').value));
-  $('hourly').innerHTML=rows.map(r=>`<tr><th scope="row">${timeLabel(r.time,true)}</th><td>${statCell(r.temperature_2m,'°C')}</td><td>${fmt(r.temperature_2m.min)}–${fmt(r.temperature_2m.max)}°</td><td>${statCell(r.apparent_temperature,'°C')}</td><td class="${r.precipitation.mean>=0.1?'rain':''}">${statCell(r.precipitation)}<br><small>${fmt(r.precipitation.min)}–${fmt(r.precipitation.max)} mm</small></td><td>${statCell(r.snowfall)}</td><td>${statCell(r.wind_speed_10m,'',0)}</td><td>${statCell(r.wind_gusts_10m,'',0)}</td><td>${statCell(r.wind_direction_10m,'°',0)}</td><td>${statCell(r.relative_humidity_2m,'%',0)}</td><td>${statCell(r.pressure_msl)}</td><td>${statCell(r.cloud_cover,'%',0)}</td></tr>`).join('');
+  $('hourly').innerHTML=rows.map(r=>`<tr><th scope="row">${timeLabel(r.time,true)}</th><td>${conditionCell(r)}</td><td>${statCell(r.temperature_2m,'°C')}</td><td>${fmt(r.temperature_2m.min)}–${fmt(r.temperature_2m.max)}°</td><td>${statCell(r.apparent_temperature,'°C')}</td><td class="${r.precipitation.mean>=0.1?'rain':''}">${statCell(r.precipitation)}<br><small>${fmt(r.precipitation.min)}–${fmt(r.precipitation.max)} mm</small></td><td>${statCell(r.snowfall)}</td><td>${statCell(r.wind_speed_10m,'',0)}</td><td>${statCell(r.wind_gusts_10m,'',0)}</td><td>${statCell(r.wind_direction_10m,'°',0)}</td><td>${statCell(r.relative_humidity_2m,'%',0)}</td><td>${statCell(r.pressure_msl)}</td><td>${statCell(r.cloud_cover,'%',0)}</td></tr>`).join('');
 }
 function validLocation(loc){return loc && C.numeric(loc.latitude)&&C.numeric(loc.longitude)&&Math.abs(loc.latitude)<=90&&Math.abs(loc.longitude)<=180;}
 async function loadLocation(loc,force=false){

@@ -1,5 +1,5 @@
-const CACHE='pogoda-lokalna-v331';
-const ASSETS=['./index.html','./weather.css?v=3.3.1','./forecast-core.js?v=3.3.1','./weather.js?v=3.3.1','./favicon.svg'];
+const CACHE='pogoda-lokalna-v34';
+const ASSETS=['./index.html','./weather.css?v=3.4','./forecast-core.js?v=3.4','./weather.js?v=3.4','./favicon.svg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('pogoda-lokalna-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{

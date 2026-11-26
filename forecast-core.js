@@ -5,7 +5,7 @@
     {id:'icon_seamless', name:'DWD ICON'},
     {id:'gfs_global', name:'NOAA GFS'}
   ];
-  const fields = ['temperature_2m','apparent_temperature','relative_humidity_2m','pressure_msl','precipitation','snowfall','cloud_cover','wind_speed_10m','wind_gusts_10m','wind_direction_10m'];
+  const fields = ['is_day','temperature_2m','apparent_temperature','relative_humidity_2m','pressure_msl','precipitation','snowfall','cloud_cover','wind_speed_10m','wind_gusts_10m','wind_direction_10m'];
   const numeric = v => typeof v === 'number' && Number.isFinite(v);
   function stats(values) {
     const valid = values.filter(numeric);
