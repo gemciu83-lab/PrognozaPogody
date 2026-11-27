@@ -87,13 +87,16 @@ function render(){
   $('modelCaption').textContent=current?'Porównanie: '+timeLabel(current.time,true):'Dostępność modeli';
   $('models').innerHTML=C.models.map(model=>{
     const source=sourcesNow.find(s=>s.id===model.id), member=current?.members.find(m=>m.id===model.id);
-    return `<tr><th scope="row">${model.name}${source?.stale?' · zapis awaryjny':''}</th><td>${fmt(member?.temperature_2m)}°C</td><td>${fmt(member?.precipitation)} mm</td><td>${fmt(member?.wind_speed_10m,0)} km/h</td><td>${fmt(member?.pressure_msl)} hPa</td><td>${source?esc(new Date(source.fetchedAt).toLocaleString('pl-PL'))+(source.cache?' · pamięć':''):'Niedostępny'}</td></tr>`;
+    return `<tr><th scope="row">${model.name}${source?.stale?' · zapis awaryjny':''}</th><td>${conditionCell(member?Object.fromEntries(C.fields.map(key=>[key,{mean:member[key]}])):null)}</td><td>${fmt(member?.temperature_2m)}°C</td><td>${fmt(member?.precipitation)} mm</td><td>${fmt(member?.wind_speed_10m,0)} km/h</td><td>${fmt(member?.pressure_msl)} hPa</td><td>${source?esc(new Date(source.fetchedAt).toLocaleString('pl-PL'))+(source.cache?' · pamięć':''):'Niedostępny'}</td></tr>`;
   }).join('');
   const missing=C.models.filter(m=>!sourcesNow.some(s=>s.id===m.id)).map(m=>m.name);
   $('availability').textContent=[missing.length?'Brak źródeł: '+missing.join(', ')+'. Średnia obejmuje tylko dostępne modele.':'',sourcesNow.some(s=>s.stale)?'UWAGA: część prognoz pochodzi z zapisu awaryjnego; sprawdź daty pobrania.':'',sourcesNow.length===1?'Dostępny jest jeden model — to pojedyncza prognoza, bez porównania źródeł.':''].filter(Boolean).join(' ');
   renderToday(current);
   renderHourly();
-  $('daily').innerHTML=C.daily(rowsNow,zone()).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${conditionCell(dayCondition(d.day))}</td><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm</td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td></tr>`).join('');
+  renderDaily();
+}
+function renderDaily(){
+  $('daily').innerHTML=C.daily(rowsNow,zone()).slice(0,Number($('days').value)).map(d=>`<tr><th scope="row">${esc(new Intl.DateTimeFormat('pl-PL',{timeZone:zone(),weekday:'short',day:'2-digit',month:'2-digit'}).format(d.time*1000))}</th><td>${conditionCell(dayCondition(d.day))}</td><td>${d.hours}${d.hours<23?' · część dnia':''}</td><td>${fmt(d.min)} / ${fmt(d.max)}°C</td><td>${fmt(d.rain.mean)} mm</td><td>${fmt(d.rain.min)}–${fmt(d.rain.max)} mm</td><td>${fmt(d.wind.max,0)} km/h</td></tr>`).join('');
 }
 function renderHourly(){
   const rows=rowsNow.filter(r=>r.time>=Math.floor(Date.now()/3600000)*3600).slice(0,Number($('hours').value));
@@ -137,6 +140,7 @@ setTheme(storage.get('weather:theme')==='dark'||(!storage.get('weather:theme')&&
 $('theme').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';setTheme(dark);storage.set('weather:theme',dark?'dark':'light');});
 $('refresh').addEventListener('click',()=>locationNow&&loadLocation(locationNow,true));
 $('hours').addEventListener('change',renderHourly);
+$('days').addEventListener('change',renderDaily);
 function locateDevice(){
   const intent=++locationIntent;++searchGeneration;searchStatus('');
   function fallback(){
